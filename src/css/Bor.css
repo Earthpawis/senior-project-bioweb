@@ -7,8 +7,8 @@ body{
   display:flex;
   flex-direction: column;
   font-family: 'Prompt', sans-serif;
-/*   margin-right: 15rem; */
-/*   align-items: center; */
+ /*  margin-right: 15rem; */
+ /*  align-items: center; */
 }
 .tab{
   cursor: pointer;
@@ -24,7 +24,7 @@ body{
     background:#fffffff6;
   /* box-shadow: 0 2rem 2rem #00000080; */
   min-height:200px;
-  width:100%;
+  width:fit-content !important;
 /*   max-width:500px; */
   border-radius:3px;
   overflow:hidden;
@@ -33,6 +33,7 @@ body{
 .panel{
   display:none;
   animation: fadein .8s;
+  width: fit-content;
 }
 @keyframes fadein {
     from {

@@ -34,13 +34,14 @@ function App() {
     );
   } else {
     return (
-      <div>
-        <Redirect to="/Dashboard" />
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-3">
+          <Redirect to="/Dashboard" />
+          {/* <div className="row"> */}
+          <div className="col-xl-3 col-lg-3 col-sm-3 col-mb-3 col-3" >
             <SideBar />
           </div>
-          <div className="col-9">
+          <div className="col-xl-9 col-lg-9 col-sm-9 col-mb-9 col-9">
             <Switch>
               <Route exact path="/Dashboard" component={Dashboard} />
               <Route exact path="/MIE" component={MIE} />
@@ -50,11 +51,12 @@ function App() {
               <Route exact path="/DataST" component={DataST} />
             </Switch>
           </div>
+          {/*  </div> */}
+
+
         </div>
-
-
-
       </div>
+
     );
   }
 

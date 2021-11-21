@@ -72,10 +72,10 @@ export default function DataST() {
                             <thead>
                                 <tr>
                                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }}> <span>รหัสอาจารย์</span> </th>
-                                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 350 }}><span>ชื่อ-นามสกุล </span></th>
+                                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 300 }}><span>ชื่อ-นามสกุล </span></th>
                                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 250 }}><span>เบอร์โทร</span> </th>
                                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 250 }} />
-                                    <th style={{ minWidth: 200 }}>
+                                    <th style={{ minWidth: 100 }}>
                                         <button type="button" className="btn btn-report " data-bs-toggle="modal" data-bs-target="#exampleModal" style={{ backgroundColor: '#5DD480', borderRadius: 4, width: 95, color: '#fff' }}><i aria-hidden="true" className="fas fa-plus" style={{ fontSize: 15 }} /><label className="mx-2">เพิ่ม</label> </button>
                                     </th>
                                 </tr>

@@ -3,7 +3,7 @@
   
 body
 {
-  /*   align-items: center; */
+/*     align-items: center; */
     background:#306953; 
     height: 100vh;
     background-image: linear-gradient(180deg, rgba(6, 81, 109, 0.81) 0%, rgba(148, 192, 186, 1) 100%);
@@ -12,15 +12,16 @@ body
     position: relative;
     display: -webkit-box;
     display: flex;
-    /* -webkit-box-pack: center;
-    justify-content: center; */
+    -webkit-box-pack: center;
+    justify-content: center;
     
 }
 
 .bgback{
     background-color: #ffff;
-    width: 50px;
-    height: 46rem;
+    width: 19rem;
+    height: 750px;
+    margin-right: 76.5rem;
 }
 
 
@@ -56,15 +57,15 @@ body
 
 
 .card {
-    position: relative;
+  /*   position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
     background-color: #fff;
-    background-clip: border-box;
+    background-clip: border-box; */
     border: 0px solid rgba(0,0,0,.125) !important;
-    border-radius: 0.25rem;
+ /*    border-radius: 0.25rem; */
 }
 .card-template{
     background-color: #06536fcf;

@@ -3,14 +3,14 @@ import '../css/importfile.css'
 
 export default function Importfile() {
     return (
-       <div className="col-9 col-lg-9 col-xl-9 col-mb-9 col-xs-9" style={{width: '79.5%'}}>
-  <div className="row mt-5">
+       <div className="col-9 col-lg-9 col-xl-9 col-mb-9 col-xs-9" style={{width: '79.5%' , marginLeft:'-5rem'}}>
+  <div className="row mt-5" >
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a className="nav-link active  " aria-current="page" href="#"> <span className="head-name-file" style={{fontFamily: '"Prompt", sans-serif'}}> เพิ่มข้อมูลไฟล์ </span></a>
       </li>
     </ul>
-    <div className="row">
+    <div className="row"  style={{width: '90.5%' }} >
       <div className="card" style={{height: '38rem'}}>
         <div className="card-body">
           <div className="row">

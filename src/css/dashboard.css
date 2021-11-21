@@ -28,9 +28,16 @@
 .modal-header{
     font-family: 'Prompt', sans-serif;
   /*   border-bottom: 1px solid #707070 !important; */
-    
 }
-.dotted{
+.btn-report{
+    background-color: #63B0C0;
+    color: #fff;
+}
+.iconcheck-name{
+    color: #41B949;
+}
+
+/* .dotted{
     border-style: solid; 
     height: 25rem; 
     border-radius: 20px; 
@@ -38,7 +45,7 @@
     margin-left: auto; 
     margin-right: auto; 
     color: #707070;
-}
+} */
 .table-bordered{
     text-align: center;
     font-family: 'Prompt', sans-serif;

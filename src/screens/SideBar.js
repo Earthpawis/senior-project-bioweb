@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom'
 
 export default function SideBar() {
     return (
-        
+ /*  <div  className="container-fluid"> */
   <div className="col-12 col-xl-12 col-lg-12 col-mb-12 col-sm-12">
     <div className="row">
-      <div className="col-2 col-xl-2 col-lg-2 col-mb-2 col-sm-2 bgback" style={{width: '19rem'}}>
+      <div className="col-2 col-xl-2 col-lg-2 col-mb-2 col-sm-2 bgback" >
         <div className="row  mt-3  ">
           <div className="col-2 col-xl-2 col-lg-2 col-mb-2 col-sm-2 ">
             <div className="logobio">
@@ -71,7 +71,7 @@ export default function SideBar() {
       </div>
     </div>
   </div>
-
+/* </div>  */
 
     )
 }

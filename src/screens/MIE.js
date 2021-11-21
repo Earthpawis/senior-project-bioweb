@@ -27,7 +27,7 @@ export default function MIE() {
   return (
 
     <div className="col-9 " style={{ marginRight: '20rem', marginTop: '5rem' }}>
-      <div className="warpper">
+      <div className="warpper" >
         <input className="radio" id="one" name="group" type="radio" defaultChecked />
         <input className="radio" id="two" name="group" type="radio" />
         <div className="tabs">
@@ -104,9 +104,6 @@ export default function MIE() {
                     </tr>
                   )
                 })}
-
-
-
               </tbody>
             </table>
           </div>

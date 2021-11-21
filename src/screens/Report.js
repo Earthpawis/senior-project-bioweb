@@ -4,7 +4,7 @@ import '../css/report.css'
 export default function Report() {
     return (
         <div className="col-9 col-lg-9 col-xl-9 col-mb-9 col-xs-9" style={{ width: '79.5%' }}>
-            <div className="row" style={{ marginTop: '3rem', width: '70rem' }}>
+            <div className="row" style={{ marginTop: '3rem', width: '70rem', marginLeft:'-6rem'}}>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <a className="nav-link active report-name" aria-current="page" href="#">รายงานเบิกใช้</a>
@@ -36,7 +36,7 @@ export default function Report() {
                     </div>
                 </div>
             </div>
-            <div className="row" style={{ marginTop: '1rem', width: '70rem' }}>
+            <div className="row" style={{ marginTop: '1rem', width: '70rem' ,  marginLeft:'-6rem'}}>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <a className="nav-link active report-name" aria-current="page" href="#">รายงานยืมอุปกรณ์</a>
