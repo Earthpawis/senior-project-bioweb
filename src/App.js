@@ -21,7 +21,7 @@ import {
 import ReactDOM from "react-dom";
 
 function App() {
-
+  let Test = "";
   const i = JSON.parse(localStorage.getItem('user'));
   console.log(i)
   if (!i) {
