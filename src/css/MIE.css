@@ -64,3 +64,66 @@ body{
   /* border-top: 3px solid #000; */
   
 }
+.labal-name-mie{
+  text-align: end;
+}
+
+.btn-add-modal{
+
+  background-color: rgb(30, 110, 102);
+  color: rgb(255, 255, 255);
+  font-family: Prompt, sans-serif;
+  text-align: center;
+  width: 10rem;
+  border-radius: 23px;
+  height: 3.5rem;
+  font-size: 20px;
+  box-shadow: 5px 8px 15px #707070;
+ 
+}
+.btn-add-cancal{
+  background-color: #D12E2E;
+  color: rgb(255, 255, 255);
+  font-family: Prompt, sans-serif;
+  text-align: center;
+  width: 10rem;
+  border-radius: 23px;
+  height: 3.5rem;
+  font-size: 20px;
+  box-shadow: 5px 8px 15px #707070;
+}
+.btn-bacode{
+  background-color: rgb(30, 110, 102);
+  color: rgb(255, 255, 255);
+  font-family: Prompt, sans-serif;
+  text-align: center;
+  width: 10rem;
+  border-radius: 23px;
+  height: 3.5rem;
+  font-size: 16px;
+  box-shadow: 5px 8px 15px #707070;
+  
+}
+.btn-del{
+  background-color: #D12E2E;
+  color: rgb(255, 255, 255);
+  font-family: Prompt, sans-serif;
+  text-align: center;
+  width: 10rem;
+  border-radius: 23px;
+  height: 3.5rem;
+  font-size: 16px;
+  box-shadow: 5px 8px 15px #707070;
+}
+.btn-edit{
+  background-color: #978F8F;
+  color: rgb(255, 255, 255);
+  font-family: Prompt, sans-serif;
+  text-align: center;
+  width: 10rem;
+  border-radius: 23px;
+  height: 3.5rem;
+  font-size: 16px;
+  box-shadow: 5px 8px 15px #707070;
+
+}

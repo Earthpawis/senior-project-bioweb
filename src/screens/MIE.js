@@ -10,6 +10,7 @@ export default function MIE() {
   const [showAdd, setShowAdd] = useState(false);
   const addClose = () => setShowAdd(false);
   const addShow = () => setShowAdd(true);
+ 
 
   const [showDetail, setShowDetail] = useState(false);
   const detailClose = () => setShowDetail(false);
@@ -24,7 +25,7 @@ export default function MIE() {
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
 
-//------------------------------------------------------------------
+  //------------------------------------------------------------------
   const [chemicalList, setChemicalList] = useState([]);
   const getChemical = () => {
     Axios.get('http://localhost:3307/chemicalList').then((response) => {
@@ -130,58 +131,60 @@ export default function MIE() {
         </div>
       </div>
 
- 
+
       {/* ---------- addChe ------------ */}
       <Modal
         show={showAdd}
         onHide={addClose}
         backdrop="static"
         keyboard={false}
+        size="lg"
+        centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>เพิ่มข้อมูลอุปกรณ์</Modal.Title>
+          <Modal.Title>เพิ่มข้อมูลสารเคมี</Modal.Title>
 
         </Modal.Header>
         <Modal.Body>
           <div className="row">
             <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชื่อสารเคมี :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี 
+                </label>
+                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                  <input type="text" className="input-text form-control " id formcontrolname />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชนิด :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">สูตรโมเลกุล
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">CAS No :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">รหัสสารเคมี :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">จำนวน :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
@@ -190,35 +193,35 @@ export default function MIE() {
             </div>
             <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถานที่เก็บ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ขนาดบรรจุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถาน :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถาน 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">วันหมดอายุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ผู้ผลิต :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
@@ -234,24 +237,21 @@ export default function MIE() {
               </div>
             </div>
             {/*   <div class="modal-footer"> */}
-            <div className="row mt-4 ">
+            <div className="row mt-3 ">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                <button type="submit" className="btn " style={{ backgroundColor: '#1E6E66', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
-                  <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
+                <button type="submit" className="btn btn-add-modal " style={{  color: '#fff' }}>
+                  <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                 </button>
               </div>
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn " style={{ backgroundColor: '#D12E2E', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
-                  <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
+                <button type="button" className="btn  btn-add-cancal" onClick={addClose} style={{ color: '#fff' }}>
+                  <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                   ยกเลิก
                 </button>
               </div>
             </div>
           </div>
-
         </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
       </Modal>
 
       {/* ---------- detailChe ------------ */}
@@ -260,6 +260,9 @@ export default function MIE() {
         onHide={detailClose}
         backdrop="static"
         keyboard={false}
+
+        size="lg"
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title>รายละเอียดสารเคมี</Modal.Title>
@@ -269,14 +272,14 @@ export default function MIE() {
           <div className="row">
             <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชื่อสารเคมี :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   Acarbose
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชนิด
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -284,29 +287,28 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">สูตรโมเลกุล
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   C6H5-CH3
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">CAS No :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   56180-93-0
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">รหัสสารเคมี
-                  :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   BS A01-01
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">จำนวน :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   6 ขวด
@@ -315,21 +317,21 @@ export default function MIE() {
             </div>
             <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถานที่เก็บ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   ST1 512
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ขนาดบรรจุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   450 ml
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถาน
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถาน
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -337,14 +339,14 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">วันหมดอายุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   19/9/65
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ผู้ผลิต :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   Ajex
@@ -360,29 +362,24 @@ export default function MIE() {
             </div>
             <div className="row mt-3">
               <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: '-webkit-right' }}>
-                <button type="submit" className="btn " style={{ backgroundColor: '#978F8F', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
+                <button type="submit" className="btn btn-edit " style={{  color: '#fff' }}>
                   <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                 </button>
               </div>
               <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'center' }}>
-                <button type="submit" className="btn " style={{ backgroundColor: '#1E6E66', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
+                <button type="submit" className="btn btn-bacode" style={{  color: '#fff'}}>
                   <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
                 </button>
               </div>
               <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4">
-                <button type="button" className="btn " style={{ backgroundColor: '#D12E2E', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
+                <button type="button" className="btn  btn-del" style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                   ลบข้อมูล
                 </button>
               </div>
             </div>
           </div>
-
-
-
         </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
       </Modal>
 
       {/* ---------- editChe ------------ */}
@@ -391,6 +388,9 @@ export default function MIE() {
         onHide={editClose}
         backdrop="static"
         keyboard={false}
+
+        size="lg"
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title>แก้ไขข้อมูลสารเคมี</Modal.Title>
@@ -400,14 +400,14 @@ export default function MIE() {
           <div className="row">
             <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชื่อสารเคมี :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชนิด
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -415,29 +415,29 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">สูตรโมเลกุล
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">CAS No :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">รหัสสารเคมี
-                  :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
+                  
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">จำนวน :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
@@ -446,21 +446,21 @@ export default function MIE() {
             </div>
             <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถานที่เก็บ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ขนาดบรรจุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถาน
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถาน
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -468,14 +468,14 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">วันหมดอายุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ผู้ผลิต :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
@@ -491,24 +491,19 @@ export default function MIE() {
             </div>
             <div className="row mt-4">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' }}>
-                <button type="submit" className="btn " style={{ backgroundColor: '#1E6E66', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
+                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
               </div>
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn " style={{ backgroundColor: '#D12E2E', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
+                <button type="button" className="btn  btn-add-cancal" style={{color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
                   ยกเลิก
                 </button>
               </div>
             </div>
           </div>
-
-
-
         </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
       </Modal>
 
       {/* ---------- addTools ------------ */}
@@ -526,14 +521,14 @@ export default function MIE() {
           <div className="row">
             <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชื่อสารเคมี :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชนิด
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -541,21 +536,21 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">สูตรโมเลกุล
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">CAS No :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">รหัสสารเคมี
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -563,7 +558,7 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">จำนวน :
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
@@ -572,21 +567,21 @@ export default function MIE() {
             </div>
             <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถานที่เก็บ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ขนาดบรรจุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถาน
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถาน
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -594,14 +589,14 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">วันหมดอายุ :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " id formcontrolname />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ผู้ผลิต :
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   <input type="text" className="input-text form-control " id formcontrolname />
@@ -617,26 +612,20 @@ export default function MIE() {
             </div>
             <div className="row mt-4">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' }}>
-                <button type="submit" className="btn " style={{ backgroundColor: '#1E6E66', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
+                <button type="submit" className="btn btn-add-modal" style={{  color: '#fff'}}>
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
               </div>
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn " style={{ backgroundColor: '#D12E2E', color: '#fff', fontFamily: '"Prompt", sans-serif', textAlign: 'center' }}>
-                  <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
+                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff'}} onClick={addToolsClose}>
+                  <i aria-hidden="true" className="fas fa-times mx-2 "  style={{ fontSize: 16 }} />
                   ยกเลิก
                 </button>
               </div>
             </div>
           </div>
-
-
-
         </Modal.Body>
-        <Modal.Footer>
-        </Modal.Footer>
       </Modal>
-
     </>
   )
 }
