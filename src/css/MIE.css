@@ -14,16 +14,16 @@ body{
 .tab{
   cursor: pointer;
   padding:10px 20px;
-  margin:0px 2px;
+  margin:0px 0px;
   background:#A8D5C8;
   display:inline-block;
   color:#000;
-  border-radius:3px 3px 0px 0px;
+  border-radius:13px 13px 0px 0px;
  /*  box-shadow: 0 0.5rem 0.8rem #00000080; */
 }
 .panels{
     background:#fffffff6;
-  /* box-shadow: 0 2rem 2rem #00000080; */
+  box-shadow: 1rem 1rem 1rem #3f3d3d48;
   min-height:200px;
   width:fit-content !important;
   /*   max-width:500px; */

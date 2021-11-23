@@ -11,7 +11,6 @@ export default function MIE() {
   const addClose = () => setShowAdd(false);
   const addShow = () => setShowAdd(true);
 
-
   const [showDetail, setShowDetail] = useState(false);
   const detailClose = () => setShowDetail(false);
   const detailShow = () => setShowDetail(true);
@@ -19,6 +18,12 @@ export default function MIE() {
   const [showEdit, setShowEdit] = useState(false);
   const editClose = () => setShowEdit(false);
   const editShow = () => setShowEdit(true);
+  //------------------ AddChe ----------------------------------------
+  const [CheName , setCheName] = useState("");
+
+  
+  
+  
 
   // --------- Modal Tools ------------
   const [showAddTools, setShowAddTools] = useState(false);
@@ -33,7 +38,7 @@ export default function MIE() {
   const EditToolsClose = () => setshowEditToolsShow(false);
   const EditToolsShow = () => setshowEditToolsShow(true);
 
-
+  
 
   //------------------------------------------------------------------
   const [chemicalList, setChemicalList] = useState([]);
@@ -122,11 +127,11 @@ export default function MIE() {
                   {equipmentList.map((val) => {
                     return (
                       <tr className="table-name-report ">
-                        <th scope="row">{val.equ_id}</th>
-                        <td>{val.equ_name}</td>
+                        <th scope="row">{val.tool_id}</th>
+                        <td>{val.tool_name}</td>
                         <td><label className="class-room" /></td>
-                        <td>{val.equ_amount}</td>
-                        <td>{val.equ_storage}</td>
+                        <td>{val.tool_amount}</td>
+                        <td>{val.tool_storage}</td>
                         <td>
                           <button type="button" className="btn btn-report " onClick={detailToolsShow} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
                         </td>
@@ -169,7 +174,7 @@ export default function MIE() {
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname disabled />
                 </div>
               </div>
               <div className="row mb-3">
@@ -371,7 +376,7 @@ export default function MIE() {
               </div>
             </div>
             <div className="row mt-3">
-              <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: '-webkit-right' }}>
+              <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
                 <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                 </button>
@@ -746,7 +751,7 @@ export default function MIE() {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' }}>
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' , textAlign:"end" }}>
                 <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
