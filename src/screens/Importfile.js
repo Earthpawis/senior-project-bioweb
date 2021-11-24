@@ -3,7 +3,7 @@ import '../css/importfile.css'
 
 export default function Importfile() {
     return (
-       <div className="col-9 col-lg-9 col-xl-9 col-mb-9 col-xs-9" style={{width: '79.5%' , marginLeft:'-5rem'}}>
+       <div className="col-9 col-lg-9 col-xl-9 col-mb-9 col-xs-9" style={{width: '80rem' , marginLeft:'-5rem'}}>
   <div className="row mt-5" >
     <ul className="nav nav-tabs">
       <li className="nav-item">
