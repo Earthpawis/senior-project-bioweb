@@ -25,7 +25,7 @@ export default function Importfile() {
           </div>
           <div className="row mt-5">
             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{textAlign: '-webkit-right'}}>
-              <button type="button" className="btn btn-upload " style={{backgroundColor: '#1E6E66', color: '#fff', width: '10rem', height: '4rem', borderRadius: 20}}><i aria-hidden="true" className="fas fa-check" style={{fontSize: 25}} /><label className="mx-3 " style={{fontSize: 25, fontFamily: '"Prompt", sans-serif', textAlign: 'center'}}>ยืนยัน</label>
+              <button type="button" className="btn btn-uploadimg " style={{backgroundColor: '#1E6E66', color: '#fff', width: '10rem', height: '4rem', borderRadius: 20}}><i aria-hidden="true" className="fas fa-check" style={{fontSize: 25}} /><label className="mx-3 " style={{fontSize: 25, fontFamily: '"Prompt", sans-serif', textAlign: 'center'}}>ยืนยัน</label>
               </button>
             </div>
             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">

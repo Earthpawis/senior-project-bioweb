@@ -63,7 +63,7 @@ export default function SideBar() {
                 <hr className="hrbee" />
               </div>
               <div className="row">
-                <span className="logout mt-4"> ออกจากระบบ</span>
+                <a className="logout mt-4">  ออกจากระบบ</a>
               </div>
             </div>
           </div>

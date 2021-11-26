@@ -82,6 +82,8 @@ body
     font-size: 16px;
     transition: 0.5s;
     transition-property: background;
+    
+  
 }
 
 
@@ -100,3 +102,7 @@ hr:not([size]) {
 }
 
 
+a:hover {
+    background: #19b3d3;
+    
+}
