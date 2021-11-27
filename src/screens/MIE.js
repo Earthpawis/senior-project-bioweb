@@ -122,9 +122,15 @@ export default function MIE() {
         <div className="warpper" >
           <input className="radio" id="one" name="group" type="radio" defaultChecked />
           <input className="radio" id="two" name="group" type="radio" />
-          <div className="tabs">
+          <div className="tabs row">
+            <div className='col-6 '>
             <label className="tab" id="one-tab" htmlFor="one">สารเคมี</label>
             <label className="tab" id="two-tab" htmlFor="two">อุปกรณ์</label>
+            </div>
+            <div className='col-6  ' >
+              <input type='text' className='form-control' placeholder='ค้นหา' style={{width:'15rem'}}
+              />
+            </div>
           </div>
           <div className="panels">
             <div className="panel" id="one-panel">
@@ -336,8 +342,8 @@ export default function MIE() {
             </div>
             {/*   <div class="modal-footer"> */}
             <div className="row mt-3 ">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit() } >
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: "end" }}>
+                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit()} >
                   <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                 </button>
               </div>
@@ -834,7 +840,7 @@ export default function MIE() {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign:"end" }}>
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
                 <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
