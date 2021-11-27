@@ -2,7 +2,8 @@ import React from 'react'
 import '../css/MIE.css'
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Form } from 'react-bootstrap'
+import axios from 'axios'
 
 export default function MIE() {
 
@@ -18,12 +19,51 @@ export default function MIE() {
   const [showEdit, setShowEdit] = useState(false);
   const editClose = () => setShowEdit(false);
   const editShow = () => setShowEdit(true);
-  //------------------ AddChe ----------------------------------------
-  const [CheName , setCheName] = useState("");
 
-  
-  
-  
+  const [showSucc, setShowSucc] = useState(false);
+  const SuccClose = () => setShowSucc(false);
+  const SuccShow = () => setShowSucc(true);
+  //------------------ AddChe ----------------------------------------
+  const [CheName, setCheName] = useState("");
+  const [CheCas, setCheCas] = useState("");
+  const [CheFormular, setCheFormular] = useState("");
+  const [CheCode, setCheCode] = useState("");
+  const [CheManu, setCheManu] = useState("");
+  const [CheQuan, setCheQuan] = useState("");
+  const [CheAmount, setCheAmount] = useState("");
+  const [CheExp, setCheExp] = useState("");
+  const [CheStatus, setCheStatus] = useState("");
+  const [CheStorage, setCheStorage] = useState("");
+  //----------------- addimg ---------------------------------------
+  const [infoImg, setInfoImg] = useState({
+    file: [],
+  })
+  const handleInputChange = (event) => {
+    setInfoImg({
+      ...infoImg,
+      file: event.target.files[0],
+    })
+  }
+  const submit = async () => {
+    const formdata = new FormData();
+    formdata.append('IMG', infoImg.file);
+    formdata.append('CheName', CheName)
+    formdata.append('CheCas', CheCas)
+    formdata.append('CheFormular', CheFormular)
+    formdata.append('CheCode', CheCode)
+    formdata.append('CheManu', CheManu)
+    formdata.append('CheQuan', CheQuan)
+    formdata.append('CheAmount', CheAmount)
+    formdata.append('CheStorage', CheStorage)
+
+    axios.post("http://localhost:3307/addChemical", formdata, {
+      headers: { "Content-Type": "multipart/form-data" }
+    }).then(res => {
+      console.warn(res);
+    })
+
+  }
+
 
   // --------- Modal Tools ------------
   const [showAddTools, setShowAddTools] = useState(false);
@@ -38,9 +78,9 @@ export default function MIE() {
   const EditToolsClose = () => setshowEditToolsShow(false);
   const EditToolsShow = () => setshowEditToolsShow(true);
 
-  
 
-  //------------------------------------------------------------------
+
+  //---------------------------  GET  ---------------------------------------
   const [chemicalList, setChemicalList] = useState([]);
   const getChemical = () => {
     Axios.get('http://localhost:3307/chemicalList').then((response) => {
@@ -52,6 +92,21 @@ export default function MIE() {
     Axios.get('http://localhost:3307/toolsList').then((response) => {
       setEquipmentList(response.data);
     });
+  }
+  //---------------------------  POST  ---------------------------------------
+  const addChemical = () => {
+    Axios.post('http://localhost:3307/addChemical', {
+      CheName: CheName,
+      CheCas: CheCas,
+      CheFormular: CheFormular,
+      CheCode: CheCode,
+      CheManu: CheManu,
+      CheQuan: CheQuan,
+      CheAmount: CheAmount,
+      CheStorage: CheStorage
+    }).then(() => {
+      getChemical()
+    })
   }
 
   useEffect(() => {
@@ -99,7 +154,7 @@ export default function MIE() {
                         <td>
                           <button type="button" onClick={detailShow} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
                         </td>
-                        <td><button type="button" onClick={editShow} className="btn btn-report "  style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+                        <td><button type="button" onClick={editShow} className="btn btn-report " style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
                       </tr>)
 
                   })}
@@ -167,7 +222,10 @@ export default function MIE() {
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheName(Event.target.value)
+                    }} />
                 </div>
               </div>
               <div className="row mb-3">
@@ -181,28 +239,41 @@ export default function MIE() {
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheFormular(Event.target.value)
+                    }} />
                 </div>
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheCas(Event.target.value)
+                    }}
+                  />
                 </div>
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheCode(Event.target.value)
+                    }} />
                 </div>
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheAmount(Event.target.value)
+                    }} />
                 </div>
               </div>
             </div>
@@ -211,21 +282,30 @@ export default function MIE() {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheStorage(Event.target.value)
+                    }} />
                 </div>
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheQuan(Event.target.value)
+                    }} />
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถาน
+                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานะ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <Form.Select aria-label="Default select example">
+                    <option value="1">Solids</option>
+                    <option value="2">Liquids</option>
+                  </Form.Select>
                 </div>
               </div>
               <div className="row mb-3">
@@ -239,7 +319,10 @@ export default function MIE() {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control "
+                    onChange={(Event) => {
+                      setCheManu(Event.target.value)
+                    }} />
                 </div>
               </div>
             </div>
@@ -247,14 +330,14 @@ export default function MIE() {
               <div className="form-group mb-3">
                 <div className="image-upload">
                   {/*     <i class="far fa-image" style=" font-size: 30px;"></i> */}
-                  <input className="form-control" type="file" />
+                  <input className="form-control" type="file" name="upload_file" onChange={handleInputChange} />
                 </div>
               </div>
             </div>
             {/*   <div class="modal-footer"> */}
             <div className="row mt-3 ">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
+                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit() } >
                   <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                 </button>
               </div>
@@ -505,7 +588,7 @@ export default function MIE() {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' }}>
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                 <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
@@ -765,7 +848,40 @@ export default function MIE() {
             </div>
           </div>
         </Modal.Body>
-      </Modal>     
+      </Modal>
+
+      {/* ---------- SuccAdd ------------ */}
+      <Modal
+        show={showSucc}
+        onHide={SuccClose}
+        backdrop="static"
+        keyboard={false}
+
+        size="lg"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>เพิ่มข้อมูลสารเคมี</Modal.Title>
+
+        </Modal.Header>
+        <Modal.Body>
+          <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog  modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <label className="modal-title" id="exampleModalLabel" style={{ fontFamily: '"Prompt", sans-serif', fontSize: 20 }}>ลบข้อมูลสารเคมี
+                  </label>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                </div>
+                <div className="modal-body" style={{ textAlign: 'center', height: '8rem' }}>
+                  <label className="AddStdSuccess" htmlFor style={{ fontFamily: '"Prompt", sans-serif', color: '#707070', marginTop: 23, fontSize: 26 }}>ทำการลบข้อมูลเรียบร้อยแล้ว</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </Modal.Body>
+      </Modal>
     </>
   )
 }

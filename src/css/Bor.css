@@ -10,7 +10,7 @@ body{
  /*  margin-right: 15rem; */
  /*  align-items: center; */
 }
-.tab{
+/* .tab{
   cursor: pointer;
   padding:10px 20px;
   margin:0px 2px;
@@ -18,8 +18,8 @@ body{
   display:inline-block;
   color:#000;
   border-radius:3px 3px 0px 0px;
- /*  box-shadow: 0 0.5rem 0.8rem #00000080; */
-}
+  box-shadow: 0 0.5rem 0.8rem #00000080;
+} */
 .panels{
     background:#fffffff6;
   /* box-shadow: 0 2rem 2rem #00000080; */
