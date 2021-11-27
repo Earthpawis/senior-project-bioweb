@@ -586,7 +586,7 @@ export default function MIE() {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' }}>
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                 <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
@@ -670,7 +670,7 @@ export default function MIE() {
               </div>
             </div>
             <div className="row mt-3">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' }}>
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                 <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                 </button>
@@ -751,7 +751,7 @@ export default function MIE() {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: '-webkit-right' , textAlign:"end" }}>
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign:"end" }}>
                 <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>

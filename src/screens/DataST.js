@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
 
+
 export default function DataST() {
 
     // --------- Modal Std ----------
@@ -33,6 +34,25 @@ export default function DataST() {
     const editCloseDataAj = () => setshowEditAj(false);
     const EditDataShowAj = () => setshowEditAj(true);
 
+    //-----------------ค้นหา--------------------
+
+    /* const [searchTerm, setSearchTerm] = useState(''); */
+    /*  const [value, setValue] = useState(''); */
+    /*     const [dataSource, setdataSource] = useState(dataSource);
+        const [tableFilter, setTableFilter] = useState([]); */
+    /*   const filterData = (e) => {
+          if (e.target.value != "") {
+              setSearchTerm(e.target.value)
+              const filterTable = dataSource.filter(o => Object.key(o).some(k =>
+                  String(o[k]).toLowerCase().includes(e.target.value.toLowerCase())
+              ));
+              setTableFilter(...filterTable)
+          } else {
+              setValue(e.target.value);
+              setdataSource([...dataSource])
+          }
+      } */
+
     // --------- Modal Aj ----------
 
     const [studentList, setStudentList] = useState([]);
@@ -60,9 +80,16 @@ export default function DataST() {
                 <div className="warpper">
                     <input className="radio" id="one" name="group" type="radio" defaultChecked />
                     <input className="radio" id="two" name="group" type="radio" />
-                    <div className="tabs">
-                        <label className="tab" id="one-tab" htmlFor="one">นักศึกษา</label>
-                        <label className="tab" id="two-tab" htmlFor="two">อาจารย์</label>
+                    <div className="tabs row">
+                        <div className="col-6">
+                            <label className="tab" id="one-tab" htmlFor="one">นักศึกษา</label>
+                            <label className="tab" id="two-tab" htmlFor="two">อาจารย์</label>
+                        </div>
+                        <div className='col-6' >
+                           {/*  <input type='text' className='form-control' placeholder='ค้นหา' 
+                            />
+ */}
+                        </div>
                     </div>
                     <div className="panels">
                         <div className="panel" id="one-panel">
@@ -121,7 +148,7 @@ export default function DataST() {
                                                 <td>{val.prof_name}</td>
                                                 <td>{val.prof_tel}</td>
                                                 <td>
-                                                    <button type="button" className="btn btn-report "  onClick={EditShowAj}  style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
+                                                    <button type="button" className="btn btn-report " onClick={EditShowAj} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
                                                 </td>
                                                 <td><button type="button" className="btn btn-report " onClick={EditDataShowAj} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
                                             </tr>
