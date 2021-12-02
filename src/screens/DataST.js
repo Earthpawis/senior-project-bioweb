@@ -12,7 +12,7 @@ export default function DataST() {
     // --------- Modal Std ----------
     const [showAddStd, setshowAddStd] = useState(false);
     const addCloseStd = () => setshowAddStd(false);
-    const addShowStd = () => setshowAddStd(true);
+    const addShowStd = () => setshowAddStd(true)  ;
 
     //--------- Modal passwordStd ----------
 
@@ -64,7 +64,7 @@ export default function DataST() {
 
     const [showEditAj, setshowEditAj] = useState(false);
     const editCloseDataAj = () => setshowEditAj(false);
-    const EditDataShowAj = () => setshowEditAj(true);
+    const EditDataShowAj = () => setshowEditAj(true) ;
 
 
     // --------- Modal Addstd ----------
@@ -98,6 +98,23 @@ export default function DataST() {
 
     }
 
+    // const updatePassword = (std_id) => {
+    //     Axios.put('http://localhost:3307/dataStudentupdate',{std_password : newstd_password , std_id: std_id}).then((response) => {
+    //         setStudentList(
+    //             studentList.map((val) => {
+    //                 return val.std_id == std_id ? {
+    //                     std_id : val.std_id,
+    //                     std_name : val.std_name,
+    //                     std_level : val.std_level,
+    //                     std_tel : val.std_tel,
+    //                     std_password : newstd_password
+    //                 } : val;
+    //             })
+    //         )
+
+    //     })
+    // }
+ 
 
     // --------- Modal AdddataAj ----------
     const [prof_id, setprof_id] = useState("");
@@ -312,7 +329,7 @@ export default function DataST() {
                                 </button>
                             </div>
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                <button type="button" className="btn  btn-add-cancal" onClick={addCloseStd} style={{ color: '#fff' }}>
                                     <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                     ยกเลิก
                                 </button>
@@ -332,7 +349,6 @@ export default function DataST() {
             >
                 <Modal.Header closeButton>
                     <Modal.Title>เปลี่ยนรหัสผ่าน : นักศึกษา</Modal.Title>
-
                 </Modal.Header>
                 <Modal.Body>
 
@@ -392,8 +408,8 @@ export default function DataST() {
                                 </button>
                             </div>
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
+                                <button type="button" onClick={editCloseStd} className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                    <i aria-hidden="true"  className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                     ยกเลิก
                                 </button>
                             </div>

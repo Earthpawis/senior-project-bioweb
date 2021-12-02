@@ -19,7 +19,7 @@ export default function Login() {
         if (response.data.length > 0) {
           localStorage.setItem('user', JSON.stringify(response.data[0]))
           // console.log(response.data)
-          // window.location.reload()
+          window.location.reload()
         }
       })
       .catch(function (error) {

@@ -5,6 +5,11 @@ import '../css/Sidebar.css'
 import { Link } from 'react-router-dom'
 
 export default function SideBar() {
+
+  function logout(){ 
+    localStorage.removeItem('user')
+    window.location.reload(); 
+}
     return (
  /*  <div  className="container-fluid"> */
   <div className="col-12 col-xl-12 col-lg-12 col-mb-12 col-sm-12">
@@ -63,7 +68,7 @@ export default function SideBar() {
                 <hr className="hrbee" />
               </div>
               <div className="row">
-                <a className="logout mt-4">  ออกจากระบบ</a>
+                <a className="logout mt-4" onClick={logout}>  ออกจากระบบ</a>
               </div>
             </div>
           </div>
@@ -71,7 +76,9 @@ export default function SideBar() {
       </div>
     </div>
   </div>
-/* </div>  */
+
 
     )
+    
 }
+

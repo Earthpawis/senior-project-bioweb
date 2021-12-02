@@ -7,6 +7,7 @@ import axios from 'axios'
 
 export default function MIE() {
 
+  //------------------------ Chemical -----------------------------------------------
   // --------- Modal Che ----------
   const [showAdd, setShowAdd] = useState(false);
   const addClose = () => setShowAdd(false);
@@ -32,40 +33,49 @@ export default function MIE() {
   const [CheQuan, setCheQuan] = useState("");
   const [CheAmount, setCheAmount] = useState("");
   const [CheExp, setCheExp] = useState("");
-  const [CheStatus, setCheStatus] = useState("");
+  const [CheStatus, setCheStatus] = useState(0);
   const [CheStorage, setCheStorage] = useState("");
-  //----------------- addimg ---------------------------------------
-  const [infoImg, setInfoImg] = useState({
-    file: [],
-  })
-  const handleInputChange = (event) => {
-    setInfoImg({
-      ...infoImg,
-      file: event.target.files[0],
-    })
+  //---------------------------  GET  ---------------------------------------
+  const [chemicalList, setChemicalList] = useState([]);
+  const getChemical = () => {
+    Axios.get('http://localhost:3307/chemicalList').then((response) => {
+      setChemicalList(response.data);
+    });
   }
-  const submit = async () => {
-    const formdata = new FormData();
-    formdata.append('IMG', infoImg.file);
-    formdata.append('CheName', CheName)
-    formdata.append('CheCas', CheCas)
-    formdata.append('CheFormular', CheFormular)
-    formdata.append('CheCode', CheCode)
-    formdata.append('CheManu', CheManu)
-    formdata.append('CheQuan', CheQuan)
-    formdata.append('CheAmount', CheAmount)
-    formdata.append('CheStorage', CheStorage)
-
-    axios.post("http://localhost:3307/addChemical", formdata, {
-      headers: { "Content-Type": "multipart/form-data" }
-    }).then(res => {
-      console.warn(res);
+//---------------------------  POST  ---------------------------------------
+    //----------------- AddChe ---------------------------------------
+    const [infoImg, setInfoImg] = useState({
+      file: [],
     })
+    const handleInputChange = (event) => {
+      setInfoImg({
+        ...infoImg,
+        file: event.target.files[0],
+      })
+    }
+    const submit = async () => {
+      const formdata = new FormData();
+      formdata.append('IMG', infoImg.file);
+      formdata.append('CheName', CheName)
+      formdata.append('CheCas', CheCas)
+      formdata.append('CheFormular', CheFormular)
+      formdata.append('CheCode', CheCode)
+      formdata.append('CheManu', CheManu)
+      formdata.append('CheQuan', CheQuan)
+      formdata.append('CheAmount', CheAmount)
+      formdata.append('CheStatus', CheStatus)
+      formdata.append('CheStorage', CheStorage)
+      axios.post("http://localhost:3307/addChemical", formdata, {
+        headers: { "Content-Type": "multipart/form-data" }
+      }).then(res => {
+        console.warn(res);
+      })
+    }
 
-  }
 
-
-  // --------- Modal Tools ------------
+//-------------------------------------------------------------------------------
+//------------------------ Tool -----------------------------------------------
+// ---------------- Modal Tools ------------
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
@@ -77,16 +87,8 @@ export default function MIE() {
   const [showEditToolsShow, setshowEditToolsShow] = useState(false);
   const EditToolsClose = () => setshowEditToolsShow(false);
   const EditToolsShow = () => setshowEditToolsShow(true);
-
-
-
   //---------------------------  GET  ---------------------------------------
-  const [chemicalList, setChemicalList] = useState([]);
-  const getChemical = () => {
-    Axios.get('http://localhost:3307/chemicalList').then((response) => {
-      setChemicalList(response.data);
-    });
-  }
+
   const [equipmentList, setEquipmentList] = useState([]);
   const getEquipment = () => {
     Axios.get('http://localhost:3307/toolsList').then((response) => {
@@ -94,20 +96,9 @@ export default function MIE() {
     });
   }
   //---------------------------  POST  ---------------------------------------
-  const addChemical = () => {
-    Axios.post('http://localhost:3307/addChemical', {
-      CheName: CheName,
-      CheCas: CheCas,
-      CheFormular: CheFormular,
-      CheCode: CheCode,
-      CheManu: CheManu,
-      CheQuan: CheQuan,
-      CheAmount: CheAmount,
-      CheStorage: CheStorage
-    }).then(() => {
-      getChemical()
-    })
-  }
+
+  
+//---------------------------------------------------------------------------
 
   useEffect(() => {
     getChemical();
@@ -308,7 +299,9 @@ export default function MIE() {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานะ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <Form.Select aria-label="Default select example">
+                  <Form.Select aria-label="Default select example "  onChange={(Event) => {
+                      setCheStatus(Event.target.value)
+                    }}>
                     <option value="1">Solids</option>
                     <option value="2">Liquids</option>
                   </Form.Select>
@@ -335,15 +328,14 @@ export default function MIE() {
             <div className="col-xl-3">
               <div className="form-group mb-3">
                 <div className="image-upload">
-                  {/*     <i class="far fa-image" style=" font-size: 30px;"></i> */}
                   <input className="form-control" type="file" name="upload_file" onChange={handleInputChange} />
                 </div>
               </div>
             </div>
             {/*   <div class="modal-footer"> */}
             <div className="row mt-3 ">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit()} >
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
+                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit().then(addClose)  } >
                   <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                 </button>
               </div>
@@ -445,7 +437,7 @@ export default function MIE() {
               <div className="row mb-3">
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                 </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                   19/9/65
                 </div>
               </div>
@@ -643,7 +635,7 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ยอดคงเหลือ
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ยอดคงเหลือ 
 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -670,7 +662,7 @@ export default function MIE() {
             <div className="col-xl-3">
               <div className="form-group mb-3">
                 <div className="image-upload">
-                  <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
+                  <input className="form-control" type="file" name="upload_file" onChange={handleInputChange} />
                 </div>
               </div>
             </div>
