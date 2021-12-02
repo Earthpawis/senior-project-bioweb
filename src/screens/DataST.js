@@ -1,5 +1,6 @@
 import React from 'react'
 import '../css/Bor.css'
+/* import '../css/MIE.css' */
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap'
@@ -13,13 +14,44 @@ export default function DataST() {
     const addCloseStd = () => setshowAddStd(false);
     const addShowStd = () => setshowAddStd(true);
 
+    //--------- Modal passwordStd ----------
+
     const [showEditStd, setshowEditStd] = useState(false);
     const editCloseStd = () => setshowEditStd(false);
     const editShowStd = () => setshowEditStd(true);
 
+    const updatePassword = (std_id) => {
+        console.log(std_id)
+        Axios.put('http://localhost:3307/dataStudentupdate', { std_password: newstd_password, std_id: std_id }).then((response) => {
+            setStudentList(
+                studentList.map((val) => {
+                    return val.std_id == std_id ? {
+                        std_id: val.std_id,
+                        std_name: val.std_name,
+                        std_level: val.std_level,
+                        std_tel: val.std_tel,
+                        std_password: newstd_password
+                    } : val;
+                })
+            )
+
+        })
+    }
+    //--------- Modal editStd ----------
+
     const [showEditDataStd, setshowEditDataStd] = useState(false);
+    const [readuser, setreaduser] = useState([{}])
     const editCloseDataStd = () => setshowEditDataStd(false);
-    const editShowDataStd = () => setshowEditDataStd(true);
+    const editShowDataStd = (id) => {
+        setshowEditDataStd(true);
+        //console.log(id)
+        Axios.get(`http://localhost:3307/readStudent/` + id).then((Response) => {
+            setreaduser(Response.data);
+            console.log(readuser)
+
+        });
+    }
+
 
     // --------- Modal Aj ----------
     const [showAddDataAj, setshowAddDataAj] = useState(false);
@@ -65,24 +97,7 @@ export default function DataST() {
         })
 
     }
-/* 
-    const updatePassword = (std_id) => {
-        Axios.put('http://localhost:3307/dataStudentupdate',{std_password : newstd_password , std_id: std_id}).then((response) => {
-            setStudentList(
-                studentList.map((val) => {
-                    return val.std_id == std_id ? {
-                        std_id : val.std_id,
-                        std_name : val.std_name,
-                        std_level : val.std_level,
-                        std_tel : val.std_tel,
-                        std_password : newstd_password
-                    } : val;
-                })
-            )
 
-        })
-    }
- */
 
     // --------- Modal AdddataAj ----------
     const [prof_id, setprof_id] = useState("");
@@ -112,26 +127,8 @@ export default function DataST() {
         })
 
     }
-    //-----------------ค้นหา--------------------
 
-    /* const [searchTerm, setSearchTerm] = useState(''); */
-    /*  const [value, setValue] = useState(''); */
-    /*     const [dataSource, setdataSource] = useState(dataSource);
-        const [tableFilter, setTableFilter] = useState([]); */
-    /*   const filterData = (e) => {
-          if (e.target.value != "") {
-              setSearchTerm(e.target.value)
-              const filterTable = dataSource.filter(o => Object.key(o).some(k =>
-                  String(o[k]).toLowerCase().includes(e.target.value.toLowerCase())
-              ));
-              setTableFilter(...filterTable)
-          } else {
-              setValue(e.target.value);
-              setdataSource([...dataSource])
-          }
-      } */
-
-    // --------- Modal Aj ----------
+    // --------- Modal  ----------
 
     const [studentList, setStudentList] = useState([]);
     const getStudent = () => {
@@ -165,10 +162,10 @@ export default function DataST() {
                             <label className="tab" id="one-tab" htmlFor="one">นักศึกษา</label>
                             <label className="tab" id="two-tab" htmlFor="two">อาจารย์</label>
                         </div>
-                        <div className='col-6' >
+                        {/*   <div className='col-6' >
                             <input type='text' className='form-control' placeholder='ค้นหา'
                             />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="panels">
                         <div className="panel" id="one-panel">
@@ -195,9 +192,9 @@ export default function DataST() {
                                             <td><label className="class-room">{val.std_level}</label></td>
                                             <td>{val.std_tel}</td>
                                             <td>
-                                                <button type="button" className="btn btn-report " onClick={editShowStd} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
+                                                <button type="button" className="btn btn-report " onClick={() => editShowStd(val.std_id)} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
                                             </td>
-                                            <td><button type="button" className="btn btn-report " onClick={editShowDataStd} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+                                            <td><button type="button" className="btn btn-report " onClick={() => editShowDataStd(val.std_id)} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
                                         </tr>)
                                     })}
 
@@ -233,9 +230,6 @@ export default function DataST() {
                                             </tr>
                                         )
                                     })}
-
-
-
                                 </tbody>
                             </table>
                         </div>
@@ -341,6 +335,7 @@ export default function DataST() {
 
                 </Modal.Header>
                 <Modal.Body>
+
                     <div className="row">
                         <div className="form-group row mb-3">
                             <label htmlFor=""
@@ -348,7 +343,7 @@ export default function DataST() {
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                                 พรนภา โกลากุล
                             </div>
-                        </div>.
+                        </div>
                         <div className="form-group row mb-3">
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
@@ -381,17 +376,18 @@ export default function DataST() {
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่านใหม่ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname 
-                            /*     onChange={(event) => {
-                                    setnewstd_password(event.target.value)
-                                    onClick={() => {updatePassword(val.std_id)}}
-                                }} */
+                                <input type="text" className="input-text form-control "
+                                    /* defaultValue={val.std_id} */
+                                    onChange={(event) => {
+                                        setnewstd_password(event.target.value)
+
+                                    }}
                                 />
                             </div>
                         </div>
                         <div className="row mt-3 ">
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                                <button type="submit"  className="btn btn-add-modal " style={{ color: '#fff' }}>
+                                <button type="submit" className="btn btn-add-modal " onClick={() => { updatePassword() }} style={{ color: '#fff' }}>
                                     <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                                 </button>
                             </div>
@@ -415,68 +411,91 @@ export default function DataST() {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>เพิ่มข้อมูลนักศึกษา</Modal.Title>
-
+                    <Modal.Title>แก้ไขข้อมูลส่วนตัว : นักศึกษา</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="row">
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
+                    {readuser.map((val, key) => {
+                        return (
+                            <div className="row" key={val.std_id}>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ : </label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_name} id formcontrolname onChange={(event) => {
+                                            setreaduser([{
+                                                ...readuser[0], std_name: event.target.value
+                                            }])
+                                        }} />
+                                    </div>
+                                </div>.
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_tel} onChange={(event) => {
+                                            setreaduser([{
+                                                ...readuser[0], std_tel: event.target.value
+                                            }])
+                                        }} />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสนักศึกษา :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_id} onChange={(event) => {
+                                            setreaduser([{
+                                                ...readuser[0], std_id: event.target.value
+                                            }])
+                                        }} />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชั้นปี :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_level} onChange={(event) => {
+                                            setreaduser([{
+                                                ...readuser[0], std_level: event.target.value
+                                            }])
+                                        }} />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_password} onChange={(event) => {
+                                            setreaduser([{
+                                                ...readuser[0], std_password: event.target.value
+                                            }])
+                                        }} />
+                                    </div>
+                                </div>
+                                <div className="row mt-3 ">
+                                    <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4 " style={{ textAlign: "end" }}>
+                                        <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
+                                            <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
+                                        </button>
+                                    </div>
+                                    <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: "center" }}>
+                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                            <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
+                                            ยกเลิก
+                                        </button>
+                                    </div>
+                                    <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" >
+                                        <button type="button" className="btn  btn-add-edit" style={{ color: '#fff' }}>
+                                            <i aria-hidden="true" className="fas fa-trash mx-3" style={{ fontSize: 20 }} />
+                                            ลบข้อมูล
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>.
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสนักศึกษา :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชั้นปี :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                1234
-                                {/*  <input type="text" className="input-text form-control " id formcontrolname /> */}
-                            </div>
-                        </div>
-                        <div className="row mt-3 ">
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
-                                </button>
-                            </div>
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
-                                    ยกเลิก
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+
+                        )
+                    })}
+
                 </Modal.Body>
             </Modal>
 
@@ -510,8 +529,8 @@ export default function DataST() {
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname 
-                                     onChange={(event) => {
+                                <input type="text" className="input-text form-control " id formcontrolname
+                                    onChange={(event) => {
                                         setprof_tel(event.target.value)
                                     }}
                                 />
@@ -521,8 +540,8 @@ export default function DataST() {
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสอาจารย์ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname 
-                                     onChange={(event) => {
+                                <input type="text" className="input-text form-control " id formcontrolname
+                                    onChange={(event) => {
                                         setprof_id(event.target.value)
                                     }}
                                 />
@@ -532,8 +551,8 @@ export default function DataST() {
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">Username :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname 
-                                     onChange={(event) => {
+                                <input type="text" className="input-text form-control " id formcontrolname
+                                    onChange={(event) => {
                                         setprof_username(event.target.value)
                                     }}
                                 />
@@ -543,12 +562,12 @@ export default function DataST() {
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname 
-                                     onChange={(event) => {
+                                <input type="text" className="input-text form-control " id formcontrolname
+                                    onChange={(event) => {
                                         setprof_password(event.target.value)
                                     }}
                                 />
-                               
+
                             </div>
                         </div>
                         <div className="row mt-3 ">

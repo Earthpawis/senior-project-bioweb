@@ -67,3 +67,16 @@ body{
 .name-Aj-std{
   text-align: end;
 }
+.btn-add-edit{
+  
+  background-color: #5C4242;
+  color: rgb(255, 255, 255);
+  font-family: Prompt, sans-serif;
+  text-align: center;
+  width: 10rem;
+  border-radius: 23px;
+  height: 3.5rem;
+  font-size: 20px;
+  box-shadow: 5px 8px 15px #707070;
+
+}

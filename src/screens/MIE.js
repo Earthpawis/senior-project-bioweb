@@ -127,10 +127,10 @@ export default function MIE() {
             <label className="tab" id="one-tab" htmlFor="one">สารเคมี</label>
             <label className="tab" id="two-tab" htmlFor="two">อุปกรณ์</label>
             </div>
-            <div className='col-6  ' >
+           {/*  <div className='col-6  ' >
               <input type='text' className='form-control' placeholder='ค้นหา' style={{width:'15rem'}}
               />
-            </div>
+            </div> */}
           </div>
           <div className="panels">
             <div className="panel" id="one-panel">
