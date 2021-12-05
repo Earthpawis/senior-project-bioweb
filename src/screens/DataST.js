@@ -1,6 +1,7 @@
 import React from 'react'
 import '../css/Bor.css'
 /* import '../css/MIE.css' */
+import Swal from 'sweetalert2'
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap'
@@ -12,7 +13,7 @@ export default function DataST() {
     // --------- Modal Std ----------
     const [showAddStd, setshowAddStd] = useState(false);
     const addCloseStd = () => setshowAddStd(false);
-    const addShowStd = () => setshowAddStd(true)  ;
+    const addShowStd = () => setshowAddStd(true);
 
     //--------- Modal passwordStd ----------
 
@@ -52,6 +53,29 @@ export default function DataST() {
         });
     }
 
+    const updateEditstd = (id) => {
+        console.log(readuser);
+        Axios.put("http://localhost:3307/updateEditStudent/", {
+            std_id: readuser[0].std_id,
+            std_name: readuser[0].std_name,
+            std_level: readuser[0].std_level,
+            std_password: readuser[0].std_password,
+            std_tel: readuser[0].std_tel
+        })
+            .then(function (response) {
+                console.log(response);
+
+                //searchuser(Search, type , typeuser)
+
+                //handleClose();
+                Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
 
     // --------- Modal Aj ----------
     const [showAddDataAj, setshowAddDataAj] = useState(false);
@@ -63,8 +87,17 @@ export default function DataST() {
     const EditShowAj = () => setshowEditDataAj(true);
 
     const [showEditAj, setshowEditAj] = useState(false);
+    const [readprof, setreadprof] = useState([{}])
     const editCloseDataAj = () => setshowEditAj(false);
-    const EditDataShowAj = () => setshowEditAj(true) ;
+    const EditDataShowAj = (id) => {
+        setshowEditAj(true);
+        console.log(id)
+        Axios.get(`http://localhost:3307/readProfesser/` + id).then((Response) => {
+            setreadprof(Response.data);
+            console.log(readprof)
+
+        });
+    }
 
 
     // --------- Modal Addstd ----------
@@ -114,7 +147,7 @@ export default function DataST() {
 
     //     })
     // }
- 
+
 
     // --------- Modal AdddataAj ----------
     const [prof_id, setprof_id] = useState("");
@@ -241,9 +274,9 @@ export default function DataST() {
                                                 <td>{val.prof_name}</td>
                                                 <td>{val.prof_tel}</td>
                                                 <td>
-                                                    <button type="button" className="btn btn-report " onClick={EditShowAj} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
+                                                    <button type="button" className="btn btn-report " onClick={() => EditShowAj(val.prof_id)} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
                                                 </td>
-                                                <td><button type="button" className="btn btn-report " onClick={EditDataShowAj} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+                                                <td><button type="button" className="btn btn-report " onClick={() => EditDataShowAj(val.prof_id)} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
                                             </tr>
                                         )
                                     })}
@@ -409,7 +442,7 @@ export default function DataST() {
                             </div>
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
                                 <button type="button" onClick={editCloseStd} className="btn  btn-add-cancal" style={{ color: '#fff' }}>
-                                    <i aria-hidden="true"  className="fas fa-times mx-3" style={{ fontSize: 20 }} />
+                                    <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                     ยกเลิก
                                 </button>
                             </div>
@@ -437,18 +470,20 @@ export default function DataST() {
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ : </label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_name} id formcontrolname onChange={(event) => {
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_name} 
+                                        onChange={(event) => {
                                             setreaduser([{
                                                 ...readuser[0], std_name: event.target.value
                                             }])
                                         }} />
                                     </div>
-                                </div>.
+                                </div>
                                 <div className="form-group row mb-3">
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_tel} onChange={(event) => {
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_tel} 
+                                        onChange={(event) => {
                                             setreaduser([{
                                                 ...readuser[0], std_tel: event.target.value
                                             }])
@@ -459,7 +494,8 @@ export default function DataST() {
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสนักศึกษา :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_id} onChange={(event) => {
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_id} 
+                                        onChange={(event) => {
                                             setreaduser([{
                                                 ...readuser[0], std_id: event.target.value
                                             }])
@@ -470,7 +506,8 @@ export default function DataST() {
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชั้นปี :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_level} onChange={(event) => {
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_level} 
+                                        onChange={(event) => {
                                             setreaduser([{
                                                 ...readuser[0], std_level: event.target.value
                                             }])
@@ -489,21 +526,15 @@ export default function DataST() {
                                     </div>
                                 </div>
                                 <div className="row mt-3 ">
-                                    <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4 " style={{ textAlign: "end" }}>
-                                        <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
+                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: "end" }}>
+                                        <button type="submit" className="btn btn-add-modal " onClick={() => updateEditstd(val.std_id)} style={{ color: '#fff' }}>
                                             <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                                         </button>
                                     </div>
-                                    <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: "center" }}>
+                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "start" }}>
                                         <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
                                             <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                             ยกเลิก
-                                        </button>
-                                    </div>
-                                    <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" >
-                                        <button type="button" className="btn  btn-add-edit" style={{ color: '#fff' }}>
-                                            <i aria-hidden="true" className="fas fa-trash mx-3" style={{ fontSize: 20 }} />
-                                            ลบข้อมูล
                                         </button>
                                     </div>
                                 </div>
@@ -688,52 +719,90 @@ export default function DataST() {
             >
                 <Modal.Header closeButton>
                     <Modal.Title>แก้ไขข้อมูลส่วนตัว : อาจารย์</Modal.Title>
-
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="row">
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
+                    {readprof.map((val, key) => {
+                        return (
+                            <div className="row" key={val.prof_id}>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " defaultValue={val.prof_name} onChange={(event) => {
+                                            setreadprof([{
+                                                ...readprof[0], prof_name: event.target.value
+                                            }])
+                                        }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ : </label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " defaultValue={val.prof_tel} onChange={(event) => {
+                                            setreadprof([{
+                                                ...readprof[0], prof_tel: event.target.value
+                                            }])
+                                        }} />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสอาจารย์ :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                        <input type="text" className="input-text form-control " id formcontrolname
+                                            defaultValue={val.prof_id} onChange={(event) => {
+                                                setreadprof([{
+                                                    ...readprof[0], prof_id: event.target.value
+                                                }])
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">Username :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                                        <input type="text" className="input-text form-control " id formcontrolname
+                                            defaultValue={val.prof_username} onChange={(event) => {
+                                                setreadprof([{
+                                                    ...readprof[0], prof_username: event.target.value
+                                                }])
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                                        <input type="text" className="input-text form-control " id formcontrolname
+                                            defaultValue={val.prof_password} onChange={(event) => {
+                                                setreadprof([{
+                                                    ...readprof[0], prof_password: event.target.value
+                                                }])
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row mt-3 ">
+                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
+                                        <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
+                                            <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
+                                        </button>
+                                    </div>
+                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
+                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                            <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
+                                            ยกเลิก
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>.
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสอาจารย์ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                1234
-                            </div>
-                        </div>
-                        <div className="row mt-3 ">
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
-                                </button>
-                            </div>
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
-                                    ยกเลิก
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                        )
+                    })}
+
                 </Modal.Body>
             </Modal>
         </>

@@ -64,15 +64,15 @@ app.get('/dataStudent', (req, res) => {
     })
 });
 
-app.post('/stuRead:std_id',(req,res) => {
-    const id = req.params.std_id ;
-    db.query("SELECT * FROM student WHERE std_id = ?", id,(err,result)=> {
-        if(err){
+app.post('/stuRead:std_id', (req, res) => {
+    const id = req.params.std_id;
+    db.query("SELECT * FROM student WHERE std_id = ?", id, (err, result) => {
+        if (err) {
             console.log(err);
         } else {
             res.send(result);
         }
-    } )
+    })
 })
 
 
@@ -90,13 +90,27 @@ app.get('/dataProfesser', (req, res) => {
 app.get("/readStudent/:id", (req, res) => {
     const id = req.params.id;
     db.query("SELECT * FROM student where std_id = ?", [id], (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
     });
-  });
+});
+
+app.get("/readProfesser/:id", (req, res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM professer where prof_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+
+
 
 
 // --------------- POST -----------------
@@ -118,21 +132,21 @@ app.post("/login", (req, res) => {
 
 const path = require('path');
 const storage = multer.diskStorage({
-    destination: path.join(__dirname,'public/','imgChemical'),
-    filename: function (req,file,cb){
-        cb(null, Date.now() + '-' + file.originalname ) 
+    destination: path.join(__dirname, 'public/', 'imgChemical'),
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname)
     }
 })
-app.post('/addChemical' , (req , res) => {
-    try{
-        let upload = multer({ storage: storage}).single('IMG');
-            
-        upload(req,res,function(err){
-            if(!req.file){
+app.post('/addChemical', (req, res) => {
+    try {
+        let upload = multer({ storage: storage }).single('IMG');
+
+        upload(req, res, function (err) {
+            if (!req.file) {
                 return res.send('Please select an image to upload');
-            }else if (err instanceof multer.MulterError){
+            } else if (err instanceof multer.MulterError) {
                 return res.send(err);
-            }else if (err){
+            } else if (err) {
                 return res.send(err);
             }
             let CheName = req.body.CheName
@@ -144,13 +158,13 @@ app.post('/addChemical' , (req , res) => {
             let CheAmount = req.body.CheAmount
             let CheStorage = req.body.CheStorage
             let CheStatus = req.body.CheStatus
-            
-            db.query ("INSERT INTO chemical (ch_name , ch_cas_no , ch_formula , ch_code , ch_manufacturer , ch_quantity , ch_amount ,ch_status ,ch_storage ,ch_img) VALUES(?,?,?,?,?,?,?,?,?,?) "
-            ,[CheName , CheCas , CheFormular ,CheCode ,CheManu ,CheQuan , CheAmount ,CheStatus,CheStorage,req.file.filename ])
+
+            db.query("INSERT INTO chemical (ch_name , ch_cas_no , ch_formula , ch_code , ch_manufacturer , ch_quantity , ch_amount ,ch_status ,ch_storage ,ch_img) VALUES(?,?,?,?,?,?,?,?,?,?) "
+                , [CheName, CheCas, CheFormular, CheCode, CheManu, CheQuan, CheAmount, CheStatus, CheStorage, req.file.filename])
         })
     }
-    catch(err){
-            console.log(err)
+    catch (err) {
+        console.log(err)
     }
 })
 
@@ -198,7 +212,7 @@ app.post('/dataProfessercreate', (req, res) => {
 app.put('/dataStudentupdate', (req, res) => {
     const std_id = req.body.std_id;
     const std_password = req.body.std_password;
- console.log(std_id ,std_password)
+    console.log(std_id, std_password)
     db.query("UPDATE student set std_password = ? WHERE std_id = ? ", [std_password, std_id], (err, result) => {
         if (err) {
             console.log(err);
@@ -207,3 +221,25 @@ app.put('/dataStudentupdate', (req, res) => {
         }
     });
 })
+
+app.put('/updateEditStudent', (req, res) => {
+    const std_id = req.body.std_id;
+    const std_password = req.body.std_password;
+    const std_level = req.body.std_level;
+    const std_name = req.body.std_name;
+    const std_tel = req.body.std_tel;
+    const err = "";
+    db.query("UPDATE student set std_id = ?,std_password = ? ,std_level = ?, std_name =?, std_tel =? WHERE std_id=?",
+        [std_id, std_level, std_name, std_password, std_tel],
+        (err,
+            (result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send("values insert complete")
+                }
+            }
+        )
+    )
+})
+
