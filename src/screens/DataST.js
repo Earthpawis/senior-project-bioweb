@@ -15,7 +15,7 @@ export default function DataST() {
     const addCloseStd = () => setshowAddStd(false);
     const addShowStd = () => setshowAddStd(true);
 
-    //--------- Modal passwordStd ----------
+    //--------- Modal Std ----------
 
     const [showEditStd, setshowEditStd] = useState(false);
     const editCloseStd = () => setshowEditStd(false);
@@ -75,6 +75,41 @@ export default function DataST() {
             });
     }
 
+    //--------- Modal ลบStd ----------
+
+    const deleteStudent = (id) => {
+        Swal.fire({
+            title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
+            text: "คุณต้องการลบข้อมูลของ " + id,
+            icon: 'warning',
+            timer: 10000,
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.delete(`http://localhost:3307/deleteDataStudent/` + id)
+                    .then(function (response) {
+                        console.log(response);
+                        Swal.fire(
+                            'ลบข้อมูลสำเร็จ !',
+                            'ข้อมูลของคุณถูกลบออกแล้ว',
+                            'success'
+                        )
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        Swal.fire(
+                            'ไม่สามารถลบข้อมมูลได้!',
+                            'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
+                            'error'
+                        )
+                    })
+            }
+        })
+    }
+
 
 
     // --------- Modal Aj ----------
@@ -99,6 +134,61 @@ export default function DataST() {
         });
     }
 
+
+    const updateEditdataProfesser = (id) => {
+        console.log(readprof);
+        Axios.put("http://localhost:3307/updateEditProfesser/", {
+            prof_id: readprof[0].prof_id,
+            prof_name: readprof[0].prof_name,
+            prof_password: readprof[0].prof_password,
+            prof_tel: readprof[0].prof_tel,
+            prof_username: readprof[0].prof_username
+        })
+            .then(function (response) {
+                console.log(response);
+
+                //searchuser(Search, type , typeuser)
+
+                //handleClose();
+                Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    const deleteProfesser = (id) => {
+        Swal.fire({
+            title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
+            text: "คุณต้องการลบข้อมูลของ " + id,
+            icon: 'warning',
+            timer: 10000,
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Axios.delete(`http://localhost:3307/deleteDataProfesser/` + id)
+                    .then(function (response) {
+                        console.log(response);
+                        Swal.fire(
+                            'ลบข้อมูลสำเร็จ !',
+                            'ข้อมูลของคุณถูกลบออกแล้ว',
+                            'success'
+                        )
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        Swal.fire(
+                            'ไม่สามารถลบข้อมมูลได้!',
+                            'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
+                            'error'
+                        )
+                    })
+            }
+        })
+    }
 
     // --------- Modal Addstd ----------
 
@@ -131,22 +221,7 @@ export default function DataST() {
 
     }
 
-    // const updatePassword = (std_id) => {
-    //     Axios.put('http://localhost:3307/dataStudentupdate',{std_password : newstd_password , std_id: std_id}).then((response) => {
-    //         setStudentList(
-    //             studentList.map((val) => {
-    //                 return val.std_id == std_id ? {
-    //                     std_id : val.std_id,
-    //                     std_name : val.std_name,
-    //                     std_level : val.std_level,
-    //                     std_tel : val.std_tel,
-    //                     std_password : newstd_password
-    //                 } : val;
-    //             })
-    //         )
 
-    //     })
-    // }
 
 
     // --------- Modal AdddataAj ----------
@@ -226,10 +301,11 @@ export default function DataST() {
                                         <th className="headname-th" scope="col" width="5%" style={{ minWidth: 250 }}><span>ชื่อ-นามสกุล</span></th>
                                         <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}><span>ชั้นปี</span> </th>
                                         <th className="headname-th" scope="col" width="3%" style={{ minWidth: 200 }}><span>เบอร์โทร</span> </th>
-                                        <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} />
+                                        <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150 }} />
                                         {/*       <th ></th> */}
                                         <th className="headname-th" scope="col" width="5%">
-                                            <button type="button" className="btn btn-report " onClick={addShowStd} style={{ backgroundColor: '#5DD480', borderRadius: 4, width: 95, color: '#fff' }}><i aria-hidden="true" className="fas fa-plus" style={{ fontSize: 15 }} /><label className="mx-2">เพิ่ม</label> </button>
+                                            <button type="button" className="btn btn-report " onClick={addShowStd} style={{ backgroundColor: '#5DD480', borderRadius: 4, width: 95, color: '#fff' }}>
+                                                <i aria-hidden="true" className="fas fa-plus" style={{ fontSize: 15 }} /><label className="mx-2">เพิ่ม</label> </button>
                                         </th>
                                     </tr>
                                 </thead>
@@ -242,9 +318,18 @@ export default function DataST() {
                                             <td><label className="class-room">{val.std_level}</label></td>
                                             <td>{val.std_tel}</td>
                                             <td>
-                                                <button type="button" className="btn btn-report " onClick={() => editShowStd(val.std_id)} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
+                                                <button type="button" className="btn btn-report " onClick={() => editShowDataStd(val.std_id)}
+                                                    style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit"
+                                                        style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button>
+
                                             </td>
-                                            <td><button type="button" className="btn btn-report " onClick={() => editShowDataStd(val.std_id)} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+                                            <td>
+                                                <button type="button" className="btn btn-report " onClick={() => {
+                                                    deleteStudent(val.std_id);
+                                                }}
+                                                    style={{ backgroundColor: '#D12E2E', color: '#fff', width: '90px' }}>
+                                                    <i aria-hidden="true" className="fas fa-trash" style={{ fontSize: 15 }} /><label className="mx-2">ลบ</label> </button>
+                                            </td>
                                         </tr>)
                                     })}
 
@@ -258,8 +343,8 @@ export default function DataST() {
                                     <tr>
                                         <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }}> <span>รหัสอาจารย์</span> </th>
                                         <th className="headname-th" scope="col" width="5%" style={{ minWidth: 350 }}><span>ชื่อ-นามสกุล </span></th>
-                                        <th className="headname-th" scope="col" width="3%" style={{ minWidth: 250 }}><span>เบอร์โทร</span> </th>
-                                        <th className="headname-th" scope="col" width="3%" style={{ minWidth: 250 }} />
+                                        <th className="headname-th" scope="col" width="3%" style={{ minWidth: 200 }}><span>เบอร์โทร</span> </th>
+                                        <th className="headname-th" scope="col" width="3%" style={{ minWidth: 200 }} />
                                         <th style={{ minWidth: 100 }}>
                                             <button type="button" className="btn btn-report " onClick={addShowAj} style={{ backgroundColor: '#5DD480', borderRadius: 4, width: 95, color: '#fff' }}><i aria-hidden="true" className="fas fa-plus" style={{ fontSize: 15 }} /><label className="mx-2">เพิ่ม</label> </button>
                                         </th>
@@ -274,9 +359,18 @@ export default function DataST() {
                                                 <td>{val.prof_name}</td>
                                                 <td>{val.prof_tel}</td>
                                                 <td>
-                                                    <button type="button" className="btn btn-report " onClick={() => EditShowAj(val.prof_id)} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-key" style={{ fontSize: 15 }} /><label className="mx-2">เปลี่ยนรหัสผ่าน</label> </button>
+                                                    <button type="button" className="btn btn-report "
+                                                        onClick={() => EditDataShowAj(val.prof_id)}
+                                                        style={{ backgroundColor: '#958F8F', width:'93px', color: '#fff' }}>
+                                                        <i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label>
+                                                    </button>
                                                 </td>
-                                                <td><button type="button" className="btn btn-report " onClick={() => EditDataShowAj(val.prof_id)} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+
+                                                <td>
+                                                    <button type="button" className="btn btn-report "  
+                                                    onClick={() => { deleteProfesser(val.prof_id);}} 
+                                                style={{ backgroundColor: '#D12E2E', width:'93px', color: '#fff' }}>
+                                                        <i aria-hidden="true" className="fas fa-trash" style={{ fontSize: 15 }} /><label className="mx-2">ลบ</label> </button></td>
                                             </tr>
                                         )
                                     })}
@@ -371,85 +465,7 @@ export default function DataST() {
                     </div>
                 </Modal.Body>
             </Modal>
-            {/* ---------- EditpassStd ------------ */}
-            <Modal
-                show={showEditStd}
-                onHide={editCloseStd}
-                backdrop="static"
-                keyboard={false}
-                size="lg"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>เปลี่ยนรหัสผ่าน : นักศึกษา</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
 
-                    <div className="row">
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                พรนภา โกลากุล
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                0955268402
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสนักศึกษา :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                116110905137-4
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชั้นปี :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                4
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                1234
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่านใหม่ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control "
-                                    /* defaultValue={val.std_id} */
-                                    onChange={(event) => {
-                                        setnewstd_password(event.target.value)
-
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className="row mt-3 ">
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                                <button type="submit" className="btn btn-add-modal " onClick={() => { updatePassword() }} style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
-                                </button>
-                            </div>
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" onClick={editCloseStd} className="btn  btn-add-cancal" style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
-                                    ยกเลิก
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
             {/* ---------- editStd ------------ */}
             <Modal
                 show={showEditDataStd}
@@ -470,48 +486,48 @@ export default function DataST() {
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ : </label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_name} 
-                                        onChange={(event) => {
-                                            setreaduser([{
-                                                ...readuser[0], std_name: event.target.value
-                                            }])
-                                        }} />
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_name}
+                                            onChange={(event) => {
+                                                setreaduser([{
+                                                    ...readuser[0], std_name: event.target.value
+                                                }])
+                                            }} />
                                     </div>
                                 </div>
                                 <div className="form-group row mb-3">
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_tel} 
-                                        onChange={(event) => {
-                                            setreaduser([{
-                                                ...readuser[0], std_tel: event.target.value
-                                            }])
-                                        }} />
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_tel}
+                                            onChange={(event) => {
+                                                setreaduser([{
+                                                    ...readuser[0], std_tel: event.target.value
+                                                }])
+                                            }} />
                                     </div>
                                 </div>
                                 <div className="form-group row mb-3">
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสนักศึกษา :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_id} 
-                                        onChange={(event) => {
-                                            setreaduser([{
-                                                ...readuser[0], std_id: event.target.value
-                                            }])
-                                        }} />
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_id}
+                                            onChange={(event) => {
+                                                setreaduser([{
+                                                    ...readuser[0], std_id: event.target.value
+                                                }])
+                                            }} />
                                     </div>
                                 </div>
                                 <div className="form-group row mb-3">
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชั้นปี :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_level} 
-                                        onChange={(event) => {
-                                            setreaduser([{
-                                                ...readuser[0], std_level: event.target.value
-                                            }])
-                                        }} />
+                                        <input type="text" className="input-text form-control " defaultValue={val.std_level}
+                                            onChange={(event) => {
+                                                setreaduser([{
+                                                    ...readuser[0], std_level: event.target.value
+                                                }])
+                                            }} />
                                     </div>
                                 </div>
                                 <div className="form-group row mb-3">
@@ -787,8 +803,8 @@ export default function DataST() {
                                     </div>
                                 </div>
                                 <div className="row mt-3 ">
-                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                                        <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
+                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{  textAlign: "end" }}>
+                                        <button type="submit" className="btn btn-add-modal "  onClick={() => updateEditdataProfesser(val.prof_id)} style={{ color: '#fff' }}>
                                             <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                                         </button>
                                     </div>

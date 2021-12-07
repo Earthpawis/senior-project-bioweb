@@ -223,14 +223,15 @@ app.put('/dataStudentupdate', (req, res) => {
 })
 
 app.put('/updateEditStudent', (req, res) => {
+    console.log(req);
     const std_id = req.body.std_id;
     const std_password = req.body.std_password;
     const std_level = req.body.std_level;
     const std_name = req.body.std_name;
     const std_tel = req.body.std_tel;
     const err = "";
-    db.query("UPDATE student set std_id = ?,std_password = ? ,std_level = ?, std_name =?, std_tel =? WHERE std_id=?",
-        [std_id, std_level, std_name, std_password, std_tel],
+    db.query("UPDATE student SET std_password =? ,std_level =?, std_name =?, std_tel =? WHERE std_id=? ",
+        [std_password,std_level,std_name,std_tel,std_id],
         (err,
             (result) => {
                 if (err) {
@@ -243,3 +244,50 @@ app.put('/updateEditStudent', (req, res) => {
     )
 })
 
+app.put('/updateEditProfesser', (req, res) => {
+    console.log(req);
+    const prof_id = req.body.prof_id;
+    const prof_name = req.body.prof_name;
+    const prof_password = req.body.prof_password;
+    const prof_tel = req.body.prof_tel;
+    const prof_username = req.body.prof_username;
+    const err = "";
+    
+    db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =? WHERE prof_id=? ",
+        [prof_name,prof_password,prof_tel,prof_username,prof_id],
+        (err,
+            (result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send("values insert complete")
+                }
+            }
+        )
+    )
+})
+
+//------------------ DELETE ------------------------
+app.delete("/deleteDataStudent/:id" , (req, res) =>{
+    const id = req.params.id;
+    console.log(id);
+    db.query("DELETE FROM student where std_id = ?" , [id], (err , result) => {
+        if(err){
+            console.log(err);
+        }else {
+            res.send(result);
+        }
+    })
+})
+
+app.delete("/deleteDataProfesser/:id" , (req, res) =>{
+    const id = req.params.id;
+    console.log(id);
+    db.query("DELETE FROM professer where prof_id = ?" , [id], (err , result) => {
+        if(err){
+            console.log(err);
+        }else {
+            res.send(result);
+        }
+    })
+})
