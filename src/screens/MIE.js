@@ -9,13 +9,13 @@ import Swal from 'sweetalert2'
 export default function MIE() {
 
   //------------------------ Chemical -----------------------------------------------
-   //---------------------------  GET  ---------------------------------------
-   const [chemicalList, setChemicalList] = useState([]);
-   const getChemical = () => {
-     Axios.get('http://localhost:3307/chemicalList').then((response) => {
-       setChemicalList(response.data);
-     });
-   }
+  //---------------------------  GET  ---------------------------------------
+  const [chemicalList, setChemicalList] = useState([]);
+  const getChemical = () => {
+    Axios.get('http://localhost:3307/chemicalList').then((response) => {
+      setChemicalList(response.data);
+    });
+  }
   // --------- Modal Che ----------
   const [showDetail, setShowDetail] = useState(false);
   const detailClose = () => setShowDetail(false);
@@ -23,10 +23,11 @@ export default function MIE() {
     Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
       setreadChe(Response.data);
       console.log(Response.data)
-    setShowDetail(true)
-  }
+      setShowDetail(true)
+    }
 
-  );}
+    );
+  }
 
   const [showSucc, setShowSucc] = useState(false);
   const SuccClose = () => setShowSucc(false);
@@ -46,7 +47,7 @@ export default function MIE() {
   const [CheExp, setCheExp] = useState("");
   const [CheStatus, setCheStatus] = useState(0);
   const [CheStorage, setCheStorage] = useState("");
- 
+
   // ------------------------ Edit -----------------------------------------
   const [readChe, setreadChe] = useState([{}])
   const [showEdit, setShowEdit] = useState(false);
@@ -58,91 +59,92 @@ export default function MIE() {
       console.log(Response.data)
       setShowEdit(true)
     }
-  );}
+    );
+  }
 
-  const updateChe = (id) =>{
+  const updateChe = (id) => {
     console.log(readChe)
-    Axios.put("http://localhost:3307/updateChe/",{
-      ch_id : readChe[0].ch_id,
-      ch_cas_no : readChe[0].ch_cas_no,
-      ch_formula : readChe[0].ch_formula,
-      ch_code : readChe[0].ch_code,
-      ch_manufacturer : readChe[0].ch_manufacturer,
-      ch_quantity : readChe[0].ch_quantity,
-      ch_amount : readChe[0].ch_amount,
-      ch_status : readChe[0].ch_status,
-      ch_storage : readChe[0].ch_storage,
+    Axios.put("http://localhost:3307/updateChe/", {
+      ch_id: readChe[0].ch_id,
+      ch_cas_no: readChe[0].ch_cas_no,
+      ch_formula: readChe[0].ch_formula,
+      ch_code: readChe[0].ch_code,
+      ch_manufacturer: readChe[0].ch_manufacturer,
+      ch_quantity: readChe[0].ch_quantity,
+      ch_amount: readChe[0].ch_amount,
+      ch_status: readChe[0].ch_status,
+      ch_storage: readChe[0].ch_storage,
     })
   }
-  
+
   const delChe = (id) => {
     Swal.fire({
-        title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
-        text: "คุณต้องการลบข้อมูลของ " + id,
-        icon: 'warning',
-        timer: 10000,
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+      title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
+      text: "คุณต้องการลบข้อมูลของ " + id,
+      icon: 'warning',
+      timer: 10000,
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
     }).then((result) => {
-        if (result.isConfirmed) {
-            Axios.delete(`http://localhost:3307/delChe/` + id)
-                .then(function (response) {
-                    console.log(response);
-                    window.location.reload();
-                    Swal.fire(
-                        'ลบข้อมูลสำเร็จ !',
-                        'ข้อมูลของคุณถูกลบออกแล้ว',
-                        'success'
-                    )
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    Swal.fire(
-                        'ไม่สามารถลบข้อมมูลได้!',
-                        'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
-                        'error'
-                    )
-                })
-        }
+      if (result.isConfirmed) {
+        Axios.delete(`http://localhost:3307/delChe/` + id)
+          .then(function (response) {
+            console.log(response);
+            window.location.reload();
+            Swal.fire(
+              'ลบข้อมูลสำเร็จ !',
+              'ข้อมูลของคุณถูกลบออกแล้ว',
+              'success'
+            )
+          })
+          .catch(function (error) {
+            console.log(error);
+            Swal.fire(
+              'ไม่สามารถลบข้อมมูลได้!',
+              'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
+              'error'
+            )
+          })
+      }
     })
-}
+  }
 
-//---------------------------  POST  ---------------------------------------
-    //----------------- AddChe ---------------------------------------
-    const [infoImg, setInfoImg] = useState({
-      file: [],
+  //---------------------------  POST  ---------------------------------------
+  //----------------- AddChe ---------------------------------------
+  const [infoImg, setInfoImg] = useState({
+    file: [],
+  })
+  const handleInputChange = (event) => {
+    setInfoImg({
+      ...infoImg,
+      file: event.target.files[0],
     })
-    const handleInputChange = (event) => {
-      setInfoImg({
-        ...infoImg,
-        file: event.target.files[0],
-      })
-    }
-    const submit = async () => {
-      const formdata = new FormData();
-      formdata.append('IMG', infoImg.file);
-      formdata.append('CheName', CheName)
-      formdata.append('CheCas', CheCas)
-      formdata.append('CheFormular', CheFormular)
-      formdata.append('CheCode', CheCode)
-      formdata.append('CheManu', CheManu)
-      formdata.append('CheQuan', CheQuan)
-      formdata.append('CheAmount', CheAmount)
-      formdata.append('CheStatus', CheStatus)
-      formdata.append('CheStorage', CheStorage)
-      axios.post("http://localhost:3307/addChemical", formdata, {
-        headers: { "Content-Type": "multipart/form-data" }
-      }).then(res => {
-        console.warn(res);
-      })
-    }
+  }
+  const submit = async () => {
+    const formdata = new FormData();
+    formdata.append('IMG', infoImg.file);
+    formdata.append('CheName', CheName)
+    formdata.append('CheCas', CheCas)
+    formdata.append('CheFormular', CheFormular)
+    formdata.append('CheCode', CheCode)
+    formdata.append('CheManu', CheManu)
+    formdata.append('CheQuan', CheQuan)
+    formdata.append('CheAmount', CheAmount)
+    formdata.append('CheStatus', CheStatus)
+    formdata.append('CheStorage', CheStorage)
+    axios.post("http://localhost:3307/addChemical", formdata, {
+      headers: { "Content-Type": "multipart/form-data" }
+    }).then(res => {
+      console.warn(res);
+    })
+  }
 
 
-//-------------------------------------------------------------------------------
-//------------------------ Tool -----------------------------------------------
-// ---------------- Modal Tools ------------
+  //-------------------------------------------------------------------------------
+  //------------------------ Tool -----------------------------------------------
+  // ---------------- Modal Tools ------------
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
@@ -164,9 +166,9 @@ export default function MIE() {
   }
   //---------------------------  POST  ---------------------------------------
 
-  
-//---------------------------------------------------------------------------
 
+  //---------------------------------------------------------------------------
+  const [searchMie, setSearchMie] = useState("");
   useEffect(() => {
     getChemical();
     getEquipment();
@@ -182,13 +184,16 @@ export default function MIE() {
           <input className="radio" id="two" name="group" type="radio" />
           <div className="tabs row">
             <div className='col-6 '>
-            <label className="tab" id="one-tab" htmlFor="one">สารเคมี</label>
-            <label className="tab" id="two-tab" htmlFor="two">อุปกรณ์</label>
+              <label className="tab" id="one-tab" htmlFor="one">สารเคมี</label>
+              <label className="tab" id="two-tab" htmlFor="two">อุปกรณ์</label>
             </div>
-           {/*  <div className='col-6  ' >
-              <input type='text' className='form-control' placeholder='ค้นหา' style={{width:'15rem'}}
+            <div className='col-6 ' >
+              <input type='text' className='form-control' placeholder='ค้นหา' 
+                onChange={(event) => {
+                  setSearchMie(event.target.value);
+              }}
               />
-            </div> */}
+            </div>
           </div>
           <div className="panels">
             <div className="panel" id="one-panel">
@@ -207,18 +212,26 @@ export default function MIE() {
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}  >
-                  {chemicalList.map((val) => {
+                  {chemicalList.filter((val) =>{
+                         if (searchMie == "") {
+                          return val
+                      } else if (val.ch_name.toLowerCase().includes(searchMie.toLowerCase())) {
+                          return val
+                      }else if (val.ch_code.toLowerCase().includes(searchMie.toLowerCase())) {
+                        return val
+                    }
+                  }).map((val,key) => {
                     return (
-                      <tr className="table-name-report">
+                      <tr className="table-name-report" key={key}>
                         <th scope="row">{val.ch_id}</th>
                         <td>{val.ch_name}</td>
                         <td><label className="class-room">{val.ch_code}</label></td>
                         <td>{val.ch_amount}</td>
                         <td>{val.ch_storage}</td>
                         <td>
-                          <button type="button" onClick={() => {detailShow(val.ch_id)}} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
+                          <button type="button" onClick={() => { detailShow(val.ch_id) }} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
                         </td>
-                        <td><button type="button" onClick={() =>{editShow(val.ch_id)}} className="btn btn-report " style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+                        <td><button type="button" onClick={() => { editShow(val.ch_id) }} className="btn btn-report " style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
                       </tr>)
 
                   })}
@@ -243,9 +256,15 @@ export default function MIE() {
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
-                  {equipmentList.map((val) => {
+                  {equipmentList.filter((val) => {
+                       if (searchMie == "") {
+                        return val
+                    } else if (val.tool_name.toLowerCase().includes(searchMie.toLowerCase())) {
+                        return val
+                    }
+                  }).map((val,key) => {
                     return (
-                      <tr className="table-name-report ">
+                      <tr className="table-name-report " key={key}>
                         <th scope="row">{val.tool_id}</th>
                         <td>{val.tool_name}</td>
                         <td><label className="class-room" /></td>
@@ -366,9 +385,9 @@ export default function MIE() {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานะ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <Form.Select aria-label="Default select example "  onChange={(Event) => {
-                      setCheStatus(Event.target.value)
-                    }}>
+                  <Form.Select aria-label="Default select example " onChange={(Event) => {
+                    setCheStatus(Event.target.value)
+                  }}>
                     <option value="1">Solids</option>
                     <option value="2">Liquids</option>
                   </Form.Select>
@@ -402,7 +421,7 @@ export default function MIE() {
             {/*   <div class="modal-footer"> */}
             <div className="row mt-3 ">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit().then(addClose)  } >
+                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit().then(addClose)} >
                   <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                 </button>
               </div>
@@ -432,118 +451,118 @@ export default function MIE() {
 
         </Modal.Header>
         <Modal.Body>
-          {readChe.map((val,key) => {
-            return(
-              <div className="row" key ={key}>
-            <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_name}
+          {readChe.map((val, key) => {
+            return (
+              <div className="row" key={key}>
+                <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_name}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
+                      :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_id}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_formula}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_cas_no}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_code}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_amount}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_storage}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_quantity}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถาน
+                      :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_status}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_exp}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.ch_manufacturer}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3">
+                  <div className="form-group mb-3">
+                    <div className="image-upload">
+                      <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
+                    <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
+                      <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
+                    </button>
+                  </div>
+                  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'center' }}>
+                    <button type="submit" className="btn btn-bacode" style={{ color: '#fff' }}>
+                      <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
+                    </button>
+                  </div>
+                  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4">
+                    <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delChe(val.ch_id)} >
+                      <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
+                      ลบข้อมูล
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
-                  :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_id}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_formula}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_cas_no}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_code}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_amount}
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_storage}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_quantity}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถาน
-                  :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_status}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_exp}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.ch_manufacturer}
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-3">
-              <div className="form-group mb-3">
-                <div className="image-upload">
-                  <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
-                </div>
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
-                <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
-                  <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
-                </button>
-              </div>
-              <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'center' }}>
-                <button type="submit" className="btn btn-bacode" style={{ color: '#fff' }}>
-                  <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
-                </button>
-              </div>
-              <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4">
-                <button type="button" className="btn  btn-del" style={{ color: '#fff' }}  onClick={() => delChe(val.ch_id)} >
-                  <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
-                  ลบข้อมูล
-                </button>
-              </div>
-            </div>
-          </div>
             )
           })}
 
@@ -566,160 +585,169 @@ export default function MIE() {
 
         </Modal.Header>
         <Modal.Body>
-         {readChe.map((val, key) => {
-           return (
-            <div className="row" key={key}>
-            <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_name}  
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_name : event.target.value
-                    }])}} 
-                     />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
-                  :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_id} disabled />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_formula} 
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_formula : event.target.value
-                    }])}} />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_cas_no} 
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_cas_no : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
+          {readChe.map((val, key) => {
+            return (
+              <div className="row" key={key}>
+                <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_name}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_name: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
+                      :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_id} disabled />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_formula}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_formula: event.target.value
+                          }])
+                        }} />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">CAS No :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_cas_no}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_cas_no: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
 
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_code}
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_code : event.target.value
-                    }])}}
-                  />
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_code}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_code: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_amount}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_amount: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_storage}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_storage: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_quantity}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_quantity: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานะ
+                      :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_status}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_status: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_exp} />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_manufacturer}
+                        onChange={(event) => {
+                          setreadChe([{
+                            ...readChe[0], ch_manufacturer: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3">
+                  <div className="form-group mb-3">
+                    <div className="image-upload">
+                      <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-4">
+                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
+                    <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateChe(val.ch_id)} >
+                      <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
+                    </button>
+                  </div>
+                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
+                    <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                      <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
+                      ยกเลิก
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">จำนวน :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_amount}
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_amount : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_storage}
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_storage : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ขนาดบรรจุ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_quantity}
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_quantity : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานะ
-                  :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_status} 
-                   onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_status : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_exp} />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ผู้ผลิต :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_manufacturer}
-                  onChange={(event) => {
-                    setreadChe([{
-                      ...readChe[0],ch_manufacturer : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-3">
-              <div className="form-group mb-3">
-                <div className="image-upload">
-                  <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
-                </div>
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
-                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateChe(val.ch_id)} >
-                  <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
-                </button>
-              </div>
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
-                  <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
-                  ยกเลิก
-                </button>
-              </div>
-            </div>
-          </div>
-           )
-         })}
+            )
+          })}
         </Modal.Body>
       </Modal>
 
@@ -756,7 +784,7 @@ export default function MIE() {
                 </div>
               </div>
               <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ยอดคงเหลือ 
+                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ยอดคงเหลือ
 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">

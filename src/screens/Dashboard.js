@@ -192,6 +192,7 @@ export default function Dashboard() {
             <thead>
               <tr>
                 <th scope="col">รายการ</th>
+                <th scope="col">ขนาด</th>
                 <th scope="col">จำนวน</th>
 
               </tr>
@@ -199,16 +200,19 @@ export default function Dashboard() {
             <tbody>
               <tr>
                 <th scope="row"> Test Tube</th>
+                <td>50 mL</td>
                 <td>4 หลอด</td>
 
               </tr>
               <tr>
                 <th scope="row">Glass Rod</th>
+                <td>250 mL</td>
                 <td>4 แท่ง</td>
 
               </tr>
               <tr>
                 <th scope="row">Dropper</th>
+                <td>20 mL</td>
                 <td>2 หลอด</td>
 
               </tr>

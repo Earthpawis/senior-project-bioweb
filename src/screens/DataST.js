@@ -1,11 +1,12 @@
 import React from 'react'
 import '../css/Bor.css'
 /* import '../css/MIE.css' */
+
 import Swal from 'sweetalert2'
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Modal, Button } from 'react-bootstrap'
-
+import { Modal, Button, Pagination } from 'react-bootstrap'
+//import {Reactpaginate} from  'react-paginate'
 
 
 export default function DataST() {
@@ -269,7 +270,7 @@ export default function DataST() {
         });
     }
 
-
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         getStudent()
@@ -283,14 +284,17 @@ export default function DataST() {
                     <input className="radio" id="one" name="group" type="radio" defaultChecked />
                     <input className="radio" id="two" name="group" type="radio" />
                     <div className="tabs row">
-                        <div className="col-6">
+                        <div className="col-6" style={{ justifyContent:'flex-start'}}>
                             <label className="tab" id="one-tab" htmlFor="one">นักศึกษา</label>
                             <label className="tab" id="two-tab" htmlFor="two">อาจารย์</label>
                         </div>
-                        {/*   <div className='col-6' >
+                        <div className='col-6'style={{ alignContent:'flex-end'}}  >
                             <input type='text' className='form-control' placeholder='ค้นหา'
+                                onChange={(event) => {
+                                    setSearchTerm(event.target.value);
+                                }}
                             />
-                        </div> */}
+                        </div>
                     </div>
                     <div className="panels">
                         <div className="panel" id="one-panel">
@@ -311,8 +315,16 @@ export default function DataST() {
                                 </thead>
                                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
 
-                                    {studentList.map((val) => {
-                                        return (<tr className="table-name-report ">
+                                    {studentList.filter((val) => {
+                                        if (searchTerm == "") {
+                                            return val
+                                        } else if (val.std_id.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                            return val
+                                        } else if (val.std_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                            return val
+                                        }
+                                    }).map((val, key) => {
+                                        return (<tr className="table-name-report " key={key}>
                                             <th scope="row">{val.std_id}</th>
                                             <td>{val.std_name}</td>
                                             <td><label className="class-room">{val.std_level}</label></td>
@@ -332,10 +344,23 @@ export default function DataST() {
                                             </td>
                                         </tr>)
                                     })}
-
-
                                 </tbody>
                             </table>
+                            <div className='row' >
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-end">
+                                        <li className="page-item disabled">
+                                            <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li className="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                         <div className="panel" id="two-panel">
                             <table className="table table-responsive">
@@ -352,30 +377,53 @@ export default function DataST() {
                                 </thead>
                                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
 
-                                    {professerList.map((val) => {
+                                    {professerList.filter((val) => {
+                                        if (searchTerm == "") {
+                                            return val
+                                        } else if (val.prof_id.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                            return val
+                                        } else if (val.prof_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                            return val
+                                        }
+                                    }).map((val, key) => {
                                         return (
-                                            <tr className="table-name-report ">
+                                            <tr className="table-name-report " key={key}>
                                                 <th scope="row">{val.prof_id}</th>
                                                 <td>{val.prof_name}</td>
                                                 <td>{val.prof_tel}</td>
                                                 <td>
                                                     <button type="button" className="btn btn-report "
                                                         onClick={() => EditDataShowAj(val.prof_id)}
-                                                        style={{ backgroundColor: '#958F8F', width:'93px', color: '#fff' }}>
+                                                        style={{ backgroundColor: '#958F8F', width: '93px', color: '#fff' }}>
                                                         <i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label>
                                                     </button>
                                                 </td>
 
                                                 <td>
-                                                    <button type="button" className="btn btn-report "  
-                                                    onClick={() => { deleteProfesser(val.prof_id);}} 
-                                                style={{ backgroundColor: '#D12E2E', width:'93px', color: '#fff' }}>
+                                                    <button type="button" className="btn btn-report "
+                                                        onClick={() => { deleteProfesser(val.prof_id); }}
+                                                        style={{ backgroundColor: '#D12E2E', width: '93px', color: '#fff' }}>
                                                         <i aria-hidden="true" className="fas fa-trash" style={{ fontSize: 15 }} /><label className="mx-2">ลบ</label> </button></td>
                                             </tr>
                                         )
                                     })}
                                 </tbody>
                             </table>
+                            <div className='row' >
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-end">
+                                        <li className="page-item disabled">
+                                            <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li className="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -803,8 +851,8 @@ export default function DataST() {
                                     </div>
                                 </div>
                                 <div className="row mt-3 ">
-                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{  textAlign: "end" }}>
-                                        <button type="submit" className="btn btn-add-modal "  onClick={() => updateEditdataProfesser(val.prof_id)} style={{ color: '#fff' }}>
+                                    <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: "end" }}>
+                                        <button type="submit" className="btn btn-add-modal " onClick={() => updateEditdataProfesser(val.prof_id)} style={{ color: '#fff' }}>
                                             <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                                         </button>
                                     </div>
