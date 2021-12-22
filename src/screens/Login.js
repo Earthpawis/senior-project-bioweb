@@ -40,11 +40,11 @@ export default function Login() {
                   <div className="col-2 col-xl-2 col-lg-2 col-mb-2 col-sm-2 ">
                     <img src={pic2} alt='pic' style={{ width: 35 }} />
                   </div>
-                  <div className="col-1 col-xl-1 col-lg-1 col-mb-1 col-sm-1">
+            {/*       <div className="col-1 col-xl-1 col-lg-1 col-mb-1 col-sm-1">
                     <h4 className="beetwee mt-1">| </h4>
-                  </div>
+                  </div> */}
                   <div className="col-9 col-xl-9 col-lg-9 col-mb-9 col-sm-9">
-                    <h3 className="welcome"> Welcome BioRMUTT</h3>
+                    <h3 className="welcome">| Welcome BioRMUTT</h3>
                   </div>
                 </div>
               </div>

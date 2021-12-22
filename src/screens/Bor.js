@@ -19,9 +19,15 @@ export default function Bor() {
         <div className="warpper">
           <input className="radio" id="one" name="group" type="radio" defaultChecked />
           <input className="radio" id="two" name="group" type="radio" />
-          <div className="tabs">
-            <label className="tab" id="one-tab" htmlFor="one">เบิกใช้</label>
-            <label className="tab" id="two-tab" htmlFor="two">ยืมอุปกรณ์</label>
+          <div className="tabs row">
+            <div className='col-6'>
+              <label className="tab" id="one-tab" htmlFor="one">เบิกใช้</label>
+              <label className="tab" id="two-tab" htmlFor="two">ยืมอุปกรณ์</label>
+            </div>
+            <div className='col-6'>
+            <input type='text' className='form-control' placeholder='ค้นหาชื่อรายชื่อเบิกใช้สารเคมี ยืมอุปกรณ์' style={{marginLeft: '8.5rem'}}
+              />
+            </div>
           </div>
           <div className="panels">
             <div className="panel" id="one-panel">
@@ -55,6 +61,21 @@ export default function Bor() {
                   </tr>
                 </tbody>
               </table>
+              <div className='row' >
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination justify-content-end">
+                    <li className="page-item disabled">
+                      <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li className="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
             <div className="panel" id="two-panel">
               <table className="table table-responsive">
@@ -79,7 +100,7 @@ export default function Bor() {
                   </tr>
                   <tr className="table-name-report ">
                     <th scope="row">2</th>
-                    <td>นาย ภวิษย์พร ขันธพร</td>
+                    <td>นาย กามเทพ จันทร์พุธ</td>
                     <td><label className="class-room">1</label> </td>
                     <td>5 รายการ</td>
                     <td><button type="button" onClick={detailEmi} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
@@ -87,6 +108,21 @@ export default function Bor() {
                   </tr>
                 </tbody>
               </table>
+              <div className='row' >
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination justify-content-end">
+                    <li className="page-item disabled">
+                      <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li className="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </div>
         </div>

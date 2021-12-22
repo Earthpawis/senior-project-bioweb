@@ -4,10 +4,11 @@ import '../css/Bor.css'
 
 import Swal from 'sweetalert2'
 import Axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect , useMemo} from 'react'
 import { Modal, Button, Pagination } from 'react-bootstrap'
-//import {Reactpaginate} from  'react-paginate'
 
+
+let PageSize = 7;
 
 export default function DataST() {
 
@@ -289,7 +290,8 @@ export default function DataST() {
                             <label className="tab" id="two-tab" htmlFor="two">อาจารย์</label>
                         </div>
                         <div className='col-6'style={{ alignContent:'flex-end'}}  >
-                            <input type='text' className='form-control' placeholder='ค้นหา'
+                            <input type='text' className='form-control' placeholder='ค้นหาข้อมมูลอาจารย์ นักศึกษา'  style={{marginLeft: '6.8rem'}}
+          
                                 onChange={(event) => {
                                     setSearchTerm(event.target.value);
                                 }}

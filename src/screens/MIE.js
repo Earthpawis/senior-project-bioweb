@@ -188,11 +188,13 @@ export default function MIE() {
               <label className="tab" id="two-tab" htmlFor="two">อุปกรณ์</label>
             </div>
             <div className='col-6 ' >
-              <input type='text' className='form-control' placeholder='ค้นหา' 
+              
+              <input type='text' className='form-control' placeholder='ค้นหาชื่อสารเคมี อุปกรณ์' style={{marginLeft: '14.8rem'}}
                 onChange={(event) => {
                   setSearchMie(event.target.value);
-              }}
+                }}
               />
+              
             </div>
           </div>
           <div className="panels">
@@ -201,7 +203,7 @@ export default function MIE() {
                 <thead>
                   <tr>
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}> <span>ชนิด</span> </th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }}><span>ชื่อสารเคมี </span></th>
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 250 }}><span>ชื่อสารเคมี </span></th>
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 180 }}><span>รหัสสารเคมี</span> </th>
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }}><span>ยอดคงเหลือ</span> </th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150 }}><span>สถานที่เก็บ</span> </th>
@@ -212,15 +214,15 @@ export default function MIE() {
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}  >
-                  {chemicalList.filter((val) =>{
-                         if (searchMie == "") {
-                          return val
-                      } else if (val.ch_name.toLowerCase().includes(searchMie.toLowerCase())) {
-                          return val
-                      }else if (val.ch_code.toLowerCase().includes(searchMie.toLowerCase())) {
-                        return val
+                  {chemicalList.filter((val) => {
+                    if (searchMie == "") {
+                      return val
+                    } else if (val.ch_name.toLowerCase().includes(searchMie.toLowerCase())) {
+                      return val
+                    } else if (val.ch_code.toLowerCase().includes(searchMie.toLowerCase())) {
+                      return val
                     }
-                  }).map((val,key) => {
+                  }).map((val, key) => {
                     return (
                       <tr className="table-name-report" key={key}>
                         <th scope="row">{val.ch_id}</th>
@@ -238,6 +240,21 @@ export default function MIE() {
 
                 </tbody>
               </table>
+              <div className='row' >
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination justify-content-end">
+                    <li className="page-item disabled">
+                      <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li className="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
 
             <div className="panel" id="two-panel">
@@ -245,8 +262,8 @@ export default function MIE() {
                 <thead>
                   <tr>
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}> <span>ชนิด</span> </th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 250 }}><span>ชื่อสารเคมี </span></th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }}><span /> </th>
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 250 }}><span>ชื่ออุปกรณ์ </span></th>
+                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 180 }}><span /> </th>
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }}><span>ยอดคงเหลือ</span> </th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150 }}><span>สถานที่เก็บ</span> </th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} />
@@ -257,12 +274,12 @@ export default function MIE() {
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
                   {equipmentList.filter((val) => {
-                       if (searchMie == "") {
-                        return val
+                    if (searchMie == "") {
+                      return val
                     } else if (val.tool_name.toLowerCase().includes(searchMie.toLowerCase())) {
-                        return val
+                      return val
                     }
-                  }).map((val,key) => {
+                  }).map((val, key) => {
                     return (
                       <tr className="table-name-report " key={key}>
                         <th scope="row">{val.tool_id}</th>
@@ -545,17 +562,17 @@ export default function MIE() {
                   </div>
                 </div>
                 <div className="row mt-3">
-                  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
+                 {/*  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
                     <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
                       <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                     </button>
-                  </div>
-                  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'center' }}>
+                  </div> */}
+                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                     <button type="submit" className="btn btn-bacode" style={{ color: '#fff' }}>
                       <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
                     </button>
                   </div>
-                  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4">
+                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'start' }}>
                     <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delChe(val.ch_id)} >
                       <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                       ลบข้อมูล
