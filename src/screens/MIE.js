@@ -23,16 +23,11 @@ export default function MIE() {
     Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
       setreadChe(Response.data);
       console.log(Response.data)
-<<<<<<< Updated upstream
       setShowDetail(true)
     }
 
     );
   }
-=======
-    setShowDetail(true)
-  });}
->>>>>>> Stashed changes
 
   const [showSucc, setShowSucc] = useState(false);
   const SuccClose = () => setShowSucc(false);
@@ -147,19 +142,9 @@ export default function MIE() {
   }
 
 
-<<<<<<< Updated upstream
   //-------------------------------------------------------------------------------
   //------------------------ Tool -----------------------------------------------
   // ---------------- Modal Tools ------------
-=======
-//-------------------------------------------------------------------------------
-//------------------------ Tool -----------------------------------------------
-// ---------------- Modal Tools ------------
-const [readTool , setreadTool] = useState([{}])
-
-
-//----------------- Addtool ----------------------
->>>>>>> Stashed changes
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
@@ -865,28 +850,8 @@ const delTool = (id) => {
                   </div>
                 </div>
               </div>
-<<<<<<< Updated upstream
             )
           })}
-=======
-            </div>
-            <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
-                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateChe(val.ch_id)} >
-                  <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
-                </button>
-              </div>
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={editClose}>
-                  <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
-                  ยกเลิก
-                </button>
-              </div>
-            </div>
-          </div>
-           )
-         })}
->>>>>>> Stashed changes
         </Modal.Body>
       </Modal>
 
