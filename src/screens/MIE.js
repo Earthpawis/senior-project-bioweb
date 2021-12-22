@@ -23,11 +23,16 @@ export default function MIE() {
     Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
       setreadChe(Response.data);
       console.log(Response.data)
+<<<<<<< Updated upstream
       setShowDetail(true)
     }
 
     );
   }
+=======
+    setShowDetail(true)
+  });}
+>>>>>>> Stashed changes
 
   const [showSucc, setShowSucc] = useState(false);
   const SuccClose = () => setShowSucc(false);
@@ -142,20 +147,93 @@ export default function MIE() {
   }
 
 
+<<<<<<< Updated upstream
   //-------------------------------------------------------------------------------
   //------------------------ Tool -----------------------------------------------
   // ---------------- Modal Tools ------------
+=======
+//-------------------------------------------------------------------------------
+//------------------------ Tool -----------------------------------------------
+// ---------------- Modal Tools ------------
+const [readTool , setreadTool] = useState([{}])
+
+
+//----------------- Addtool ----------------------
+>>>>>>> Stashed changes
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
 
+  const [ToolAmount,setToolAmount] = useState("");
+  const [ToolSize,setToolSize] = useState("");
+  const [ToolStorage,setToolStorage] = useState("");
+  const [ToolName,setToolName] = useState("");
+  
+
+  //-------------------------------------------------
+
   const [showDeatailTools, setshowDeatailTools] = useState(false);
   const DtailToolsClose = () => setshowDeatailTools(false);
-  const detailToolsShow = () => setshowDeatailTools(true);
+  const detailToolsShow = (id) => {
+    Axios.get(`http://localhost:3307/readTool/` + id).then((Response) => {
+      setreadTool(Response.data);
+      console.log(Response.data)
+      setshowDeatailTools(true)
+    });}
 
   const [showEditToolsShow, setshowEditToolsShow] = useState(false);
   const EditToolsClose = () => setshowEditToolsShow(false);
-  const EditToolsShow = () => setshowEditToolsShow(true);
+  const EditToolsShow = (id) => {
+    Axios.get(`http://localhost:3307/readTool/` + id).then((Response) => {
+      setreadTool(Response.data);
+      console.log(Response.data)
+    setshowEditToolsShow(true)});}
+
+
+const updateTool = (id) =>{
+  Axios.put("http://localhost:3307/updateTool/",{
+    tool_id : readTool[0].tool_id,
+    tool_name : readTool[0].tool_name,
+    tool_storage : readTool[0].tool_storage,
+    tool_size : readTool[0].tool_size,
+    tool_amount : readTool[0].tool_amount,
+  })
+}
+
+const delTool = (id) => {
+  Swal.fire({
+    title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
+    text: "คุณต้องการลบข้อมูลของ " + id,
+    icon: 'warning',
+    timer: 10000,
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+}).then((result) => {
+    if (result.isConfirmed) {
+        Axios.delete(`http://localhost:3307/delTool/` + id)
+            .then(function (response) {
+                console.log(response);
+                window.location.reload();
+                Swal.fire(
+                    'ลบข้อมูลสำเร็จ !',
+                    'ข้อมูลของคุณถูกลบออกแล้ว',
+                    'success'
+                )
+            })
+            .catch(function (error) {
+                console.log(error);
+                Swal.fire(
+                    'ไม่สามารถลบข้อมมูลได้!',
+                    'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
+                    'error'
+                )
+            })
+    }
+})
+}
+
   //---------------------------  GET  ---------------------------------------
 
   const [equipmentList, setEquipmentList] = useState([]);
@@ -165,6 +243,30 @@ export default function MIE() {
     });
   }
   //---------------------------  POST  ---------------------------------------
+    //----------------- Addtool ---------------------------------------
+    const [infoImgTool, setInfoImgTool] = useState({
+      file: [],
+    })
+    const handleInputChange2 = (event) => {
+      setInfoImgTool({
+        ...infoImgTool,
+        file: event.target.files[0],
+      })
+    }
+    const submitTool = async () => {
+      const formdataTool = new FormData();
+      formdataTool.append('IMG', infoImgTool.file);
+      formdataTool.append('ToolAmount', ToolAmount)
+      formdataTool.append('ToolSize', ToolSize)
+      formdataTool.append('ToolStorage', ToolStorage)
+      formdataTool.append('ToolName', ToolName)
+      
+      axios.post("http://localhost:3307/addTool", formdataTool, {
+        headers: { "Content-Type": "multipart/form-data" }
+      }).then(res => {
+        console.warn(res);
+      })
+    }
 
 
   //---------------------------------------------------------------------------
@@ -288,9 +390,9 @@ export default function MIE() {
                         <td>{val.tool_amount}</td>
                         <td>{val.tool_storage}</td>
                         <td>
-                          <button type="button" className="btn btn-report " onClick={detailToolsShow} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
+                          <button type="button" className="btn btn-report " onClick={() => {detailToolsShow(val.tool_id)}} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
                         </td>
-                        <td><button type="button" className="btn btn-report " onClick={EditToolsShow} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+                        <td><button type="button" className="btn btn-report " onClick={() => {EditToolsShow(val.tool_id)}} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
                       </tr>
                     )
                   })}
@@ -763,8 +865,28 @@ export default function MIE() {
                   </div>
                 </div>
               </div>
+<<<<<<< Updated upstream
             )
           })}
+=======
+            </div>
+            <div className="row mt-4">
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
+                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateChe(val.ch_id)} >
+                  <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
+                </button>
+              </div>
+              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
+                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={editClose}>
+                  <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
+                  ยกเลิก
+                </button>
+              </div>
+            </div>
+          </div>
+           )
+         })}
+>>>>>>> Stashed changes
         </Modal.Body>
       </Modal>
 
@@ -789,7 +911,11 @@ export default function MIE() {
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ชื่ออุปกรณ์  :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname 
+                  onChange={(event)=> {
+                    setToolName(event.target.value)
+                  }}
+                  />
                 </div>
               </div>
               <div className="row mb-3">
@@ -797,7 +923,7 @@ export default function MIE() {
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname disabled/>
                 </div>
               </div>
               <div className="row mb-3">
@@ -805,7 +931,11 @@ export default function MIE() {
 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname 
+                  onChange={(event)=> {
+                    setToolAmount(event.target.value)
+                  }}
+                  />
                 </div>
               </div>
             </div>
@@ -814,27 +944,35 @@ export default function MIE() {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">สถานที่เก็บ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname 
+                  onChange={(event)=> {
+                    setToolStorage(event.target.value)
+                  }}
+                  />
                 </div>
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ขนาดบรรจุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname 
+                  onChange={(event)=> {
+                    setToolSize(event.target.value)
+                  }}
+                  />
                 </div>
               </div>
             </div>
             <div className="col-xl-3">
               <div className="form-group mb-3">
                 <div className="image-upload">
-                  <input className="form-control" type="file" name="upload_file" onChange={handleInputChange} />
+                  <input className="form-control" type="file" name="upload_file" onChange={handleInputChange2} />
                 </div>
               </div>
             </div>
             <div className="row mt-4">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
-                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
+                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => submitTool()} >
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
               </div>
@@ -863,21 +1001,23 @@ export default function MIE() {
 
         </Modal.Header>
         <Modal.Body>
-          <div className="row">
+         {readTool.map((val,key) => {
+           return (
+            <div className="row" key = {key}>
             <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
                 <label htmlFor=""
                   className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชื่ออุปกรณ์ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  Flask
+                  {val.tool_name}
                 </div>
               </div>
               <div className="row mb-3">
                 <label for="" className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชนิด :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  1
+                  {val.tool_id}
                 </div>
               </div>
               <div className="row mb-3">
@@ -885,7 +1025,7 @@ export default function MIE() {
                   className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">ยอดคงเหลือ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  6 ขวด
+                  {val.tool_amount}
                 </div>
               </div>
             </div>
@@ -895,8 +1035,7 @@ export default function MIE() {
                   className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถานที่เก็บ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2" >
-
-                  ST1-512
+                  {val.tool_storage}
                 </div>
               </div>
               <div className="row mb-3">
@@ -905,7 +1044,7 @@ export default function MIE() {
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
 
-                  250 mL
+                  {val.tool_size}
                 </div>
               </div>
             </div>
@@ -923,13 +1062,15 @@ export default function MIE() {
                 </button>
               </div>
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn  btn-del" style={{ color: '#fff' }}>
+                <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delTool(val.tool_id) } >
                   <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                   ลบข้อมูล
                 </button>
               </div>
             </div>
           </div>
+           )
+         })}
         </Modal.Body>
       </Modal>
 
@@ -948,13 +1089,19 @@ export default function MIE() {
 
         </Modal.Header>
         <Modal.Body>
-          <div className="row">
+          {readTool.map((val,key)=> {
+            return (
+              <div className="row" key={key}>
             <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
               <div className="row mb-3">
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ชื่ออุปกรณ์  :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_name} 
+                  onChange={(event) => {
+                    setreadTool([{
+                      ...readTool[0],tool_name : event.target.value
+                    }])}} />
                 </div>
               </div>
               <div className="row mb-3">
@@ -962,7 +1109,7 @@ export default function MIE() {
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_id} disabled />
                 </div>
               </div>
               <div className="row mb-3">
@@ -970,7 +1117,11 @@ export default function MIE() {
 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_amount} 
+                  onChange={(event) => {
+                    setreadTool([{
+                      ...readTool[0],tool_amount : event.target.value
+                    }])}} />
                 </div>
               </div>
             </div>
@@ -979,14 +1130,24 @@ export default function MIE() {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">สถานที่เก็บ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_storage}
+                  onChange={(event) => {
+                    setreadTool([{
+                      ...readTool[0],tool_storage : event.target.value
+                    }])}}
+                  />
                 </div>
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ขนาดบรรจุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_size}
+                  onChange={(event) => {
+                    setreadTool([{
+                      ...readTool[0],tool_size : event.target.value
+                    }])}}
+                  />
                 </div>
               </div>
             </div>
@@ -999,18 +1160,20 @@ export default function MIE() {
             </div>
             <div className="row mt-4">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}>
+                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateTool(val.tool_id) } >
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
               </div>
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={addToolsClose}>
+                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={EditToolsClose}>
                   <i aria-hidden="true" className="fas fa-times mx-2 " style={{ fontSize: 16 }} />
                   ยกเลิก
                 </button>
               </div>
             </div>
           </div>
+            )
+          })}
         </Modal.Body>
       </Modal>
 

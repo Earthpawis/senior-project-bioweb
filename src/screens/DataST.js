@@ -120,7 +120,7 @@ export default function DataST() {
     const addShowAj = () => setshowAddDataAj(true);
 
     const [showEditDataAj, setshowEditDataAj] = useState(false);
-    const editPassAj = () => setshowEditDataAj(false);
+    const editClosePassAj = () => setshowEditDataAj(false);
     const EditShowAj = () => setshowEditDataAj(true);
 
     const [showEditAj, setshowEditAj] = useState(false);
@@ -598,7 +598,7 @@ export default function DataST() {
                                         </button>
                                     </div>
                                     <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "start" }}>
-                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}onClick={editCloseDataStd} >
                                             <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                             ยกเลิก
                                         </button>
@@ -690,7 +690,7 @@ export default function DataST() {
                                 </button>
                             </div>
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={AddCloseDataAj}>
                                     <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                     ยกเลิก
                                 </button>
@@ -703,7 +703,7 @@ export default function DataST() {
             {/* ---------- editpasswordAj------------ */}
             <Modal
                 show={showEditDataAj}
-                onHide={editPassAj}
+                onHide={editClosePassAj}
                 backdrop="static"
                 keyboard={false}
                 size="lg"
@@ -764,7 +764,7 @@ export default function DataST() {
                                 </button>
                             </div>
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onclick={editClosePassAj}>
                                     <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                     ยกเลิก
                                 </button>
@@ -859,7 +859,7 @@ export default function DataST() {
                                         </button>
                                     </div>
                                     <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={editCloseDataAj}>
                                             <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                             ยกเลิก
                                         </button>
