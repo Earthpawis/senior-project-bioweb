@@ -35,7 +35,7 @@ function App() {
     return (
       <div className="container-fluid">
         <div className="row">
-          <Redirect to="/Dashboard" />
+          {/* <Redirect to="/Dashboard" /> */}
           {/* <div className="row"> */}
           <div className="col-xl-3 col-lg-3 col-sm-3 col-mb-3 col-3" >
             <SideBar />

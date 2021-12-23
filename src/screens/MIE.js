@@ -25,13 +25,8 @@ export default function MIE() {
       console.log(Response.data)
       setShowDetail(true)
     }
-
     );
   }
-
-  const [showSucc, setShowSucc] = useState(false);
-  const SuccClose = () => setShowSucc(false);
-  const SuccShow = () => setShowSucc(true);
   //------------------ AddChe ----------------------------------------
   const [showAdd, setShowAdd] = useState(false);
   const addClose = () => setShowAdd(false);
@@ -74,7 +69,11 @@ export default function MIE() {
       ch_amount: readChe[0].ch_amount,
       ch_status: readChe[0].ch_status,
       ch_storage: readChe[0].ch_storage,
+      ch_name: readChe[0].ch_name,
+      
     })
+      editClose();
+      window.location.reload();
   }
 
   const delChe = (id) => {
@@ -110,12 +109,12 @@ export default function MIE() {
       }
     })
   }
-
-  //---------------------------  POST  ---------------------------------------
   //----------------- AddChe ---------------------------------------
   const [infoImg, setInfoImg] = useState({
     file: [],
   })
+  const [imgURL,setimgURL] = useState([]);
+
   const handleInputChange = (event) => {
     setInfoImg({
       ...infoImg,
@@ -134,17 +133,24 @@ export default function MIE() {
     formdata.append('CheAmount', CheAmount)
     formdata.append('CheStatus', CheStatus)
     formdata.append('CheStorage', CheStorage)
+    addClose();
+      getChemical();
     axios.post("http://localhost:3307/addChemical", formdata, {
       headers: { "Content-Type": "multipart/form-data" }
+      
     }).then(res => {
       console.warn(res);
     })
   }
 
 
-  //-------------------------------------------------------------------------------
-  //------------------------ Tool -----------------------------------------------
-  // ---------------- Modal Tools ------------
+//-------------------------------------------------------------------------------
+//------------------------ Tool -----------------------------------------------
+// ---------------- Modal Tools ------------
+const [readTool , setreadTool] = useState([{}])
+
+
+//----------------- Addtool ----------------------
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
@@ -183,6 +189,17 @@ const updateTool = (id) =>{
     tool_size : readTool[0].tool_size,
     tool_amount : readTool[0].tool_amount,
   })
+  .then(function(response){
+    console.log(response);
+    Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+    EditToolsClose();
+    getEquipment();
+  })
+  
+ 
+ 
+  
+
 }
 
 const delTool = (id) => {
@@ -245,7 +262,8 @@ const delTool = (id) => {
       formdataTool.append('ToolSize', ToolSize)
       formdataTool.append('ToolStorage', ToolStorage)
       formdataTool.append('ToolName', ToolName)
-      
+      addToolsClose();
+      window.location.reload();
       axios.post("http://localhost:3307/addTool", formdataTool, {
         headers: { "Content-Type": "multipart/form-data" }
       }).then(res => {
@@ -259,6 +277,8 @@ const delTool = (id) => {
   useEffect(() => {
     getChemical();
     getEquipment();
+    const newImageURL = [];
+
   }, []);
 
 
@@ -489,9 +509,10 @@ const delTool = (id) => {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานะ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <Form.Select aria-label="Default select example " onChange={(Event) => {
+                  <Form.Select  aria-label="Default select example" onChange={(Event) => {
                     setCheStatus(Event.target.value)
                   }}>
+                    <option value="0">สถานะ</option>
                     <option value="1">Solids</option>
                     <option value="2">Liquids</option>
                   </Form.Select>
@@ -525,7 +546,7 @@ const delTool = (id) => {
             {/*   <div class="modal-footer"> */}
             <div className="row mt-3 ">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit().then(addClose)} >
+                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit()} >
                   <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                 </button>
               </div>
@@ -623,7 +644,7 @@ const delTool = (id) => {
                       :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                      {val.ch_status}
+                      {val.ch_status  == 1 ? 'Solids' : 'Liquids'  }
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -644,7 +665,7 @@ const delTool = (id) => {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgChemical/"+val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>
@@ -832,7 +853,7 @@ const delTool = (id) => {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgChemical/"+val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>
@@ -843,7 +864,7 @@ const delTool = (id) => {
                     </button>
                   </div>
                   <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                    <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}>
+                    <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={editClose} >
                       <i aria-hidden="true" className="fas fa-times mx-2" style={{ fontSize: 16 }} />
                       ยกเลิก
                     </button>
@@ -1016,7 +1037,7 @@ const delTool = (id) => {
             <div className="col-xl-3">
               <div className="form-group mb-3">
                 <div className="image-upload">
-                  <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
+                  <img src={"http://localhost:3307/imgTools/"+val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                 </div>
               </div>
             </div>
@@ -1119,13 +1140,13 @@ const delTool = (id) => {
             <div className="col-xl-3">
               <div className="form-group mb-3">
                 <div className="image-upload">
-                  <img src="Chemical.png" alt style={{ width: '7rem', marginTop: '5rem' }} />
+                  <img src={"http://localhost:3307/imgTools/"+val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                 </div>
               </div>
             </div>
             <div className="row mt-4">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateTool(val.tool_id) } >
+                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateTool(val.tool_id)} >
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
               </div>
@@ -1139,39 +1160,6 @@ const delTool = (id) => {
           </div>
             )
           })}
-        </Modal.Body>
-      </Modal>
-
-      {/* ---------- SuccAdd ------------ */}
-      <Modal
-        show={showSucc}
-        onHide={SuccClose}
-        backdrop="static"
-        keyboard={false}
-
-        size="lg"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>เพิ่มข้อมูลสารเคมี</Modal.Title>
-
-        </Modal.Header>
-        <Modal.Body>
-          <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog  modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <label className="modal-title" id="exampleModalLabel" style={{ fontFamily: '"Prompt", sans-serif', fontSize: 20 }}>ลบข้อมูลสารเคมี
-                  </label>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-                </div>
-                <div className="modal-body" style={{ textAlign: 'center', height: '8rem' }}>
-                  <label className="AddStdSuccess" htmlFor style={{ fontFamily: '"Prompt", sans-serif', color: '#707070', marginTop: 23, fontSize: 26 }}>ทำการลบข้อมูลเรียบร้อยแล้ว</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </Modal.Body>
       </Modal>
     </>

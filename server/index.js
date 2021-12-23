@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
-
+app.use(express.static('public'));
 app.use(cors());
 app.use(express.json());
 
@@ -135,10 +135,11 @@ app.put('/updateChe', (req, res) => {
     const ch_amount = req.body.ch_amount;
     const ch_status = req.body.ch_status;
     const ch_storage = req.body.ch_storage;
+    const ch_name = req.body.ch_name;
     const err = "";
     console.log(req)
-    db.query("UPDATE chemical SET ch_cas_no =? ,ch_formula =?, ch_code =?, ch_manufacturer =?, ch_quantity =? , ch_amount =? ,ch_status =?,ch_storage =? WHERE ch_id=? ",
-        [ch_cas_no,ch_formula,ch_code,ch_manufacturer,ch_quantity,ch_amount,ch_status,ch_storage,ch_id],
+    db.query("UPDATE chemical SET ch_cas_no =? ,ch_name =? ,ch_formula =?, ch_code =?, ch_manufacturer =?, ch_quantity =? , ch_amount =? ,ch_status =?,ch_storage =? WHERE ch_id=? ",
+        [ch_cas_no,ch_name,ch_formula,ch_code,ch_manufacturer,ch_quantity,ch_amount,ch_status,ch_storage,ch_id],
         (err,
             (result) => {
                 if (err) {
@@ -210,7 +211,6 @@ app.post('/addChemical', (req, res) => {
             let CheAmount = req.body.CheAmount
             let CheStorage = req.body.CheStorage
             let CheStatus = req.body.CheStatus
-
             db.query("INSERT INTO chemical (ch_name , ch_cas_no , ch_formula , ch_code , ch_manufacturer , ch_quantity , ch_amount ,ch_status ,ch_storage ,ch_img) VALUES(?,?,?,?,?,?,?,?,?,?) "
                 , [CheName, CheCas, CheFormular, CheCode, CheManu, CheQuan, CheAmount, CheStatus, CheStorage, req.file.filename])
         })
