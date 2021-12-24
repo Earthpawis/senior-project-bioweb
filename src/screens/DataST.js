@@ -296,7 +296,7 @@ export default function DataST() {
                             <label className="tab" id="two-tab" htmlFor="two">อาจารย์</label>
                         </div>
                         <div className='col-6'style={{ alignContent:'flex-end'}}  >
-                            <input type='text' className='form-control' placeholder='ค้นหาข้อมมูลอาจารย์ นักศึกษา'  style={{marginLeft: '6.8rem'}}
+                            <input type='text' className='form-control' placeholder='ค้นหาข้อมูลอาจารย์ นักศึกษา'  style={{marginLeft: '6.8rem'}}
           
                                 onChange={(event) => {
                                     setSearchTerm(event.target.value);

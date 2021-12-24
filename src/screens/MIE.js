@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 
 export default function MIE() {
 
+
   //------------------------ Chemical -----------------------------------------------
   //---------------------------  GET  ---------------------------------------
   const [chemicalList, setChemicalList] = useState([]);
@@ -144,13 +145,10 @@ export default function MIE() {
   }
 
 
-//-------------------------------------------------------------------------------
-//------------------------ Tool -----------------------------------------------
-// ---------------- Modal Tools ------------
-const [readTool , setreadTool] = useState([{}])
-
-
-//----------------- Addtool ----------------------
+  //-------------------------------------------------------------------------------
+  //------------------------ Tool -----------------------------------------------
+  // ---------------- Modal Tools ------------
+  const [readTool , setreadTool] = useState([{}])
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
@@ -675,12 +673,12 @@ const delTool = (id) => {
                       <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                     </button>
                   </div> */}
-                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
+             {/*      <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                     <button type="submit" className="btn btn-bacode" style={{ color: '#fff' }}>
                       <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
                     </button>
-                  </div>
-                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'start' }}>
+                  </div> */}
+                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'center' }}>
                     <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delChe(val.ch_id)} >
                       <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                       ลบข้อมูล
@@ -882,7 +880,6 @@ const delTool = (id) => {
         onHide={addToolsClose}
         backdrop="static"
         keyboard={false}
-
         size="lg"
         centered
       >
@@ -984,7 +981,6 @@ const delTool = (id) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>รายละเอียดอุปกรณ์</Modal.Title>
-
         </Modal.Header>
         <Modal.Body>
          {readTool.map((val,key) => {
@@ -1042,12 +1038,12 @@ const delTool = (id) => {
               </div>
             </div>
             <div className="row mt-3">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
+            {/*   <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                 <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                 </button>
-              </div>
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
+              </div> */}
+              <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12"  style={{ textAlign: 'center' }}> 
                 <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delTool(val.tool_id) } >
                   <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                   ลบข้อมูล
