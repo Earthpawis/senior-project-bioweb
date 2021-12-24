@@ -17,29 +17,6 @@ export default function DataST() {
     const addCloseStd = () => setshowAddStd(false);
     const addShowStd = () => setshowAddStd(true);
 
-    //--------- Modal Std ----------
-
-    const [showEditStd, setshowEditStd] = useState(false);
-    const editCloseStd = () => setshowEditStd(false);
-    const editShowStd = () => setshowEditStd(true);
-
-    const updatePassword = (std_id) => {
-        console.log(std_id)
-        Axios.put('http://localhost:3307/dataStudentupdate', { std_password: newstd_password, std_id: std_id }).then((response) => {
-            setStudentList(
-                studentList.map((val) => {
-                    return val.std_id == std_id ? {
-                        std_id: val.std_id,
-                        std_name: val.std_name,
-                        std_level: val.std_level,
-                        std_tel: val.std_tel,
-                        std_password: newstd_password
-                    } : val;
-                })
-            )
-
-        })
-    }
     //--------- Modal editStd ----------
 
     const [showEditDataStd, setshowEditDataStd] = useState(false);
@@ -184,6 +161,7 @@ export default function DataST() {
                             'ข้อมูลของคุณถูกลบออกแล้ว',
                             'success'
                         )
+                        getStudent()
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -213,18 +191,15 @@ export default function DataST() {
             std_level: std_level,
             std_password: std_password,
             std_tel: std_tel
-        }).then(() => {
-            setStudentList([
-                ...studentList, {
-                    std_id: std_id,
-                    std_name: std_name,
-                    std_level: std_level,
-                    std_password: std_password,
-                    std_tel: std_tel
-                }
-            ])
-
-        })
+        }).then(res => {
+            if (res.status === 200) {
+              Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+              addCloseStd()
+              getStudent()
+            }
+          }).catch(e => {
+            console.log(e);
+          })
 
     }
 

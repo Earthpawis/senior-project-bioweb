@@ -58,60 +58,8 @@ export default function MIE() {
     );
   }
 
-  const updateChe = (id) => {
-    console.log(readChe)
-    Axios.put("http://localhost:3307/updateChe/", {
-      ch_id: readChe[0].ch_id,
-      ch_cas_no: readChe[0].ch_cas_no,
-      ch_formula: readChe[0].ch_formula,
-      ch_code: readChe[0].ch_code,
-      ch_manufacturer: readChe[0].ch_manufacturer,
-      ch_quantity: readChe[0].ch_quantity,
-      ch_amount: readChe[0].ch_amount,
-      ch_status: readChe[0].ch_status,
-      ch_storage: readChe[0].ch_storage,
-      ch_name: readChe[0].ch_name,
-      
-    })
-      editClose();
-      window.location.reload();
-  }
-
-  const delChe = (id) => {
-    Swal.fire({
-      title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
-      text: "คุณต้องการลบข้อมูลของ " + id,
-      icon: 'warning',
-      timer: 10000,
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Axios.delete(`http://localhost:3307/delChe/` + id)
-          .then(function (response) {
-            console.log(response);
-            window.location.reload();
-            Swal.fire(
-              'ลบข้อมูลสำเร็จ !',
-              'ข้อมูลของคุณถูกลบออกแล้ว',
-              'success'
-            )
-          })
-          .catch(function (error) {
-            console.log(error);
-            Swal.fire(
-              'ไม่สามารถลบข้อมมูลได้!',
-              'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
-              'error'
-            )
-          })
-      }
-    })
-  }
-  //----------------- AddChe ---------------------------------------
-  const [infoImg, setInfoImg] = useState({
+   //----------------- AddChe ---------------------------------------
+   const [infoImg, setInfoImg] = useState({
     file: [],
   })
   const [imgURL,setimgURL] = useState([]);
@@ -134,15 +82,79 @@ export default function MIE() {
     formdata.append('CheAmount', CheAmount)
     formdata.append('CheStatus', CheStatus)
     formdata.append('CheStorage', CheStorage)
-    addClose();
-      getChemical();
     axios.post("http://localhost:3307/addChemical", formdata, {
       headers: { "Content-Type": "multipart/form-data" }
-      
     }).then(res => {
-      console.warn(res);
+      console.log(res)
+        addClose();
+        getChemical();
+        Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+      
+    }).catch(e => {
+      console.log(e);
     })
   }
+  //-------------------------- Update Che ---------------------------------------
+  const updateChe = (id) => {
+    console.log(readChe)
+    Axios.put("http://localhost:3307/updateChe/", {
+      ch_id: readChe[0].ch_id,
+      ch_cas_no: readChe[0].ch_cas_no,
+      ch_formula: readChe[0].ch_formula,
+      ch_code: readChe[0].ch_code,
+      ch_manufacturer: readChe[0].ch_manufacturer,
+      ch_quantity: readChe[0].ch_quantity,
+      ch_amount: readChe[0].ch_amount,
+      ch_status: readChe[0].ch_status,
+      ch_storage: readChe[0].ch_storage,
+      ch_name: readChe[0].ch_name,
+      
+    }).then(res => {
+      if (res.status === 200) {
+        Swal.fire("เเก้ไขข้อมูลสำเร็จ", "เเก้ไขข้อมูลแล้ว", "success")
+        editClose()
+        getChemical()
+      }
+    }).catch(e => {
+      console.log(e);
+    })
+  }
+//------------------ delect Che ---------------------------------
+  const delChe = (id) => {
+    Swal.fire({
+      title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
+      text: "คุณต้องการลบข้อมูลของ " + id,
+      icon: 'warning',
+      timer: 10000,
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.delete(`http://localhost:3307/delChe/` + id)
+          .then(function (response) {
+            console.log(response);
+            Swal.fire(
+              'ลบข้อมูลสำเร็จ !',
+              'ข้อมูลของคุณถูกลบออกแล้ว',
+              'success'
+            )
+            detailClose();
+            getChemical();
+          })
+          .catch(function (error) {
+            console.log(error);
+            Swal.fire(
+              'ไม่สามารถลบข้อมมูลได้!',
+              'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
+              'error'
+            )
+          })
+      }
+    })
+  }
+ 
 
 
   //-------------------------------------------------------------------------------
@@ -194,10 +206,6 @@ const updateTool = (id) =>{
     getEquipment();
   })
   
- 
- 
-  
-
 }
 
 const delTool = (id) => {
@@ -260,12 +268,16 @@ const delTool = (id) => {
       formdataTool.append('ToolSize', ToolSize)
       formdataTool.append('ToolStorage', ToolStorage)
       formdataTool.append('ToolName', ToolName)
-      addToolsClose();
-      window.location.reload();
       axios.post("http://localhost:3307/addTool", formdataTool, {
         headers: { "Content-Type": "multipart/form-data" }
       }).then(res => {
-        console.warn(res);
+        if (res.status === 200) {
+          Swal.fire("อัพโหลดข้อมูลสำเร็จ", "อัพโหลดข้อมูลแล้ว", "success")
+          addToolsClose();
+          getEquipment();
+        }
+      }).catch(e => {
+        console.log(e);
       })
     }
 
@@ -275,8 +287,6 @@ const delTool = (id) => {
   useEffect(() => {
     getChemical();
     getEquipment();
-    const newImageURL = [];
-
   }, []);
 
 
@@ -678,7 +688,7 @@ const delTool = (id) => {
                       <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
                     </button>
                   </div> */}
-                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'center' }}>
+                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'end' }}>
                     <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delChe(val.ch_id)} >
                       <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                       ลบข้อมูล
@@ -1043,7 +1053,7 @@ const delTool = (id) => {
                   <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                 </button>
               </div> */}
-              <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12"  style={{ textAlign: 'center' }}> 
+              <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12"  style={{ textAlign: 'end' }}> 
                 <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delTool(val.tool_id) } >
                   <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                   ลบข้อมูล

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
+const csvParser = require('csv-parser')
 app.use(express.static('public'));
 app.use(cors());
 app.use(express.json());
@@ -112,18 +113,18 @@ app.get("/readProfesser/:id", (req, res) => {
 
 
 
- app.get("/readChe/:id", (req, res) => {
+app.get("/readChe/:id", (req, res) => {
     const id = req.params.id;
     db.query("SELECT * FROM Chemical where ch_id = ?", [id], (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
     });
-  });
+});
 
-  //---------- EditCh ------------------
+//---------- EditCh ------------------
 app.put('/updateChe', (req, res) => {
     console.log(req);
     const ch_id = req.body.ch_id;
@@ -139,7 +140,7 @@ app.put('/updateChe', (req, res) => {
     const err = "";
     console.log(req)
     db.query("UPDATE chemical SET ch_cas_no =? ,ch_name =? ,ch_formula =?, ch_code =?, ch_manufacturer =?, ch_quantity =? , ch_amount =? ,ch_status =?,ch_storage =? WHERE ch_id=? ",
-        [ch_cas_no,ch_name,ch_formula,ch_code,ch_manufacturer,ch_quantity,ch_amount,ch_status,ch_storage,ch_id],
+        [ch_cas_no, ch_name, ch_formula, ch_code, ch_manufacturer, ch_quantity, ch_amount, ch_status, ch_storage, ch_id],
         (err,
             (result) => {
                 if (err) {
@@ -153,13 +154,13 @@ app.put('/updateChe', (req, res) => {
 })
 
 //----- del ------
-app.delete("/delChe/:id" , (req, res) =>{
+app.delete("/delChe/:id", (req, res) => {
     const id = req.params.id;
     console.log(id);
-    db.query("DELETE FROM chemical where ch_id = ?" , [id], (err , result) => {
-        if(err){
+    db.query("DELETE FROM chemical where ch_id = ?", [id], (err, result) => {
+        if (err) {
             console.log(err);
-        }else {
+        } else {
             res.send(result);
         }
     })
@@ -184,16 +185,58 @@ app.post("/login", (req, res) => {
 
 
 const path = require('path');
+const { readFileSync, createReadStream, unlinkSync } = require('fs');
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'public/', 'imgChemical'),
     filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname)
     }
 })
+
+app.post('/uploadFileCSV', (req, res) => {
+    try {
+        let upload = multer({
+            storage: multer.diskStorage({
+                destination: path.join(__dirname, 'public/', 'excel_pool'),
+                filename: function (req, file, cb) {
+                    cb(null, Date.now() + '-' + file.originalname)
+                }
+            })
+        }).single('fileCSV');
+        upload(req, res, function (err) {
+            if (!req.file) {
+                return res.send('Please select an image to upload');
+            } else if (err instanceof multer.MulterError) {
+                return res.send(err);
+            } else if (err) {
+                return res.send(err);
+            }
+            let fileName = req.file.filename;
+
+            let results = [];
+            createReadStream("./public/excel_pool/" + fileName, 'utf-8').pipe(csvParser({ headers: true })).on('data', (data) => results.push(data))
+                .on('end', () => {
+                    for (let index = 1; index < results.length; index++) {
+                        let data = results[index];
+                        console.log(`INSERT INTO tableName values(${data[`_0`]},${data[`_1`]},${data[`_2`]})`);
+                    }
+                });
+            unlinkSync("./public/excel_pool/" + fileName)
+            // const raw = readFileSync("./public/excel_pool/" + fileName, 'utf-8');
+            // let arrayData = raw.split(/\r?\n/);
+            // console.log(results);
+
+
+        })
+        return res.status(200).json({})
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({})
+    }
+})
 app.post('/addChemical', (req, res) => {
     try {
         let upload = multer({ storage: storage }).single('IMG');
-
         upload(req, res, function (err) {
             if (!req.file) {
                 return res.send('Please select an image to upload');
@@ -245,7 +288,7 @@ app.post('/addTool', (req, res) => {
             let ToolName = req.body.ToolName
             console.log(req.body.ToolName)
             db.query("INSERT INTO tools (tool_name , tool_storage , tool_size , tool_amount , tool_img) VALUES(?,?,?,?,?) "
-                , [ToolName, ToolStorage, ToolSize, ToolAmount,req.file.filename])
+                , [ToolName, ToolStorage, ToolSize, ToolAmount, req.file.filename])
         })
     }
     catch (err) {
@@ -258,13 +301,13 @@ app.post('/addTool', (req, res) => {
 app.get("/readTool/:id", (req, res) => {
     const id = req.params.id;
     db.query("SELECT * FROM tools where tool_id = ?", [id], (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
     });
-  });
+});
 //-------------- updateTool --------------------------------
 app.put('/updateTool', (req, res) => {
     console.log(req);
@@ -275,7 +318,7 @@ app.put('/updateTool', (req, res) => {
     const tool_amount = req.body.tool_amount;
     const err = "";
     db.query("UPDATE tools SET tool_name =? ,tool_storage =?, tool_size =?, tool_amount =? WHERE tool_id=? ",
-        [tool_name,tool_storage,tool_size,tool_amount,tool_id],
+        [tool_name, tool_storage, tool_size, tool_amount, tool_id],
         (err,
             (result) => {
                 if (err) {
@@ -289,13 +332,13 @@ app.put('/updateTool', (req, res) => {
 })
 
 //------------- delTool -------------------------------
-app.delete("/delTool/:id" , (req, res) =>{
+app.delete("/delTool/:id", (req, res) => {
     const id = req.params.id;
     console.log(id);
-    db.query("DELETE FROM tools where tool_id = ?" , [id], (err , result) => {
-        if(err){
+    db.query("DELETE FROM tools where tool_id = ?", [id], (err, result) => {
+        if (err) {
             console.log(err);
-        }else {
+        } else {
             res.send(result);
         }
     })
@@ -367,7 +410,7 @@ app.put('/updateEditStudent', (req, res) => {
     const std_tel = req.body.std_tel;
     const err = "";
     db.query("UPDATE student SET std_password =? ,std_level =?, std_name =?, std_tel =? WHERE std_id=? ",
-        [std_password,std_level,std_name,std_tel,std_id],
+        [std_password, std_level, std_name, std_tel, std_id],
         (err,
             (result) => {
                 if (err) {
@@ -390,9 +433,9 @@ app.put('/updateEditProfesser', (req, res) => {
     const prof_tel = req.body.prof_tel;
     const prof_username = req.body.prof_username;
     const err = "";
-    
+
     db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =? WHERE prof_id=? ",
-        [prof_name,prof_password,prof_tel,prof_username,prof_id],
+        [prof_name, prof_password, prof_tel, prof_username, prof_id],
         (err,
             (result) => {
                 if (err) {
@@ -406,25 +449,25 @@ app.put('/updateEditProfesser', (req, res) => {
 })
 
 //------------------ DELETE ------------------------
-app.delete("/deleteDataStudent/:id" , (req, res) =>{
+app.delete("/deleteDataStudent/:id", (req, res) => {
     const id = req.params.id;
     console.log(id);
-    db.query("DELETE FROM student where std_id = ?" , [id], (err , result) => {
-        if(err){
+    db.query("DELETE FROM student where std_id = ?", [id], (err, result) => {
+        if (err) {
             console.log(err);
-        }else {
+        } else {
             res.send(result);
         }
     })
 })
 
-app.delete("/deleteDataProfesser/:id" , (req, res) =>{
+app.delete("/deleteDataProfesser/:id", (req, res) => {
     const id = req.params.id;
     console.log(id);
-    db.query("DELETE FROM professer where prof_id = ?" , [id], (err , result) => {
-        if(err){
+    db.query("DELETE FROM professer where prof_id = ?", [id], (err, result) => {
+        if (err) {
             console.log(err);
-        }else {
+        } else {
             res.send(result);
         }
     })
