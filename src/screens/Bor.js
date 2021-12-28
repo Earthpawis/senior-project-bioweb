@@ -25,7 +25,7 @@ export default function Bor() {
               <label className="tab" id="two-tab" htmlFor="two">ยืมอุปกรณ์</label>
             </div>
             <div className='col-6'>
-            <input type='text' className='form-control' placeholder='ค้นหาชื่อรายชื่อเบิกใช้สารเคมี ยืมอุปกรณ์' style={{marginLeft: '8.5rem'}}
+              <input type='text' className='form-control' placeholder='ค้นหาชื่อรายชื่อเบิกใช้สารเคมี ยืมอุปกรณ์' style={{ marginLeft: '8.5rem' }}
               />
             </div>
           </div>
@@ -34,6 +34,7 @@ export default function Bor() {
               <table className="table table-responsive">
                 <thead>
                   <tr>
+
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 110 }}> <span>ORDER ID</span> </th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 280 }}><span> ชื่อ-นามสกุล</span></th>
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}><span>ชั้นปี</span> </th>
@@ -81,15 +82,21 @@ export default function Bor() {
               <table className="table table-responsive">
                 <thead>
                   <tr>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 110 }}> <span>ORDER ID</span> </th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 280 }}><span> ชื่อ-นามสกุล</span></th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }} />
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} />
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} />
+                    
+                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}> <span>ORDER ID</span> </th>
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 250 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 80 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 120 }} />
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 165 }} />
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 160 }} />
+                    <th className="headname-th" scope="col" width="5%"  style={{ minWidth: 170 }}>
+                      <button type="button" className="btn btn-report " style={{ backgroundColor: '#5DD480', borderRadius: 4, width: 175, color: '#fff' }}>
+                        <i aria-hidden="true" className="fas fa-check" style={{ fontSize: 15 }} /><label className="mx-2">ยืนยันคืนอุปกรณ์</label> </button>
+                    </th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
+
                   <tr className="table-name-report ">
                     <th scope="row">1</th>
                     <td>นาย ภวิษย์พร ขันธพร</td>
@@ -97,15 +104,26 @@ export default function Bor() {
                     <td>3 รายการ</td>
                     <td><button type="button" onClick={detailEmi} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
                     <td><i className="fas fa-check" style={{ color: '#41B949' }} /><label className="mx-2" style={{ color: '#41B949' }}>อนุมัติ</label> </td>
+                    <th>
+                      <label>
+                        <input type="checkbox" /> คืนอุปกรณ์
+                      </label>
+                    </th>
                   </tr>
                   <tr className="table-name-report ">
-                    <th scope="row">2</th>
-                    <td>นาย กามเทพ จันทร์พุธ</td>
-                    <td><label className="class-room">1</label> </td>
-                    <td>5 รายการ</td>
-                    <td><button type="button" onClick={detailEmi} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                    <td><i className="fas fa-check" style={{ color: '#41B949' }} /><label className="mx-2" style={{ color: '#41B949' }}>อนุมัติ</label> </td>
-                  </tr>
+                 
+                 <th scope="row">1</th>
+                 <td>นาย ภวิษย์พร ขันธพร</td>
+                 <td><label className="class-room">1</label> </td>
+                 <td>3 รายการ</td>
+                 <td><button type="button" onClick={detailEmi} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
+                 <td><i className="fas fa-check" style={{ color: '#41B949' }} /><label className="mx-2" style={{ color: '#41B949' }}>อนุมัติ</label> </td>
+                 <th>
+                   <label>
+                     <input type="checkbox" /> คืนอุปกรณ์
+                   </label>
+                 </th>
+               </tr>
                 </tbody>
               </table>
               <div className='row' >
@@ -201,7 +219,6 @@ export default function Bor() {
                 <th scope="col">รายการ</th>
                 <th scope="col">ขนาด</th>
                 <th scope="col">จำนวน</th>
-
               </tr>
             </thead>
             <tbody>
