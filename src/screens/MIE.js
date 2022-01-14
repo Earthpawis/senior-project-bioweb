@@ -1,12 +1,18 @@
 import React from 'react'
 import '../css/MIE.css'
 import Axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import Pagination from '../Components/Paginations/Pagination';
+
+let PageSize = 4;
+
 
 export default function MIE() {
+
+  const [currentPage, setCurrentPage] = useState(1);
 
 
   //------------------------ Chemical -----------------------------------------------
@@ -58,11 +64,11 @@ export default function MIE() {
     );
   }
 
-   //----------------- AddChe ---------------------------------------
-   const [infoImg, setInfoImg] = useState({
+  //----------------- AddChe ---------------------------------------
+  const [infoImg, setInfoImg] = useState({
     file: [],
   })
-  const [imgURL,setimgURL] = useState([]);
+  const [imgURL, setimgURL] = useState([]);
 
   const handleInputChange = (event) => {
     setInfoImg({
@@ -86,10 +92,10 @@ export default function MIE() {
       headers: { "Content-Type": "multipart/form-data" }
     }).then(res => {
       console.log(res)
-        addClose();
-        getChemical();
-        Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
-      
+      addClose();
+      getChemical();
+      Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+
     }).catch(e => {
       console.log(e);
     })
@@ -108,7 +114,7 @@ export default function MIE() {
       ch_status: readChe[0].ch_status,
       ch_storage: readChe[0].ch_storage,
       ch_name: readChe[0].ch_name,
-      
+
     }).then(res => {
       if (res.status === 200) {
         Swal.fire("เเก้ไขข้อมูลสำเร็จ", "เเก้ไขข้อมูลแล้ว", "success")
@@ -119,7 +125,7 @@ export default function MIE() {
       console.log(e);
     })
   }
-//------------------ delect Che ---------------------------------
+  //------------------ delect Che ---------------------------------
   const delChe = (id) => {
     Swal.fire({
       title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -154,22 +160,22 @@ export default function MIE() {
       }
     })
   }
- 
+
 
 
   //-------------------------------------------------------------------------------
   //------------------------ Tool -----------------------------------------------
   // ---------------- Modal Tools ------------
-  const [readTool , setreadTool] = useState([{}])
+  const [readTool, setreadTool] = useState([{}])
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
   const addToolsShow = () => setShowAddTools(true);
 
-  const [ToolAmount,setToolAmount] = useState("");
-  const [ToolSize,setToolSize] = useState("");
-  const [ToolStorage,setToolStorage] = useState("");
-  const [ToolName,setToolName] = useState("");
-  
+  const [ToolAmount, setToolAmount] = useState("");
+  const [ToolSize, setToolSize] = useState("");
+  const [ToolStorage, setToolStorage] = useState("");
+  const [ToolName, setToolName] = useState("");
+
 
   //-------------------------------------------------
 
@@ -180,7 +186,8 @@ export default function MIE() {
       setreadTool(Response.data);
       console.log(Response.data)
       setshowDeatailTools(true)
-    });}
+    });
+  }
 
   const [showEditToolsShow, setshowEditToolsShow] = useState(false);
   const EditToolsClose = () => setshowEditToolsShow(false);
@@ -188,59 +195,61 @@ export default function MIE() {
     Axios.get(`http://localhost:3307/readTool/` + id).then((Response) => {
       setreadTool(Response.data);
       console.log(Response.data)
-    setshowEditToolsShow(true)});}
+      setshowEditToolsShow(true)
+    });
+  }
 
 
-const updateTool = (id) =>{
-  Axios.put("http://localhost:3307/updateTool/",{
-    tool_id : readTool[0].tool_id,
-    tool_name : readTool[0].tool_name,
-    tool_storage : readTool[0].tool_storage,
-    tool_size : readTool[0].tool_size,
-    tool_amount : readTool[0].tool_amount,
-  })
-  .then(function(response){
-    console.log(response);
-    Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
-    EditToolsClose();
-    getEquipment();
-  })
-  
-}
+  const updateTool = (id) => {
+    Axios.put("http://localhost:3307/updateTool/", {
+      tool_id: readTool[0].tool_id,
+      tool_name: readTool[0].tool_name,
+      tool_storage: readTool[0].tool_storage,
+      tool_size: readTool[0].tool_size,
+      tool_amount: readTool[0].tool_amount,
+    })
+      .then(function (response) {
+        console.log(response);
+        Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+        EditToolsClose();
+        getEquipment();
+      })
 
-const delTool = (id) => {
-  Swal.fire({
-    title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
-    text: "คุณต้องการลบข้อมูลของ " + id,
-    icon: 'warning',
-    timer: 10000,
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-}).then((result) => {
-    if (result.isConfirmed) {
+  }
+
+  const delTool = (id) => {
+    Swal.fire({
+      title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
+      text: "คุณต้องการลบข้อมูลของ " + id,
+      icon: 'warning',
+      timer: 10000,
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
         Axios.delete(`http://localhost:3307/delTool/` + id)
-            .then(function (response) {
-                console.log(response);
-                window.location.reload();
-                Swal.fire(
-                    'ลบข้อมูลสำเร็จ !',
-                    'ข้อมูลของคุณถูกลบออกแล้ว',
-                    'success'
-                )
-            })
-            .catch(function (error) {
-                console.log(error);
-                Swal.fire(
-                    'ไม่สามารถลบข้อมมูลได้!',
-                    'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
-                    'error'
-                )
-            })
-    }
-})
-}
+          .then(function (response) {
+            console.log(response);
+            window.location.reload();
+            Swal.fire(
+              'ลบข้อมูลสำเร็จ !',
+              'ข้อมูลของคุณถูกลบออกแล้ว',
+              'success'
+            )
+          })
+          .catch(function (error) {
+            console.log(error);
+            Swal.fire(
+              'ไม่สามารถลบข้อมมูลได้!',
+              'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
+              'error'
+            )
+          })
+      }
+    })
+  }
 
   //---------------------------  GET  ---------------------------------------
 
@@ -251,35 +260,35 @@ const delTool = (id) => {
     });
   }
   //---------------------------  POST  ---------------------------------------
-    //----------------- Addtool ---------------------------------------
-    const [infoImgTool, setInfoImgTool] = useState({
-      file: [],
+  //----------------- Addtool ---------------------------------------
+  const [infoImgTool, setInfoImgTool] = useState({
+    file: [],
+  })
+  const handleInputChange2 = (event) => {
+    setInfoImgTool({
+      ...infoImgTool,
+      file: event.target.files[0],
     })
-    const handleInputChange2 = (event) => {
-      setInfoImgTool({
-        ...infoImgTool,
-        file: event.target.files[0],
-      })
-    }
-    const submitTool = async () => {
-      const formdataTool = new FormData();
-      formdataTool.append('IMG', infoImgTool.file);
-      formdataTool.append('ToolAmount', ToolAmount)
-      formdataTool.append('ToolSize', ToolSize)
-      formdataTool.append('ToolStorage', ToolStorage)
-      formdataTool.append('ToolName', ToolName)
-      axios.post("http://localhost:3307/addTool", formdataTool, {
-        headers: { "Content-Type": "multipart/form-data" }
-      }).then(res => {
-        if (res.status === 200) {
-          Swal.fire("อัพโหลดข้อมูลสำเร็จ", "อัพโหลดข้อมูลแล้ว", "success")
-          addToolsClose();
-          getEquipment();
-        }
-      }).catch(e => {
-        console.log(e);
-      })
-    }
+  }
+  const submitTool = async () => {
+    const formdataTool = new FormData();
+    formdataTool.append('IMG', infoImgTool.file);
+    formdataTool.append('ToolAmount', ToolAmount)
+    formdataTool.append('ToolSize', ToolSize)
+    formdataTool.append('ToolStorage', ToolStorage)
+    formdataTool.append('ToolName', ToolName)
+    axios.post("http://localhost:3307/addTool", formdataTool, {
+      headers: { "Content-Type": "multipart/form-data" }
+    }).then(res => {
+      if (res.status === 200) {
+        Swal.fire("อัพโหลดข้อมูลสำเร็จ", "อัพโหลดข้อมูลแล้ว", "success")
+        addToolsClose();
+        getEquipment();
+      }
+    }).catch(e => {
+      console.log(e);
+    })
+  }
 
 
   //---------------------------------------------------------------------------
@@ -288,10 +297,22 @@ const delTool = (id) => {
     getChemical();
     getEquipment();
   }, []);
+  //-----------------------------------PageSize-----------------------------------
+  const currentchemicalListTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return chemicalList.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, chemicalList]);
+
+
+  const currentequipmentListTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return equipmentList.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, equipmentList]);
 
 
   return (
-
     <>
       <div className="col-9 " style={{ marginRight: '20rem', marginTop: '5rem' }}>
         <div className="warpper" >
@@ -303,13 +324,13 @@ const delTool = (id) => {
               <label className="tab" id="two-tab" htmlFor="two">อุปกรณ์</label>
             </div>
             <div className='col-6 ' >
-              
-              <input type='text' className='form-control' placeholder='ค้นหาชื่อสารเคมี อุปกรณ์' style={{marginLeft: '14.8rem'}}
+
+              <input type='text' className='form-control' placeholder='ค้นหาชื่อสารเคมี อุปกรณ์' style={{ marginLeft: '14.8rem' }}
                 onChange={(event) => {
                   setSearchMie(event.target.value);
                 }}
               />
-              
+
             </div>
           </div>
           <div className="panels">
@@ -329,7 +350,8 @@ const delTool = (id) => {
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}  >
-                  {chemicalList.filter((val) => {
+
+                  {currentchemicalListTableData.filter((val) => {
                     if (searchMie == "") {
                       return val
                     } else if (val.ch_name.toLowerCase().includes(searchMie.toLowerCase())) {
@@ -355,21 +377,13 @@ const delTool = (id) => {
 
                 </tbody>
               </table>
-              <div className='row' >
-                <nav aria-label="Page navigation example">
-                  <ul className="pagination justify-content-end">
-                    <li className="page-item disabled">
-                      <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li className="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={chemicalList.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)}
+              />
             </div>
 
             <div className="panel" id="two-panel">
@@ -388,7 +402,7 @@ const delTool = (id) => {
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
-                  {equipmentList.filter((val) => {
+                  {currentequipmentListTableData.filter((val) => {
                     if (searchMie == "") {
                       return val
                     } else if (val.tool_name.toLowerCase().includes(searchMie.toLowerCase())) {
@@ -403,14 +417,21 @@ const delTool = (id) => {
                         <td>{val.tool_amount}</td>
                         <td>{val.tool_storage}</td>
                         <td>
-                          <button type="button" className="btn btn-report " onClick={() => {detailToolsShow(val.tool_id)}} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
+                          <button type="button" className="btn btn-report " onClick={() => { detailToolsShow(val.tool_id) }} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button>
                         </td>
-                        <td><button type="button" className="btn btn-report " onClick={() => {EditToolsShow(val.tool_id)}} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
+                        <td><button type="button" className="btn btn-report " onClick={() => { EditToolsShow(val.tool_id) }} style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button></td>
                       </tr>
                     )
                   })}
                 </tbody>
               </table>
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={equipmentList.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)}
+              />
             </div>
           </div>
         </div>
@@ -517,7 +538,7 @@ const delTool = (id) => {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานะ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <Form.Select  aria-label="Default select example" onChange={(Event) => {
+                  <Form.Select aria-label="Default select example" onChange={(Event) => {
                     setCheStatus(Event.target.value)
                   }}>
                     <option value="0">สถานะ</option>
@@ -652,7 +673,7 @@ const delTool = (id) => {
                       :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                      {val.ch_status  == 1 ? 'Solids' : 'Liquids'  }
+                      {val.ch_status == 1 ? 'Solids' : 'Liquids'}
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -673,17 +694,17 @@ const delTool = (id) => {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src={"http://localhost:3307/imgChemical/"+val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>
                 <div className="row mt-3">
-                 {/*  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
+                  {/*  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
                     <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
                       <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                     </button>
                   </div> */}
-             {/*      <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
+                  {/*      <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                     <button type="submit" className="btn btn-bacode" style={{ color: '#fff' }}>
                       <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
                     </button>
@@ -861,7 +882,7 @@ const delTool = (id) => {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src={"http://localhost:3307/imgChemical/"+val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>
@@ -904,10 +925,10 @@ const delTool = (id) => {
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ชื่ออุปกรณ์  :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname 
-                  onChange={(event)=> {
-                    setToolName(event.target.value)
-                  }}
+                  <input type="text" className="input-text form-control " id formcontrolname
+                    onChange={(event) => {
+                      setToolName(event.target.value)
+                    }}
                   />
                 </div>
               </div>
@@ -916,7 +937,7 @@ const delTool = (id) => {
                   :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname disabled/>
+                  <input type="text" className="input-text form-control " id formcontrolname disabled />
                 </div>
               </div>
               <div className="row mb-3">
@@ -924,10 +945,10 @@ const delTool = (id) => {
 
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname 
-                  onChange={(event)=> {
-                    setToolAmount(event.target.value)
-                  }}
+                  <input type="text" className="input-text form-control " id formcontrolname
+                    onChange={(event) => {
+                      setToolAmount(event.target.value)
+                    }}
                   />
                 </div>
               </div>
@@ -937,10 +958,10 @@ const delTool = (id) => {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">สถานที่เก็บ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname 
-                  onChange={(event)=> {
-                    setToolStorage(event.target.value)
-                  }}
+                  <input type="text" className="input-text form-control " id formcontrolname
+                    onChange={(event) => {
+                      setToolStorage(event.target.value)
+                    }}
                   />
                 </div>
               </div>
@@ -948,10 +969,10 @@ const delTool = (id) => {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ขนาดบรรจุ :
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname 
-                  onChange={(event)=> {
-                    setToolSize(event.target.value)
-                  }}
+                  <input type="text" className="input-text form-control " id formcontrolname
+                    onChange={(event) => {
+                      setToolSize(event.target.value)
+                    }}
                   />
                 </div>
               </div>
@@ -993,76 +1014,76 @@ const delTool = (id) => {
           <Modal.Title>รายละเอียดอุปกรณ์</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-         {readTool.map((val,key) => {
-           return (
-            <div className="row" key = {key}>
-            <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor=""
-                  className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชื่ออุปกรณ์ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.tool_name}
+          {readTool.map((val, key) => {
+            return (
+              <div className="row" key={key}>
+                <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor=""
+                      className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชื่ออุปกรณ์ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.tool_name}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label for="" className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชนิด :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.tool_id}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor=""
+                      className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">ยอดคงเหลือ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      {val.tool_amount}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="row mb-3">
-                <label for="" className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ชนิด :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.tool_id}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor=""
-                  className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name">ยอดคงเหลือ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  {val.tool_amount}
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor=""
-                  className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถานที่เก็บ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2" >
-                  {val.tool_storage}
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor=""
-                  className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ขนาดบรรจุ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor=""
+                      className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">สถานที่เก็บ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2" >
+                      {val.tool_storage}
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor=""
+                      className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ขนาดบรรจุ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
 
-                  {val.tool_size}
+                      {val.tool_size}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="col-xl-3">
-              <div className="form-group mb-3">
-                <div className="image-upload">
-                  <img src={"http://localhost:3307/imgTools/"+val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                <div className="col-xl-3">
+                  <div className="form-group mb-3">
+                    <div className="image-upload">
+                      <img src={"http://localhost:3307/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="row mt-3">
-            {/*   <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
+                <div className="row mt-3">
+                  {/*   <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
                 <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
                   <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
                 </button>
               </div> */}
-              <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12"  style={{ textAlign: 'end' }}> 
-                <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delTool(val.tool_id) } >
-                  <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
-                  ลบข้อมูล
-                </button>
+                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'end' }}>
+                    <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delTool(val.tool_id)} >
+                      <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
+                      ลบข้อมูล
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-           )
-         })}
+            )
+          })}
         </Modal.Body>
       </Modal>
 
@@ -1081,89 +1102,93 @@ const delTool = (id) => {
 
         </Modal.Header>
         <Modal.Body>
-          {readTool.map((val,key)=> {
+          {readTool.map((val, key) => {
             return (
               <div className="row" key={key}>
-            <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ชื่ออุปกรณ์  :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_name} 
-                  onChange={(event) => {
-                    setreadTool([{
-                      ...readTool[0],tool_name : event.target.value
-                    }])}} />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ชนิด
-                  :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_id} disabled />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ยอดคงเหลือ
+                <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ชื่ออุปกรณ์  :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_name}
+                        onChange={(event) => {
+                          setreadTool([{
+                            ...readTool[0], tool_name: event.target.value
+                          }])
+                        }} />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ชนิด
+                      :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_id} disabled />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ยอดคงเหลือ
 
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_amount} 
-                  onChange={(event) => {
-                    setreadTool([{
-                      ...readTool[0],tool_amount : event.target.value
-                    }])}} />
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_amount}
+                        onChange={(event) => {
+                          setreadTool([{
+                            ...readTool[0], tool_amount: event.target.value
+                          }])
+                        }} />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">สถานที่เก็บ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_storage}
+                        onChange={(event) => {
+                          setreadTool([{
+                            ...readTool[0], tool_storage: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ขนาดบรรจุ :
+                    </label>
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_size}
+                        onChange={(event) => {
+                          setreadTool([{
+                            ...readTool[0], tool_size: event.target.value
+                          }])
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-xl-3">
+                  <div className="form-group mb-3">
+                    <div className="image-upload">
+                      <img src={"http://localhost:3307/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-4">
+                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
+                    <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateTool(val.tool_id)} >
+                      <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
+                    </button>
+                  </div>
+                  <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
+                    <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={EditToolsClose}>
+                      <i aria-hidden="true" className="fas fa-times mx-2 " style={{ fontSize: 16 }} />
+                      ยกเลิก
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">สถานที่เก็บ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_storage}
-                  onChange={(event) => {
-                    setreadTool([{
-                      ...readTool[0],tool_storage : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-              <div className="row mb-3">
-                <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie mt-2">ขนาดบรรจุ :
-                </label>
-                <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                  <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.tool_size}
-                  onChange={(event) => {
-                    setreadTool([{
-                      ...readTool[0],tool_size : event.target.value
-                    }])}}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-3">
-              <div className="form-group mb-3">
-                <div className="image-upload">
-                  <img src={"http://localhost:3307/imgTools/"+val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
-                </div>
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateTool(val.tool_id)} >
-                  <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
-                </button>
-              </div>
-              <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={EditToolsClose}>
-                  <i aria-hidden="true" className="fas fa-times mx-2 " style={{ fontSize: 16 }} />
-                  ยกเลิก
-                </button>
-              </div>
-            </div>
-          </div>
             )
           })}
         </Modal.Body>

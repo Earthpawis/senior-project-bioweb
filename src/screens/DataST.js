@@ -2,15 +2,18 @@ import React from 'react'
 import '../css/Bor.css'
 /* import '../css/MIE.css' */
 
+
 import Swal from 'sweetalert2'
 import Axios from 'axios'
-import { useState, useEffect , useMemo} from 'react'
-import { Modal, Button, Pagination } from 'react-bootstrap'
+import { useState, useEffect, useMemo } from 'react'
+import { Modal, Button } from 'react-bootstrap'
+import Pagination from '../Components/Paginations/Pagination';
 
-
-let PageSize = 7;
+let PageSize = 6;
 
 export default function DataST() {
+    const [currentPage, setCurrentPage] = useState(1);
+
 
     // --------- Modal Std ----------
     const [showAddStd, setshowAddStd] = useState(false);
@@ -27,8 +30,6 @@ export default function DataST() {
         //console.log(id)
         Axios.get(`http://localhost:3307/readStudent/` + id).then((Response) => {
             setreaduser(Response.data);
-            console.log(readuser)
-
         });
     }
 
@@ -80,7 +81,7 @@ export default function DataST() {
                             'success'
                         )
                         getStudent()
-        
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -93,8 +94,6 @@ export default function DataST() {
             }
         })
     }
-
-
 
     // --------- Modal Aj ----------
     const [showAddDataAj, setshowAddDataAj] = useState(false);
@@ -161,7 +160,7 @@ export default function DataST() {
                             'ข้อมูลของคุณถูกลบออกแล้ว',
                             'success'
                         )
-                        getStudent()
+                        getProfesser()
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -193,18 +192,15 @@ export default function DataST() {
             std_tel: std_tel
         }).then(res => {
             if (res.status === 200) {
-              Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
-              addCloseStd()
-              getStudent()
+                Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+                addCloseStd()
+                getStudent()
             }
-          }).catch(e => {
+        }).catch(e => {
             console.log(e);
-          })
+        })
 
     }
-
-
-
 
     // --------- Modal AdddataAj ----------
     const [prof_id, setprof_id] = useState("");
@@ -220,21 +216,17 @@ export default function DataST() {
             prof_password: prof_password,
             prof_username: prof_username,
             prof_tel: prof_tel
-        }).then(() => {
-            setProfesserList([
-                ...professerList, {
-                    prof_id: prof_id,
-                    prof_name: prof_name,
-                    prof_password: prof_password,
-                    prof_username: prof_username,
-                    prof_tel: prof_tel
-                }
-            ])
-            
-
+        }).then(res => {
+            if (res.status === 200) {
+                Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+                AddCloseDataAj()
+                getProfesser()
+            }
+        }).catch(e => {
+            console.log(e);
         })
-
     }
+
 
     // --------- Modal  ----------
 
@@ -246,6 +238,7 @@ export default function DataST() {
     }
 
     const [professerList, setProfesserList] = useState([]);
+
     const getProfesser = () => {
         Axios.get('http://localhost:3307/dataProfesser').then((Response) => {
             setProfesserList(Response.data);
@@ -259,6 +252,18 @@ export default function DataST() {
         getProfesser()
     }, []);
 
+    const currentProfesserListTableData = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return professerList.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, professerList]);
+
+    const currentStudentListTableData = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return studentList.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, studentList]);
+
     return (
         <>
             <div className="col-9 " style={{ marginRight: '5rem', marginTop: '5rem' }}>
@@ -266,13 +271,12 @@ export default function DataST() {
                     <input className="radio" id="one" name="group" type="radio" defaultChecked />
                     <input className="radio" id="two" name="group" type="radio" />
                     <div className="tabs row">
-                        <div className="col-6" style={{ justifyContent:'flex-start'}}>
+                        <div className="col-6" style={{ justifyContent: 'flex-start' }}>
                             <label className="tab" id="one-tab" htmlFor="one">นักศึกษา</label>
                             <label className="tab" id="two-tab" htmlFor="two">อาจารย์</label>
                         </div>
-                        <div className='col-6'style={{ alignContent:'flex-end'}}  >
-                            <input type='text' className='form-control' placeholder='ค้นหาข้อมูลอาจารย์ นักศึกษา'  style={{marginLeft: '6.8rem'}}
-          
+                        <div className='col-6' style={{ alignContent: 'flex-end' }}  >
+                            <input type='text' className='form-control' placeholder='ค้นหาข้อมูลอาจารย์ นักศึกษา' style={{ marginLeft: '6.8rem' }}
                                 onChange={(event) => {
                                     setSearchTerm(event.target.value);
                                 }}
@@ -298,7 +302,8 @@ export default function DataST() {
                                 </thead>
                                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
 
-                                    {studentList.filter((val) => {
+                                    {currentStudentListTableData
+                                    .filter((val) => {
                                         if (searchTerm == "") {
                                             return val
                                         } else if (val.std_id.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -329,21 +334,13 @@ export default function DataST() {
                                     })}
                                 </tbody>
                             </table>
-                            <div className='row' >
-                                <nav aria-label="Page navigation example">
-                                    <ul className="pagination justify-content-end">
-                                        <li className="page-item disabled">
-                                            <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li className="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                            <Pagination
+                                className="pagination-bar"
+                                currentPage={currentPage}
+                                totalCount={studentList.length}
+                                pageSize={PageSize}
+                                onPageChange={page => setCurrentPage(page)}
+                            />
                         </div>
                         <div className="panel" id="two-panel">
                             <table className="table table-responsive">
@@ -360,53 +357,47 @@ export default function DataST() {
                                 </thead>
                                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
 
-                                    {professerList.filter((val) => {
-                                        if (searchTerm == "") {
-                                            return val
-                                        } else if (val.prof_id.toLowerCase().includes(searchTerm.toLowerCase())) {
-                                            return val
-                                        } else if (val.prof_name.toLowerCase().includes(searchTerm.toLowerCase())) {
-                                            return val
-                                        }
-                                    }).map((val, key) => {
-                                        return (
-                                            <tr className="table-name-report " key={key}>
-                                                <th scope="row">{val.prof_id}</th>
-                                                <td>{val.prof_name}</td>
-                                                <td>{val.prof_tel}</td>
-                                                <td>
-                                                    <button type="button" className="btn btn-report "
-                                                        onClick={() => EditDataShowAj(val.prof_id)}
-                                                        style={{ backgroundColor: '#958F8F', width: '93px', color: '#fff' }}>
-                                                        <i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label>
-                                                    </button>
-                                                </td>
+                                    {currentProfesserListTableData
+                                        .filter((val) => {
+                                            if (searchTerm == "") {
+                                                return val
+                                            } else if (val.prof_id.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val
+                                            } else if (val.prof_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val
+                                            }
+                                        })
+                                        .map((val, key) => {
+                                            return (
+                                                <tr className="table-name-report " key={key}>
+                                                    <th scope="row">{val.prof_id}</th>
+                                                    <td>{val.prof_name}</td>
+                                                    <td>{val.prof_tel}</td>
+                                                    <td>
+                                                        <button type="button" className="btn btn-report "
+                                                            onClick={() => EditDataShowAj(val.prof_id)}
+                                                            style={{ backgroundColor: '#958F8F', width: '93px', color: '#fff' }}>
+                                                            <i aria-hidden="true" className="far fa-edit" style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label>
+                                                        </button>
+                                                    </td>
 
-                                                <td>
-                                                    <button type="button" className="btn btn-report "
-                                                        onClick={() => { deleteProfesser(val.prof_id); }}
-                                                        style={{ backgroundColor: '#D12E2E', width: '93px', color: '#fff' }}>
-                                                        <i aria-hidden="true" className="fas fa-trash" style={{ fontSize: 15 }} /><label className="mx-2">ลบ</label> </button></td>
-                                            </tr>
-                                        )
-                                    })}
+                                                    <td>
+                                                        <button type="button" className="btn btn-report "
+                                                            onClick={() => { deleteProfesser(val.prof_id); }}
+                                                            style={{ backgroundColor: '#D12E2E', width: '93px', color: '#fff' }}>
+                                                            <i aria-hidden="true" className="fas fa-trash" style={{ fontSize: 15 }} /><label className="mx-2">ลบ</label> </button></td>
+                                                </tr>
+                                            )
+                                        })}
                                 </tbody>
                             </table>
-                            <div className='row' >
-                                <nav aria-label="Page navigation example">
-                                    <ul className="pagination justify-content-end">
-                                        <li className="page-item disabled">
-                                            <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li className="page-item">
-                                            <a class="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                            <Pagination
+                                className="pagination-bar"
+                                currentPage={currentPage}
+                                totalCount={professerList.length}
+                                pageSize={PageSize}
+                                onPageChange={page => setCurrentPage(page)}
+                            />
                         </div>
                     </div>
                 </div>
@@ -579,7 +570,7 @@ export default function DataST() {
                                         </button>
                                     </div>
                                     <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "start" }}>
-                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }}onClick={editCloseDataStd} >
+                                        <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onClick={editCloseDataStd} >
                                             <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
                                             ยกเลิก
                                         </button>
