@@ -849,13 +849,16 @@ export default function MIE() {
                       :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_status}
+                      <Form.Select type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_status}
                         onChange={(event) => {
                           setreadChe([{
                             ...readChe[0], ch_status: event.target.value
                           }])
-                        }}
-                      />
+                        }}>
+                          <option value="0">สถานะ</option>
+                          <option value="1">Solids</option>
+                          <option value="2">Liquids</option>
+                        </Form.Select>
                     </div>
                   </div>
                   <div className="row mb-3">

@@ -9,6 +9,8 @@ import Report from './screens/Report';
 import Bor from './screens/Bor';
 import DataST from './screens/DataST';
 
+
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -48,6 +50,7 @@ function App() {
               <Route exact path="/Report" component={Report} />
               <Route exact path="/Bor" component={Bor} />
               <Route exact path="/DataST" component={DataST} />
+              
             </Switch>
           </div>
           {/*  </div> */}

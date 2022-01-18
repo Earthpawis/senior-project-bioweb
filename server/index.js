@@ -156,7 +156,6 @@ app.put('/updateChe', (req, res) => {
 //----- del ------
 app.delete("/delChe/:id", (req, res) => {
     const id = req.params.id;
-    console.log(id);
     db.query("DELETE FROM chemical where ch_id = ?", [id], (err, result) => {
         if (err) {
             console.log(err);
@@ -186,6 +185,7 @@ app.post("/login", (req, res) => {
 
 const path = require('path');
 const { readFileSync, createReadStream, unlinkSync } = require('fs');
+const { query } = require('express');
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'public/', 'imgChemical'),
     filename: function (req, file, cb) {
@@ -212,21 +212,25 @@ app.post('/uploadFileCSV', (req, res) => {
                 return res.send(err);
             }
             let fileName = req.file.filename;
-
             let results = [];
             createReadStream("./public/excel_pool/" + fileName, 'utf-8').pipe(csvParser({ headers: true })).on('data', (data) => results.push(data))
                 .on('end', () => {
                     for (let index = 1; index < results.length; index++) {
                         let data = results[index];
-                        console.log(`INSERT INTO tableName values(${data[`_0`]},${data[`_1`]},${data[`_2`]})`);
+                        var sql = `INSERT INTO chemical (ch_code,ch_name,ch_formula) values('${data[`_1`]}','${data[`_2`]}','${data[`_3`]}')`;  
+                        console.log(data[`_1`],data[`_2`],data[`_3`] ) 
+                        // console.log(`INSERT INTO tableName values(${data[`_0`]},${data[`_1`]},${data[`_2`]})`);
+                        // db.query(`INSERT INTO chemical (ch_code,ch_name,ch_formula) VALUES(?,?,?),`,[data[`_1`],data[`_2`],data[`_3`]])
+                        db.query(sql, function (err, result) {
+                            if (err) throw err;
+                            console.log(err);
+                          });
                     }
                 });
             unlinkSync("./public/excel_pool/" + fileName)
             // const raw = readFileSync("./public/excel_pool/" + fileName, 'utf-8');
             // let arrayData = raw.split(/\r?\n/);
             // console.log(results);
-
-
         })
         return res.status(200).json({})
     } catch (e) {
