@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/DrawingChemicals.css">
+    <title>chemical</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light  fixed-top"
+        style="background-color: #fff; box-shadow: 0px 10px 11px 0px rgba(0, 0, 0, 0.24);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="img/connection.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                <span class="BioName">| BioRmutt</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="row collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 namehome">
+                    <li class="nav-item">
+                        <a class="nav-link active NavBarName" aria-current="page" href="#">หน้าแรก</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link NavBarName" href="#">สารเคมี</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link NavBarName" href="#">อุปกรณ์</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link NavBarName" href="#">รายการเบิกสารเคมี</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link NavBarName" href="#">รายการยืมอุปกรณ์</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link NavBarName dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ตะกร้าอุปกรณ์และสารเคมี
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">สารเคมี</a></li>
+                            <li><a class="dropdown-item" href="#">อุปกรณ์</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- <i class="fas fa-user-circle"></i> -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card" style="margin-top: 5rem; border-radius: 15px; box-shadow: 0 30px 50px rgb(0 0 0 / 20%)">
+            <div class="card-body">
+
+                <h3>เบิกสารเคมี</h3>
+                <div class="">
+                    <table class=" table table-bordered ">
+                        <thead class=" ">
+                            <tr>
+                                <th width="10%" style="min-width: 100px">ID</th>
+                                <th width="30%" style="min-width: 170px">รายการ</th>
+                                <th width="10%" style="min-width: 100px">จำนวน</th>
+                                <th width="5%" style="min-width: 100px">หน่วย</th>
+                                <th width="2%" style="min-width: 20px"></th>
+                            </tr>
+                        </thead>
+                        <tbody style="vertical-align: middle;">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td><input class="form-control form-control-sm" type="text"
+                                        aria-label=".form-control-sm example"></td>
+                                <td>mL.</td>
+                                <td style="text-align: center;"><i class="far fa-trash-alt"
+                                        style="color: #E91919; text-align: center;"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Mark</td>
+                                <td><input class="form-control form-control-sm" type="text"
+                                        aria-label=".form-control-sm example"></td>
+                                <td>mL.</td>
+                                <td style="text-align: center;"><i class="far fa-trash-alt"
+                                        style="color: #E91919; text-align: center;"></i></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Mark</td>
+                                <td><input class="form-control form-control-sm" type="text"
+                                        aria-label=".form-control-sm example"></td>
+                                <td>g.</td>
+                                <td style="text-align: center;"><i class="far fa-trash-alt"
+                                        style="color: #E91919; text-align: center;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-xl-6 col-sm-12 col-md-6 col-lg-6 col-12 ">
+                            <div class="dropdown text-end mt-2">
+                                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                    style="width: 100%;" data-bs-toggle="dropdown" aria-expanded="false">
+                                    กรุณาเลือกชื่ออาจารย์อนุมัติ
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-sm-12 col-md-6 col-lg-6 col-12 ">
+                            <div class="input-group">
+                                <span class="input-group-text">เพื่อ</span>
+                                <textarea class="form-control" aria-label="With textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                 
+                </div>
+            </div>
+        </div>
+
+
+</body>
+
+</html>
