@@ -6,6 +6,8 @@ const csvParser = require('csv-parser')
 app.use(express.static('public'));
 app.use(cors());
 app.use(express.json());
+// const bodyParser = require('body-parser'); 
+//  app.use(bodyParser.json()); 
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -16,6 +18,16 @@ const db = mysql.createConnection({
 
 
 })
+
+app.use(function(req, res, next) {
+    res.header(
+        "Access-Control-Allow-Headers",
+        "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+}); 
+
+require('./chemical')(app)
 
 app.listen('3307', () => {
     console.log('Server is running on port 3307');
@@ -35,15 +47,7 @@ app.get('/bioo', (req, res) => {
     })
 });
 
-app.get('/chemicalList', (req, res) => {
-    db.query("SELECT * FROM chemical", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result);
-        }
-    })
-});
+
 
 app.get('/toolsList', (req, res) => {
     db.query("SELECT * FROM tools", (err, result) => {
@@ -172,12 +176,24 @@ const multer = require('multer');
 app.post("/login", (req, res) => {
     const useremail = req.body.email;
     const userpassword = req.body.password;
-    console.log(useremail, userpassword);
-    db.query("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword], (err, result) => {
+    db.query("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword], (err, resultAdmin) => {
         if (err) {
             console.log(err);
         } else {
-            res.json(result);
+            if(resultAdmin.length == 0) {
+                db.query("SELECT * FROM student where std_id = ? and std_password = ?", [useremail, userpassword],(err, resultStudent) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                   if(resultStudent.length == 0 ){
+                       res.status(400).json({result:"Not found"})
+                   }
+                    res.json(resultStudent);     
+                  }
+                })
+            }else{
+                res.json(resultAdmin);
+            }
         }
     });
 });

@@ -8,6 +8,7 @@ export default function Login() {
 
   const [useremail, setuseremail] = useState("");
   const [userpassword, setuserpassword] = useState("");
+
   const Login = () => {
     // console.log(useremail,userpassword)
     axios.post("http://localhost:3307/login", {
@@ -17,7 +18,7 @@ export default function Login() {
       .then(function (response) {
         // console.log(response);
         if (response.data.length > 0) {
-          localStorage.setItem('user', JSON.stringify(response.data[0]))
+          localStorage.setItem('user',JSON.stringify(response.data[0]))
           // console.log(response.data)
           window.location.reload()
         }

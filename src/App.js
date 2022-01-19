@@ -8,6 +8,9 @@ import SideBar from './screens/SideBar';
 import Report from './screens/Report';
 import Bor from './screens/Bor';
 import DataST from './screens/DataST';
+import StBorrow from './screens/FrontEnd/StBorrow'
+import StDis from './screens/FrontEnd/StDis';
+
 
 
 
@@ -21,6 +24,7 @@ import {
   Redirect
 } from "react-router-dom";
 import ReactDOM from "react-dom";
+
 
 function App() {
   const i = JSON.parse(localStorage.getItem('user'));
@@ -40,7 +44,7 @@ function App() {
           {/* <Redirect to="/Dashboard" /> */}
           {/* <div className="row"> */}
           <div className="col-xl-3 col-lg-3 col-sm-3 col-mb-3 col-3" >
-            <SideBar />
+            <SideBar/>
           </div>
           <div className="col-xl-9 col-lg-9 col-sm-9 col-mb-9 col-9">
             <Switch>
@@ -50,6 +54,9 @@ function App() {
               <Route exact path="/Report" component={Report} />
               <Route exact path="/Bor" component={Bor} />
               <Route exact path="/DataST" component={DataST} />
+              <Route exact path="/StBorrow" component={StBorrow} />
+              <Route exact path="/StDis" component={StDis} />
+              
               
             </Switch>
           </div>
