@@ -7,14 +7,12 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import Pagination from '../Components/Paginations/Pagination';
 
-let PageSize = 4;
+
 
 
 export default function MIE() {
 
-  const [currentPage, setCurrentPage] = useState(1);
-
-
+ 
   //------------------------ Chemical -----------------------------------------------
   //---------------------------  GET  ---------------------------------------
   const [chemicalList, setChemicalList] = useState([]);
@@ -298,6 +296,10 @@ export default function MIE() {
     getEquipment();
   }, []);
   //-----------------------------------PageSize-----------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  let PageSize = 4;
+
+
   const currentchemicalListTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
@@ -311,6 +313,7 @@ export default function MIE() {
     return equipmentList.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, equipmentList]);
 
+  
 
   return (
     <>
