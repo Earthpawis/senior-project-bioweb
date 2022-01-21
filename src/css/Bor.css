@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Prompt:wght@200;300;400&display=swap');
+
 body{
  font-family: 'Prompt', sans-serif;
 }
@@ -7,25 +8,12 @@ body{
   display:flex;
   flex-direction: column;
   font-family: 'Prompt', sans-serif;
- /*  margin-right: 15rem; */
- /*  align-items: center; */
 }
-/* .tab{
-  cursor: pointer;
-  padding:10px 20px;
-  margin:0px 2px;
-  background:#A8D5C8;
-  display:inline-block;
-  color:#000;
-  border-radius:3px 3px 0px 0px;
-  box-shadow: 0 0.5rem 0.8rem #00000080;
-} */
+
 .panels{
-    background:#fffffff6;
-  /* box-shadow: 0 2rem 2rem #00000080; */
+  background:#fffffff6;
   min-height:200px;
   width:fit-content !important;
-/*   max-width:500px; */
   border-radius:3px;
   overflow:hidden;
   padding:20px;  
@@ -35,6 +23,7 @@ body{
   animation: fadein .8s;
   width: fit-content;
 }
+
 @keyframes fadein {
     from {
         opacity:0;
@@ -55,20 +44,19 @@ body{
 #three:checked ~ .panels #three-panel{
   display:block
 }
+
 #one:checked ~ .tabs #one-tab,
 #two:checked ~ .tabs #two-tab,
 #three:checked ~ .tabs #three-tab{
   background:#fff;
   color:#000;
-  /* border-top: 3px solid #000; */
-  
 }
 
 .name-Aj-std{
   text-align: end;
 }
-.btn-add-edit{
-  
+
+.btn-add-edit{ 
   background-color: #5C4242;
   color: rgb(255, 255, 255);
   font-family: Prompt, sans-serif;
@@ -78,5 +66,4 @@ body{
   height: 3.5rem;
   font-size: 20px;
   box-shadow: 5px 8px 15px #707070;
-
 }

@@ -28,8 +28,8 @@ export default function Login() {
       });
   }
   return (
-    <div className="cardlogin shadow-lg">
-      <div className="card" style={{ maxWidth: 950 }}>
+    <div className="cardlogin shadow-lg " >
+      <div className="card" style={{ maxWidth: 950, }}>
         <div className="row g-0">
           <div className="col-xl-7 col-lg-7 col-mb-7 col-sm-7  col-12">
             <img src={pic1} className="img-fluid" alt="pic1" />

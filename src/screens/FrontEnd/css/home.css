@@ -1,11 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
-body{
-    font-family: 'Prompt', sans-serif;
-    background: linear-gradient(180deg, rgba(6, 81, 109, 0.81) 0%, rgba(148, 192, 186, 1) 100%);
-    background:#306953;
-    background: linear-gradient(180deg, rgba(6, 81, 109, 0.81) 0%, rgba(148, 192, 186, 1) 100%);
-    height: 100vh;
-}
 
 .namehome{
     justify-content: center;

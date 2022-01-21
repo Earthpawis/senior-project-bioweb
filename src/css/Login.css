@@ -1,16 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Prompt:wght@200;300;400&display=swap');
 body
 {
-    align-items: center;
+    height: 100vh;
     background:#306953;
     background-image: linear-gradient(180deg, rgba(6, 81, 109, 0.81) 0%, rgba(148, 192, 186, 1) 100%);
     background: linear-gradient(180deg, rgba(6, 81, 109, 0.81) 0%, rgba(148, 192, 186, 1) 100%);
+
+}
+
+.cardlogin{  
+    align-items: center;
     display: -webkit-box;
     display: flex;
     height: 100vh;
     -webkit-box-pack: center;
     justify-content: center;
 }
+
 .img-fluid {
     height: 100% !important;
 }
@@ -43,6 +49,7 @@ border-radius: 0.2rem ;
 {
     position: relative;
 }
+
 .inputWithIcon i {
     position: absolute;
     left: 0px;

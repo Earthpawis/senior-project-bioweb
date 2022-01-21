@@ -50,7 +50,7 @@ const studentRoute = () => (
 const _mapRoute = () => {
   const i = JSON.parse(localStorage.getItem("user"));
   if (i?.std_id) {
-    return (<div className="container-fluid">
+    return (<div className="">
       <StNavbar />
       {studentRoute()}
     </div>);

@@ -77,7 +77,7 @@ const StChemicalList = () => {
         </div>
         <div className="row ">
           <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 p-3">
-            <div className="card cardChemical" style={{width: '20rem'}}>
+            <div className="card cardChemical" style={{width: '18rem'}}>
               <img src="img/1000ml_bottle_new_v2_sm_w_9.png" className="card-img-top" alt="..." height={250} />
               <div className="card-body">
                 <h5 className="card-title">Card title</h5>

@@ -1,7 +1,9 @@
 import React from 'react';
+import { Modal, Button, Form, Card , Carousel,CarouselItem,CarouselProps } from 'react-bootstrap'
 
 const Home = () => {
-  return <div></div>;
+  return
+
 };
 
 export default Home;
