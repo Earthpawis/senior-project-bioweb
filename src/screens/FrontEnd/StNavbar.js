@@ -3,6 +3,7 @@ import { Button, Nav, NavDropdown, Navbar, NavItem, Container, ContainerFluid } 
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import '../FrontEnd/css/home.css'
+import { Link } from 'react-router-dom'
 
 
 const StNavbar = () => {
@@ -23,14 +24,14 @@ const StNavbar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto ">
-            <Nav.Link href="#">หน้าแรก</Nav.Link>
-            <Nav.Link href="#">สารเคมี</Nav.Link>
-            <Nav.Link href="#">อุปกรณ์</Nav.Link>
-            <Nav.Link href="#">รายการเบิกสารเคมี</Nav.Link>
-            <Nav.Link href="#">รายการเบิกอุปกรณ์</Nav.Link>
+            <Nav.Link href="/StHome">หน้าเเรก</Nav.Link>
+            <Nav.Link href="/StChemicalList">สารเคมี</Nav.Link>
+            <Nav.Link href="/StToolsList">อุปกรณ์</Nav.Link>
+            <Nav.Link href="/StPickingListChemical">รายการเบิกสารเคมี</Nav.Link>
+            <Nav.Link href="/StPickingListTool">รายการเบิกอุปกรณ์</Nav.Link>
             <NavDropdown title="ตะกร้าสารเคมีและอุปกรณ์" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">เบิกสารเคมี</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">ยืมอุปกรณ์</NavDropdown.Item>
+              <NavDropdown.Item href="/StDis">เบิกสารเคมี</NavDropdown.Item>
+              <NavDropdown.Item href="/StBorrow">ยืมอุปกรณ์</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>

@@ -13,6 +13,11 @@ import StBorrow from "./screens/FrontEnd/StBorrow";
 import StDis from "./screens/FrontEnd/StDis";
 import StNavbar from "./screens/FrontEnd/StNavbar";
 import StChemicalList from "./screens/FrontEnd/StChemicalList";
+import StHome from "./screens/FrontEnd/StHome"
+import StToolsList from "./screens/FrontEnd/StToolsList";
+import StPickingListChemical from "./screens/FrontEnd/StPickingListChemical";
+import StPickingListTool from "./screens/FrontEnd/StPickingListTool";
+
 
 import {
   BrowserRouter as Router,
@@ -40,9 +45,14 @@ const adminRoute = () => (
 
 const studentRoute = () => (
   <Switch>
+    <Route exact path="/StHome" component={StHome} />
     <Route exact path="/StBorrow" component={StBorrow} />
     <Route exact path="/StDis" component={StDis} />
     <Route exact path="/StChemicalList" component={StChemicalList} />
+    <Route exact path="/StToolsList" component={StToolsList} />
+    <Route exact path="/StPickingListChemical" component={StPickingListChemical} />
+    <Route exact path="/StPickingListTool" component={StPickingListTool} />
+
     <Route path="*" exact component={_404Page} />
   </Switch>
 );
