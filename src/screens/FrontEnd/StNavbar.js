@@ -5,10 +5,16 @@ import axios from 'axios'
 import '../FrontEnd/css/home.css'
 import { Link } from 'react-router-dom'
 
+const i = JSON.parse(localStorage.getItem("user"));
+
+
 
 const StNavbar = () => {
+  function logout(){ 
+    localStorage.removeItem('user')
+    window.location.reload(); 
+}
   return (
-
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light" fixed="top" >
       <Container fluid>
         <Navbar.Brand href="#home">
@@ -35,9 +41,9 @@ const StNavbar = () => {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">More deets</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
-              Dank memes
+            <Nav.Link href="#deets">{i.std_name}</Nav.Link>
+            <Nav.Link eventKey={2} onClick={logout} href="#memes">
+              ออกจากระบบ
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
