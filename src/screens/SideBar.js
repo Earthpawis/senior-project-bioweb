@@ -35,7 +35,7 @@ export default function SideBar() {
           <h5 className="admin-user">เจ้าหน้าที่</h5>
         </div>
         <div className="row">
-          <div className="card ">
+          <div className="card cardsidebar">
             <div className="card-body card-template">
               <div className="row">
                 <a className="mt-2 mb-3"><Link to="/Dashboard" ><i className="fas fa-clipboard-list mx-1" /><span>

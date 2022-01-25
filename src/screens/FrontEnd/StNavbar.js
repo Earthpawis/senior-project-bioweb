@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import '../FrontEnd/css/home.css'
 import { Link } from 'react-router-dom'
-
+import connection from '../FrontEnd/img/connection.png'
 const i = JSON.parse(localStorage.getItem("user"));
 
 
@@ -20,7 +20,7 @@ const StNavbar = () => {
         <Navbar.Brand href="#home">
           <img
             alt=""
-            src="/logo.svg"
+            src={connection}
             width="30"
             height="30"
             className="d-inline-block align-top"

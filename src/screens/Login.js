@@ -3,13 +3,18 @@ import '../css/Login.css'
 import pic1 from '../img/Login.png'
 import pic2 from '../img/connection.png'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
 
   const [useremail, setuseremail] = useState("");
   const [userpassword, setuserpassword] = useState("");
 
+ 
+
   const Login = () => {
+    
     // console.log(useremail,userpassword)
     axios.post("http://localhost:3307/login", {
       email: useremail,
@@ -26,6 +31,8 @@ export default function Login() {
       .catch(function (error) {
         console.log(error);
       });
+
+     // toast("Login Successful");
   }
   return (
     <div className="cardlogin shadow-lg " >
@@ -66,6 +73,7 @@ export default function Login() {
               </div>
               <div className="form-group  " style={{ textAlign: 'center', marginTop: 35 }}>
                 <button type="button" className="btn btn-outline-secondary shadow-sm adminfont" onClick={Login}>เข้าสู่ระบบ</button>
+                <ToastContainer />
               </div>
             </div>
           </div>

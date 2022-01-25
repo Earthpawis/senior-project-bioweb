@@ -37,6 +37,13 @@
     color: #41B949;
 }
 
+.iconcheck-times{
+    color: #ee1a1a;
+}
+
+.iconellipsis-name{
+    color: #4971DF;
+}
 .table-bordered{
     text-align: center;
     font-family: 'Prompt', sans-serif;

@@ -23,7 +23,7 @@ export default function Dashboard() {
               </li>
             </ul>
             <div className="row">
-              <div className="card">
+              <div className="card cardsidebar">
                 <div className="card-body">
                   <table className="table table-responsive">
                     <thead>

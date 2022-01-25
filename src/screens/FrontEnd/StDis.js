@@ -10,7 +10,7 @@ const StBorrow = () => {
       <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
         <div className="card-body">
           <h3>เบิกสารเคมี</h3>
-          <div className>
+          <div className ="">
             <table className=" table table-bordered ">
               <thead className=" ">
                 <tr>
