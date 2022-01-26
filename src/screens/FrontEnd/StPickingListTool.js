@@ -6,7 +6,7 @@ const StPickingListTool = () => {
             <div className="card-body">
                 <h3>รายการเบิกอุปกรณ์</h3>
                 <table className="table bg-white table-bordered">
-                    <thead className="bg-secondary text-light">
+                    <thead className="bg-dark text-light">
                         <tr>
                             <th width="10%" style={{ minWidth: 100 }}>ORDER ID</th>
                             <th width="30%" style={{ minWidth: 170 }}>เพื่อ</th>

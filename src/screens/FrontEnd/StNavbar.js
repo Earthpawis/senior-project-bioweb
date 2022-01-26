@@ -1,147 +1,157 @@
 import React from 'react'
-import { Button, Nav, NavDropdown, Navbar, NavItem, Container, ContainerFluid } from 'react-bootstrap';
+import { Button, Nav, NavDropdown, Navbar, NavItem, Container, ContainerFluid, ModalFooter, } from 'react-bootstrap';
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import '../FrontEnd/css/home.css'
 import { Link } from 'react-router-dom'
 import connection from '../FrontEnd/img/connection.png'
+
 const i = JSON.parse(localStorage.getItem("user"));
 
 
-
 const StNavbar = () => {
-  function logout(){ 
+  function logout() {
     localStorage.removeItem('user')
-    window.location.reload(); 
-}
+    window.location.reload();
+  }
   return (
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light" fixed="top" >
-      <Container fluid>
-        <Navbar.Brand href="#home">
-          <img
-            alt=""
-            src={connection}
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-          />{' '}
-        BioRmutt
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto ">
-            <Nav.Link href="/StHome">หน้าเเรก</Nav.Link>
-            <Nav.Link href="/StChemicalList">สารเคมี</Nav.Link>
-            <Nav.Link href="/StToolsList">อุปกรณ์</Nav.Link>
-            <Nav.Link href="/StPickingListChemical">รายการเบิกสารเคมี</Nav.Link>
-            <Nav.Link href="/StPickingListTool">รายการเบิกอุปกรณ์</Nav.Link>
-            <NavDropdown title="ตะกร้าสารเคมีและอุปกรณ์" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="/StDis">เบิกสารเคมี</NavDropdown.Item>
-              <NavDropdown.Item href="/StBorrow">ยืมอุปกรณ์</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Nav>
-            <Nav.Link href="#deets">{i.std_name}</Nav.Link>
-            <Nav.Link eventKey={2} onClick={logout} href="#memes">
-              ออกจากระบบ
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-
-    /* <div>
-      <nav
-        className="navbar navbar-expand-lg navbar-light  fixed-top"
-        style={{
-          backgroundColor: "#fff",
-          boxShadow: "0px 10px 11px 0px rgba(0, 0, 0, 0.24)",
-        }}
-      >
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+    <>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light" fixed="top" >
+        <Container fluid>
+          <Navbar.Brand href="#home">
             <img
-              src="/src/screens/FrontEnd/img/connection.png"
-              alt
-              width={30}
-              height={24}
-              className="d-inline-block align-text-top"
-            />
-            <span className="BioName">| BioRmutt</span>
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="row collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0 namehome">
-              <li className="nav-item">
-                <a
-                  className="nav-link  NavBarName"
-                  aria-current="page"
-                  href="#"
-                >
-                  หน้าแรก
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link NavBarName" href="#">
-                  สารเคมี
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link NavBarName" href="#">
-                  อุปกรณ์
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link NavBarName" href="#">
-                  รายการเบิกสารเคมี
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link NavBarName" href="#">
-                  รายการยืมอุปกรณ์
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link NavBarName dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  ตะกร้าอุปกรณ์และสารเคมี
-                </a>
-                <ul
-                  className="dropdown-menu"
-                  aria-labelledby="navbarDropdownMenuLink"
-                >
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      สารเคมี
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      อุปกรณ์
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+              alt=""
+              src={connection}
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}
+            BioRmutt
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto ">
+              <Nav.Link href="/StHome">หน้าเเรก</Nav.Link>
+              <Nav.Link href="/StChemicalList">สารเคมี</Nav.Link>
+              <Nav.Link href="/StToolsList">อุปกรณ์</Nav.Link>
+              <Nav.Link href="/StPickingListChemical">รายการเบิกสารเคมี</Nav.Link>
+              <Nav.Link href="/StPickingListTool">รายการเบิกอุปกรณ์</Nav.Link>
+              <NavDropdown title="ตะกร้าสารเคมีและอุปกรณ์" id="collasible-nav-dropdown">
+                <NavDropdown.Item href="/StDis">เบิกสารเคมี</NavDropdown.Item>
+                <NavDropdown.Item href="/StBorrow">ยืมอุปกรณ์</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+            <Nav>
+              <Nav.Link href="#deets">{i.std_name}</Nav.Link>
+              <Nav.Link eventKey={2} onClick={logout} href="#memes">
+                ออกจากระบบ
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <footer>
+        <div className="footer-content">
+          <div className="text-center">
+
           </div>
         </div>
-      </nav>
-    </div> */
+      </footer>
+   {/*    <div>
+        <nav
+          className="navbar navbar-expand-lg navbar-light  fixed-top"
+          style={{
+            backgroundColor: "#fff",
+            boxShadow: "0px 10px 11px 0px rgba(0, 0, 0, 0.24)",
+          }}
+        >
+          <div className="container-fluid">
+            <a className="navbar-brand" href="#">
+              <img
+                src="/src/screens/FrontEnd/img/connection.png"
+                alt
+                width={30}
+                height={24}
+                className="d-inline-block align-text-top"
+              />
+              <span className="BioName">| BioRmutt</span>
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon" />
+            </button>
+            <div className="row collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0 namehome">
+                <li className="nav-item">
+                  <a
+                    className="nav-link  NavBarName"
+                    aria-current="page"
+                    href="#"
+                  >
+                    หน้าแรก
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link NavBarName" href="#">
+                    สารเคมี
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link NavBarName" href="#">
+                    อุปกรณ์
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link NavBarName" href="#">
+                    รายการเบิกสารเคมี
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link NavBarName" href="#">
+                    รายการยืมอุปกรณ์
+                  </a>
+                </li>
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link NavBarName dropdown-toggle"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    ตะกร้าอุปกรณ์และสารเคมี
+                  </a>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        สารเคมี
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        อุปกรณ์
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div> */}
+
+    </>
+
   );
 }
 

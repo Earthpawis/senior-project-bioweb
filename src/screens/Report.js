@@ -11,7 +11,7 @@ export default function Report() {
                     </li>
                 </ul>
                 <div className="row">
-                    <div className="card">
+                    <div className="card cardsidebar">
                         <div className="card-body">
                             <table className="table " style={{ marginTop: 10 }}>
                                 <tbody style={{ height: '14rem', verticalAlign: 'middle' }}>
@@ -43,7 +43,7 @@ export default function Report() {
                     </li>
                 </ul>
                 <div className="row">
-                    <div className="card ">
+                    <div className="card cardsidebar">
                         <div className="card-body">
                             <table className="table" style={{ marginTop: 10 }}>
                                 <tbody style={{ height: '14rem', verticalAlign: 'middle' }}>
