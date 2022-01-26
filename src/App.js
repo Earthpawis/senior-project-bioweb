@@ -9,8 +9,8 @@ import Bor from "./screens/Bor";
 import DataST from "./screens/DataST";
 
 
-import StBorrow from "./screens/FrontEnd/StBorrow";
-import StDis from "./screens/FrontEnd/StDis";
+import StCartTools from "./screens/FrontEnd/StCartTools";
+import StCartChemical from "./screens/FrontEnd/StCartChemical";
 import StNavbar from "./screens/FrontEnd/StNavbar";
 import StChemicalList from "./screens/FrontEnd/StChemicalList";
 import StHome from "./screens/FrontEnd/StHome"
@@ -46,8 +46,8 @@ const adminRoute = () => (
 const studentRoute = () => (
   <Switch>
     <Route exact path="/StHome" component={StHome} />
-    <Route exact path="/StBorrow" component={StBorrow} />
-    <Route exact path="/StDis" component={StDis} />
+    <Route exact path="/StCartTools" component={StCartTools} />
+    <Route exact path="/StCartChemical" component={StCartChemical} />
     <Route exact path="/StChemicalList" component={StChemicalList} />
     <Route exact path="/StToolsList" component={StToolsList} />
     <Route exact path="/StPickingListChemical" component={StPickingListChemical} />

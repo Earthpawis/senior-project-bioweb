@@ -2,15 +2,22 @@ import React from 'react'
 import { Modal, Button, Form, Card } from 'react-bootstrap'
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
+import { getCartItem } from '../../functions/cartItem'
+
+
+const item = getCartItem();
 
 const StBorrow = () => {
+  useEffect(() => {
+    console.log(getCartItem());
+  }, [])
   return (
 
     <div className="container">
       <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
         <div className="card-body">
           <h3>เบิกสารเคมี</h3>
-          <div className ="">
+          <div className="">
             <table className=" table table-bordered ">
               <thead className=" ">
                 <tr>
@@ -22,7 +29,21 @@ const StBorrow = () => {
                 </tr>
               </thead>
               <tbody style={{ verticalAlign: 'middle' }}>
-                <tr>
+                {item.map((val,key) => {
+                  return (<tr key= {key}>
+                    <th scope="row">{val.ch_id}</th>
+                    <td>{val.ch_name}</td>
+                    <td><input className="form-control form-control-sm" type="text" aria-label=".form-control-sm example" /></td>
+                    <td><Form.Select aria-label="Default select example" onChange={(Event) => { }}>
+                      <option value="0">หน่วย</option>
+                      <option value="1">g.</option>
+                      <option value="2">mL.</option>
+                    </Form.Select></td>
+                    <td style={{ textAlign: 'center' }}><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center' }} /></td>
+                  </tr>)
+                  
+                })}
+                {/* <tr>
                   <th scope="row">1</th>
                   <td>Mark</td>
                   <td><input className="form-control form-control-sm" type="text" aria-label=".form-control-sm example" /></td>
@@ -32,7 +53,7 @@ const StBorrow = () => {
                     <option value="2">mL.</option>
                   </Form.Select></td>
                   <td style={{ textAlign: 'center' }}><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center' }} /></td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
             <div className="row mt-3">

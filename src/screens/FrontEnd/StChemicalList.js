@@ -4,6 +4,7 @@ import Axios from 'axios'
 import Swal from 'sweetalert2'
 import { Modal, Button, Form, Card, CardImg } from 'react-bootstrap'
 import Pagination from '../../Components/Paginations/Pagination';
+import { getCartItem, setCartItem } from '../../functions/cartItem';
 
 
 const StChemicalList = () => {
@@ -19,19 +20,34 @@ const StChemicalList = () => {
     });
   }
 
-    // --------- Modal Che ------------------------------------------------------------
-    const [readChe, setreadChe] = useState([{}])
-    const [showDetail, setShowDetail] = useState(false);
-    const detailClose = () => setShowDetail(false);
-    const detailShow = (id) => {
-      Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
-        setreadChe(Response.data);
-        console.log(Response.data)
-        setShowDetail(true)
-      }
-      );
+  // --------- Modal Che ------------------------------------------------------------
+  const [readChe, setreadChe] = useState([{}])
+  const [showDetail, setShowDetail] = useState(false);
+  const detailClose = () => setShowDetail(false);
+  const detailShow = (id) => {
+    Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
+      setreadChe(Response.data);
+      console.log(Response.data)
+      setShowDetail(true)
     }
+    );
+  }
 
+  const itemInCart = getCartItem();
+ 
+
+  const [cart, setCart] = useState([]);
+  const addToCart = (val) => {
+    setCart([...cart, val])
+    let item = getCartItem();
+    if (item) {
+      setCartItem([...item, val])
+    } else {
+      setCartItem([val])
+    }
+    // localStorage.setItem('item', JSON.stringify())
+  }
+  useEffect(() => { console.log(cart) }, [cart])
   //------------------------------------search-------------------------------------
   const [searchMie, setSearchMie] = useState("");
   //-----------------------------------PageSize-----------------------------------
@@ -47,62 +63,64 @@ const StChemicalList = () => {
 
   return (
     <>
-    <div className="container-fluid">
-      <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
-        <div className="card-body">
-          <div className="row">
-            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'><h2>สารเคมี</h2></div>
-            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>
-              <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
-                onChange={(event) => {
-                  setSearchMie(event.target.value);
-                }}
-              />
+      <div className="container-fluid">
+        <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
+          <div className="card-body">
+            <div className="row">
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'><h2>สารเคมี สารเคมีในตะกร้า ({itemInCart.length})</h2></div>
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>
+                <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
+                  onChange={(event) => {
+                    setSearchMie(event.target.value);
+                  }}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="row ">
-            {currentChemicalListTableData.filter((val) => {
-              if (searchMie == "") {
-                return val
-              } else if (val.ch_name.toLowerCase().includes(searchMie.toLowerCase())) {
-                return val
-              } else if (val.ch_code.toLowerCase().includes(searchMie.toLowerCase())) {
-                return val
-              }
-            }).map((val, key) => {
-              return (
-                <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 p-3">
-                  <div className="card cardChemical " style={{ width: '22rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
-                    <img src={"http://localhost:3307/imgChemical/" + val.ch_img} className="card-img-top card-img-bottom" alt="..." height={200} style={{ width: '15rem', margin: 'auto' }} />
-                    <div className="card-body">
-                      <h5 className="card-title mb-2">{val.ch_id}. {val.ch_name}</h5>
-                      <div className="row">
-                        <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button type="button" className="btn btn-success"><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
-                        </div>
-                        <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button type="button"  className="btn btn-secondary" onClick={() => { detailShow(val.ch_id) }}><i className="fas fa-search p-1" /><span className="NameCrub">ดูรายละเอียด</span></button>
+            <div className="row ">
+              {currentChemicalListTableData.filter((val) => {
+                if (searchMie == "") {
+                  return val
+                } else if (val.ch_name.toLowerCase().includes(searchMie.toLowerCase())) {
+                  return val
+                } else if (val.ch_code.toLowerCase().includes(searchMie.toLowerCase())) {
+                  return val
+                }
+              }).map((val, key) => {
+                return (
+                  <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 p-3">
+                    <div className="card cardChemical " style={{ width: '22rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
+                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} className="card-img-top card-img-bottom" alt="..." height={200} style={{ width: '15rem', margin: 'auto' }} />
+                      <div className="card-body">
+                        <h5 className="card-title mb-2">{val.ch_id}. {val.ch_name}</h5>
+                        <div className="row">
+                          <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" className="btn btn-success" onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
+                          </div>
+                          <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" className="btn btn-secondary" onClick={() => { detailShow(val.ch_id) }}><i className="fas fa-search p-1" /><span className="NameCrub">ดูรายละเอียด</span></button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-              )
-            })}
+                )
+              })}
+            </div>
+            <Pagination
+              className="pagination-bar"
+              currentPage={currentPage}
+              totalCount={chemicalList.length}
+              pageSize={PageSize}
+              onPageChange={page => setCurrentPage(page)}
+            />
           </div>
-          <Pagination
-            className="pagination-bar"
-            currentPage={currentPage}
-            totalCount={chemicalList.length}
-            pageSize={PageSize}
-            onPageChange={page => setCurrentPage(page)}
-          />
         </div>
       </div>
-    </div>
-    <Modal
+
+
+      <Modal
         show={showDetail}
         onHide={detailClose}
         backdrop="static"
@@ -209,7 +227,7 @@ const StChemicalList = () => {
                     </div>
                   </div>
                 </div>
-             
+
               </div>
             )
           })}
