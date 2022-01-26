@@ -32,7 +32,6 @@ app.get('/chemicalList', (req, res) => {
     
 //---------- EditCh ------------------
 app.put('/updateChe', (req, res) => {
-    console.log(req);
     const ch_id = req.body.ch_id;
     const ch_cas_no = req.body.ch_cas_no;
     const ch_formula = req.body.ch_formula;
@@ -43,10 +42,10 @@ app.put('/updateChe', (req, res) => {
     const ch_status = req.body.ch_status;
     const ch_storage = req.body.ch_storage;
     const ch_name = req.body.ch_name;
-    const err = "";
-    console.log(req)
-    db.query("UPDATE chemical SET ch_cas_no =? ,ch_name =? ,ch_formula =?, ch_code =?, ch_manufacturer =?, ch_quantity =? , ch_amount =? ,ch_status =?,ch_storage =? WHERE ch_id=? ",
-        [ch_cas_no, ch_name, ch_formula, ch_code, ch_manufacturer, ch_quantity, ch_amount, ch_status, ch_storage, ch_id],
+    const ch_exp = req.body.ch_exp;
+    const err = "";  
+    db.query("UPDATE chemical SET ch_cas_no =? ,ch_name =? ,ch_formula =?, ch_code =?, ch_manufacturer =?, ch_quantity =? , ch_amount =? ,ch_status =?,ch_storage =?,ch_exp =? WHERE ch_id=? ",
+        [ch_cas_no, ch_name, ch_formula, ch_code, ch_manufacturer, ch_quantity, ch_amount, ch_status, ch_storage,ch_exp, ch_id],
         (err,
             (result) => {
                 if (err) {

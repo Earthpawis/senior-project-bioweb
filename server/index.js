@@ -148,13 +148,6 @@ app.post("/login", (req, res) => {
 
 const { readFileSync, createReadStream, unlinkSync } = require('fs');
 const { query } = require('express');
-const storage = multer.diskStorage({
-    destination: path.join(__dirname, 'public/', 'imgChemical'),
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-})
-
 app.post('/uploadFileCSV', (req, res) => {
     try {
         let upload = multer({
@@ -200,12 +193,21 @@ app.post('/uploadFileCSV', (req, res) => {
         return res.status(500).json({})
     }
 })
+
+
+
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'public/', 'imgChemical'),
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
 app.post('/addChemical', (req, res) => {
     try {
         let upload = multer({ storage: storage }).single('IMG');
         upload(req, res, function (err) {
             if (!req.file) {
-                return res.send('Please select an image to upload');
+                return res.status(400).json({});
             } else if (err instanceof multer.MulterError) {
                 return res.send(err);
             } else if (err) {
@@ -220,8 +222,18 @@ app.post('/addChemical', (req, res) => {
             let CheAmount = req.body.CheAmount
             let CheStorage = req.body.CheStorage
             let CheStatus = req.body.CheStatus
-            db.query("INSERT INTO chemical (ch_name , ch_cas_no , ch_formula , ch_code , ch_manufacturer , ch_quantity , ch_amount ,ch_status ,ch_storage ,ch_img) VALUES(?,?,?,?,?,?,?,?,?,?) "
-                , [CheName, CheCas, CheFormular, CheCode, CheManu, CheQuan, CheAmount, CheStatus, CheStorage, req.file.filename])
+            let CheExp = req.body.CheExp
+
+            console.log(req.body.CheExp)
+            db.query("INSERT INTO chemical (ch_name , ch_cas_no , ch_formula , ch_code , ch_manufacturer , ch_quantity , ch_amount ,ch_status ,ch_storage ,ch_img ,ch_exp) VALUES(?,?,?,?,?,?,?,?,?,?,?) "
+                , [CheName, CheCas, CheFormular, CheCode, CheManu, CheQuan, CheAmount, CheStatus, CheStorage, req.file.filename,CheExp ],
+                (err,result)=>{
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.send("Values inserted");
+                    }
+                })
         })
     }
     catch (err) {
@@ -254,13 +266,22 @@ app.post('/addTool', (req, res) => {
             let ToolName = req.body.ToolName
             console.log(req.body.ToolName)
             db.query("INSERT INTO tools (tool_name , tool_storage , tool_size , tool_amount , tool_img) VALUES(?,?,?,?,?) "
-                , [ToolName, ToolStorage, ToolSize, ToolAmount, req.file.filename])
+                , [ToolName, ToolStorage, ToolSize, ToolAmount, req.file.filename],
+                (err,result)=>{
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.send("Values inserted");
+                    }
+                })
         })
     }
     catch (err) {
         console.log(err)
     }
 })
+
+
 
 //----------- readTool --------------------------------
 
@@ -275,27 +296,26 @@ app.get("/readTool/:id", (req, res) => {
     });
 });
 //-------------- updateTool --------------------------------
-app.put('/updateTool', (req, res) => {
-    console.log(req);
-    const tool_id = req.body.tool_id;
-    const tool_name = req.body.tool_name;
-    const tool_storage = req.body.tool_storage;
-    const tool_size = req.body.tool_size;
-    const tool_amount = req.body.tool_amount;
-    const err = "";
-    db.query("UPDATE tools SET tool_name =? ,tool_storage =?, tool_size =?, tool_amount =? WHERE tool_id=? ",
-        [tool_name, tool_storage, tool_size, tool_amount, tool_id],
-        (err,
-            (result) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.send("values insert complete")
-                }
-            }
-        )
-    )
-})
+// app.put('/updateTool', (req, res) => {
+//     const tool_id = req.body.tool_id;
+//     const tool_name = req.body.tool_name;
+//     const tool_storage = req.body.tool_storage;
+//     const tool_size = req.body.tool_size;
+//     const tool_amount = req.body.tool_amount;
+//     const err = "";
+
+//     db.query("UPDATE tools SET tool_name =? ,tool_storage =?, tool_size =?, tool_amount =? WHERE tool_id=? ",
+//         [tool_name, tool_storage, tool_size, tool_amount, tool_id],
+//         (err,result) => {
+//                 if (err) {
+//                     console.log(err);
+//                 } else {
+//                     res.send("values insert complete")
+//                 }
+//             }
+//         )
+    
+// })
 
 //------------- delTool -------------------------------
 app.delete("/delTool/:id", (req, res) => {

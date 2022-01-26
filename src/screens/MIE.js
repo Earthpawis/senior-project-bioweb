@@ -6,13 +6,14 @@ import { Modal, Button, Form } from 'react-bootstrap'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import Pagination from '../Components/Paginations/Pagination';
-
+import { DatePickerComponent } from "@syncfusion/ej2-react-calendars"
+import moment from 'moment'
 
 
 
 export default function MIE() {
 
- 
+
   //------------------------ Chemical -----------------------------------------------
   //---------------------------  GET  ---------------------------------------
   const [chemicalList, setChemicalList] = useState([]);
@@ -48,6 +49,7 @@ export default function MIE() {
   const [CheStatus, setCheStatus] = useState(0);
   const [CheStorage, setCheStorage] = useState("");
 
+
   // ------------------------ Edit -----------------------------------------
   const [readChe, setreadChe] = useState([{}])
   const [showEdit, setShowEdit] = useState(false);
@@ -66,8 +68,7 @@ export default function MIE() {
   const [infoImg, setInfoImg] = useState({
     file: [],
   })
-  const [imgURL, setimgURL] = useState([]);
-
+  
   const handleInputChange = (event) => {
     setInfoImg({
       ...infoImg,
@@ -86,13 +87,22 @@ export default function MIE() {
     formdata.append('CheAmount', CheAmount)
     formdata.append('CheStatus', CheStatus)
     formdata.append('CheStorage', CheStorage)
+    formdata.append('CheExp', CheExp)
+
     axios.post("http://localhost:3307/addChemical", formdata, {
       headers: { "Content-Type": "multipart/form-data" }
     }).then(res => {
       console.log(res)
-      addClose();
+      if(res.status === 200){
+        addClose();
       getChemical();
-      Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+      Swal.fire("อัพโหลดข้อมูลสำเร็จ", "อัพโหลดข้อมูลแล้ว", "success")
+      } else if (res.status === 400){
+        console.log("555555555555555555555555555555")
+        addClose();
+      getChemical();
+        Swal.fire("ไม่สามารถอัพโหลดข้อมูลได้", "เนื่องจากไม่ได้เเนบรูปภาพ", "error")
+      }
 
     }).catch(e => {
       console.log(e);
@@ -112,7 +122,7 @@ export default function MIE() {
       ch_status: readChe[0].ch_status,
       ch_storage: readChe[0].ch_storage,
       ch_name: readChe[0].ch_name,
-
+      ch_exp: readChe[0].ch_exp
     }).then(res => {
       if (res.status === 200) {
         Swal.fire("เเก้ไขข้อมูลสำเร็จ", "เเก้ไขข้อมูลแล้ว", "success")
@@ -197,23 +207,60 @@ export default function MIE() {
     });
   }
 
+const [infoUpdateTool,setInfoUpdateTool] = useState ({ file: [],})
 
-  const updateTool = (id) => {
-    Axios.put("http://localhost:3307/updateTool/", {
-      tool_id: readTool[0].tool_id,
-      tool_name: readTool[0].tool_name,
-      tool_storage: readTool[0].tool_storage,
-      tool_size: readTool[0].tool_size,
-      tool_amount: readTool[0].tool_amount,
-    })
-      .then(function (response) {
-        console.log(response);
-        Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
-        EditToolsClose();
-        getEquipment();
-      })
+const updatePhotoTool = (event) => {
+  setInfoUpdateTool({
+    ...infoUpdateTool,
+    file: event.target.file[0],
+  })
+}
 
-  }
+const submitUpdateTool = async (id) => {
+  const formdata = new FormData();
+  formdata.append('IMG',infoUpdateTool);
+  formdata.append('tool_id',readTool[0].tool_id);
+  formdata.append('tool_name',readTool[0].tool_name);
+  formdata.append('tool_storage',readTool[0].tool_storage);
+  formdata.append('tool_size',readTool[0].tool_size);
+  formdata.append('tool_amount',readTool[0].tool_amount);
+  console.log(readTool[0].tool_name)
+  console.log(formdata.getAll('tool_name'))
+  axios.put("http://localhost:3307/updateTool/", formdata, {
+    headers: { "Content-Type": "multipart/form-data" }
+  }).then(res => {
+    console.log(res)
+    if(res.status === 200){
+      EditToolsClose();
+      getEquipment();
+    Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+    } else if (res.status === 400){
+      console.log("555555555555555555555555555555")
+      Swal.fire("ไม่สามารถอัพโหลดข้อมูลได้", "เนื่องจากไม่ได้เเนบรูปภาพ", "error")
+    }
+
+  }).catch(e => {
+    console.log(e);
+  })
+}
+
+
+  // const updateTool = (id) => {
+  //   Axios.put("http://localhost:3307/updateTool/", {
+  //     tool_id: readTool[0].tool_id,
+  //     tool_name: readTool[0].tool_name,
+  //     tool_storage: readTool[0].tool_storage,
+  //     tool_size: readTool[0].tool_size,
+  //     tool_amount: readTool[0].tool_amount,
+  //   })
+  //     .then(function (response) {
+  //       console.log(response);
+  //       Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+  //       EditToolsClose();
+  //       getEquipment();
+  //     })
+
+  // }
 
   const delTool = (id) => {
     Swal.fire({
@@ -230,12 +277,13 @@ export default function MIE() {
         Axios.delete(`http://localhost:3307/delTool/` + id)
           .then(function (response) {
             console.log(response);
-            window.location.reload();
             Swal.fire(
               'ลบข้อมูลสำเร็จ !',
               'ข้อมูลของคุณถูกลบออกแล้ว',
               'success'
             )
+            DtailToolsClose();
+            getEquipment();
           })
           .catch(function (error) {
             console.log(error);
@@ -313,7 +361,7 @@ export default function MIE() {
     return equipmentList.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, equipmentList]);
 
-  
+
 
   return (
     <>
@@ -554,7 +602,14 @@ export default function MIE() {
                 <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " id formcontrolname />
+                  <DatePickerComponent onChange={(Event) => {
+                    if (Event.target.value) {
+                      var date = (Event.target.value).toISOString();
+                      date = date.split("T")[0]
+                      var dateArray = date.split("-");
+                      setCheExp([dateArray[0],dateArray[1],parseInt(dateArray[2])+1].join('-'))
+                    }
+                  }} />
                 </div>
               </div>
               <div className="row mb-3">
@@ -683,7 +738,7 @@ export default function MIE() {
                     <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                      {val.ch_exp}
+                    {moment(val.ch_exp).format('L')}
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -858,17 +913,27 @@ export default function MIE() {
                             ...readChe[0], ch_status: event.target.value
                           }])
                         }}>
-                          <option value="0">สถานะ</option>
-                          <option value="1">Solids</option>
-                          <option value="2">Liquids</option>
-                        </Form.Select>
+                        <option value="0">สถานะ</option>
+                        <option value="1">Solids</option>
+                        <option value="2">Liquids</option>
+                      </Form.Select>
                     </div>
                   </div>
                   <div className="row mb-3">
                     <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                      <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_exp} />
+                    <DatePickerComponent
+                    onChange={(Event) => {
+                    if (Event.target.value) {
+                      var date = (Event.target.value).toISOString();
+                      date = date.split("T")[0]
+                      var dateArray = date.split("-");
+                      setreadChe([{
+                        ...readChe[0], ch_exp: ([dateArray[0],dateArray[1],parseInt(dateArray[2])+1].join('-'))
+                      }])
+                    }
+                  }} />
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -889,6 +954,7 @@ export default function MIE() {
                   <div className="form-group mb-3">
                     <div className="image-upload">
                       <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <input className="form-control mt-4" type="file" name="upload_file"  />
                     </div>
                   </div>
                 </div>
@@ -1178,12 +1244,13 @@ export default function MIE() {
                   <div className="form-group mb-3">
                     <div className="image-upload">
                       <img src={"http://localhost:3307/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <input className="form-control mt-4" type="file" name="upload_file"  />
                     </div>
                   </div>
                 </div>
                 <div className="row mt-4">
                   <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
-                    <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => updateTool(val.tool_id)} >
+                    <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={() => submitUpdateTool(val.tool_id)} >
                       <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                     </button>
                   </div>
