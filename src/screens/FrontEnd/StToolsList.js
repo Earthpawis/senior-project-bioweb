@@ -4,6 +4,7 @@ import Pagination from '../../Components/Paginations/Pagination';
 import Axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
+import { getCartItemTool, setCartItemTool } from '../../functions/cartItem';
 
 const StToolsList = () => {
 
@@ -29,6 +30,21 @@ const StToolsList = () => {
       setShowDeatailTools(true)
     });
   }
+
+
+  const itemInCartTool = getCartItemTool();
+ 
+  const [cart, setCart] = useState([]);
+  const addToCart = (val) => {
+    setCart([...cart, val])
+    let item = getCartItemTool();
+    if (item) {
+      setCartItemTool([...item, val])
+    } else {
+      setCartItemTool([val])
+    }
+  }
+  
   //------------------------------------search-------------------------------------
   const [searchMie, setSearchMie] = useState("");
   //-----------------------------------PageSize-----------------------------------
@@ -48,7 +64,7 @@ const StToolsList = () => {
       <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
         <div className="card-body">
           <div className="row">
-            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'><h2>อุปกรณ์</h2></div>
+            <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'><h2>อุปกรณ์ ({itemInCartTool.length})</h2></div>
             <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>
               <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
                 onChange={(event) => {
@@ -76,7 +92,7 @@ const StToolsList = () => {
                       <h5 className="card-title">{val.tool_id}.  {val.tool_name}</h5>
                       <div className="row">
                         <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button type="button" className="btn btn-success"><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
+                          <button type="button" className="btn btn-success"  onClick={() => { addToCart(val) }}><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
                         </div>
                         <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                           <button type="button" className="btn btn-secondary" onClick={()=> {detailToolsShow (val.tool_id)}}><i className="fas fa-search p-1" /><span className="NameCrub">ดูรายละเอียด</span></button>

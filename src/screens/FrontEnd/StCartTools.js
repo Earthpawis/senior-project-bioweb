@@ -2,8 +2,33 @@ import React from 'react'
 import { Modal, Button, Form, Card } from 'react-bootstrap'
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
+import { getCartItemTool , setCartItemTool} from '../../functions/cartItem'
 
-const stDis = () => {
+const StCartTools = () => {
+
+  let item = getCartItemTool();
+  const [proid, setProid] = useState();
+  const [professerList, setProfesserList] = useState([]);
+  const delItem = (key) => {
+    localStorage.removeItem('item'[key]);
+    item.splice(key)
+    console.log(item);
+    setCartItemTool(item);
+    window.location.reload();
+  }
+  const submit = () => {
+    console.log(proid);
+  }
+  const getProfesser = () => {
+    axios.get('http://localhost:3307/dataProfesser').then((Response) => {
+        setProfesserList(Response.data);
+    });
+  }
+  useEffect(() => {
+    getProfesser();
+    console.log(getCartItemTool());
+  }, [])
+
   return (
     <div className="container">
       <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
@@ -13,6 +38,7 @@ const stDis = () => {
             <table className=" table table-bordered  ">
               <thead className=" ">
                 <tr>
+                <th width="10%" style={{ minWidth: 100 }}></th>
                   <th width="10%" style={{ minWidth: 100 }}>ID</th>
                   <th width="30%" style={{ minWidth: 170 }}>รายการ</th>
                   <th width="10%" style={{ minWidth: 100 }}>จำนวน</th>
@@ -21,26 +47,33 @@ const stDis = () => {
                 </tr>
               </thead>
               <tbody style={{ verticalAlign: 'middle' }}>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td><input className="form-control form-control-sm" type="text" aria-label=".form-control-sm example" /></td>
-                  <td><Form.Select aria-label="Default select example" onChange={(Event) => { }}>
-                    <option value="0">หน่วย</option>
-                    <option value="1">g.</option>
-                    <option value="2">mL.</option>
-                  </Form.Select></td>
-                  <td style={{ textAlign: 'center' }}><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center' }} /></td>
-                </tr>
+              {item.map((val,key) => {
+                  return (<tr key= {key}>
+                    <th scope="row">{key+1}</th>
+                    <th scope="row">{val.tool_id}</th>
+                    <td>{val.tool_name}</td>
+                    <td><input className="form-control form-control-sm" type="text" aria-label=".form-control-sm example" /></td>
+                    <td><Form.Select aria-label="Default select example" onChange={(Event) => { }}>
+                      <option value="0">หน่วย</option>
+                      <option value="1">g.</option>
+                      <option value="2">mL.</option>
+                    </Form.Select></td>
+                    <td style={{ textAlign: 'center' }}><button><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center' }} onClick={() => delItem(key)} /></button></td>
+                  </tr>)
+                  
+                })}
               </tbody>
             </table>
             <div className="row mt-3">
               <div className="col-xl-6 col-sm-12 col-md-6 col-lg-6 col-12 ">
                 <div className="dropdown text-end mt-2">
-                  <Form.Select aria-label="Default select example" onChange={(Event) => { }}>
-                    <option value="0">กรุณาเลือกชื่ออาจารย์ที่อนุมัติ</option>
-                    <option value="1">Solids</option>
-                    <option value="2">Liquids</option>
+                  <Form.Select aria-label="Default select example" onChange={(Event) => { setProid(Event.target.value) }}>
+                  {professerList.map((val,key) =>{
+                     return ( <>
+                     <option value={val.prof_id}>{val.prof_name}</option>
+                     </>  
+                     )
+                   } )}
                   </Form.Select>
                 </div>
               </div>
@@ -53,7 +86,7 @@ const stDis = () => {
             </div>
             <div className="row mt-5">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }}  >
+                <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={submit} >
                   <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
                 </button>
               </div>
@@ -71,4 +104,4 @@ const stDis = () => {
   )
 }
 
-export default stDis
+export default StCartTools
