@@ -53,4 +53,13 @@ module.exports = function (app) {
             }
         )
     })
+
+    app.post('/submitBor',(req,res)=> {
+        
+        let descrip = req.body.descrip
+        let o_bor_status = 1;
+       db.query('INSERT INTO order_dis (std_id,prof_id,o_bor_item_amount,o_bor_discrip,o_bor_status)')
+    })
+
+
 }

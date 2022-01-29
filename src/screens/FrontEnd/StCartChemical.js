@@ -16,6 +16,7 @@ const StBorrow = () => {
   const [prof_id, setProf_id] = useState("1");
   const [dis_descrip, setDis_descrip] = useState();
   const [cartData, setCartData] = useState([]);
+  const [professerList, setProfesserList] = useState([]);
 
   const submit = () => {
     axios.post('http://localhost:3307/submitDis', { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
@@ -28,19 +29,12 @@ const StBorrow = () => {
         }
       })
   }
-
-
-  const [professerList, setProfesserList] = useState([]);
-
   const delItem = (key) => {
     localStorage.removeItem('item'[key]);
     item.splice(key)
     setCartItem(item);
     window.location.reload();
-
   }
-
-
   const getProfesser = () => {
     axios.get('http://localhost:3307/dataProfesser').then((Response) => {
       setProfesserList(Response.data);
