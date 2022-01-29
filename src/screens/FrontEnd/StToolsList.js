@@ -44,7 +44,10 @@ const StToolsList = () => {
       setCartItemTool([val])
     }
   }
-  
+  useEffect(() => {
+    console.log(cart);
+
+  }, [cart])
   //------------------------------------search-------------------------------------
   const [searchMie, setSearchMie] = useState("");
   //-----------------------------------PageSize-----------------------------------

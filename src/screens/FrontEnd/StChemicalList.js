@@ -34,9 +34,10 @@ const StChemicalList = () => {
   }
 
   const itemInCart = getCartItem();
- 
+
   const [cart, setCart] = useState([]);
   const addToCart = (val) => {
+    val.unit = '1';
     setCart([...cart, val])
     let item = getCartItem();
     if (item) {
@@ -46,10 +47,10 @@ const StChemicalList = () => {
     }
     // localStorage.setItem('item', JSON.stringify())
   }
-  useEffect(() => { 
+  useEffect(() => {
     console.log(cart);
-    
-   }, [cart])
+
+  }, [cart])
   //------------------------------------search-------------------------------------
   const [searchMie, setSearchMie] = useState("");
   //-----------------------------------PageSize-----------------------------------

@@ -2,8 +2,10 @@ import React from 'react'
 import { Modal, Button, Form, Card } from 'react-bootstrap'
 import { useState, useEffect, useMemo } from 'react'
 import axios, { Axios } from 'axios'
-import { getCartItem, setCartItem, getUserData } from '../../functions/cartItem'
+import { getCartItem, setCartItem, getUserData ,removeCartItem} from '../../functions/cartItem'
 import Swal from 'sweetalert2'
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
+
 
 const StBorrow = () => {
 
@@ -11,47 +13,28 @@ const StBorrow = () => {
   const i = JSON.parse(localStorage.getItem("user"));
 
   //Cart_detail
-  const [dis_quantity, setDis_quantity] = useState();
-  const [dis_unit, setUnit] = useState();
-  const [std_id, setStd_id] = useState();
-  const [prof_id, setProf_id] = useState();
-  const [ch_id, setCh_id] = useState();
-  const [dis_date, setDis_date] = useState();
+  const [prof_id, setProf_id] = useState("1");
   const [dis_descrip, setDis_descrip] = useState();
   const [cartData, setCartData] = useState([]);
 
   const submit = () => {
-    console.log(item);
-    console.log(i);
-    console.log(prof_id);
-     
-  
-    axios.post('http://localhost:3307/submitDis', {item:cartData, user:i, descrip:dis_descrip, prof:prof_id}).then(
+    axios.post('http://localhost:3307/submitDis', { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
       res => {
-      if(res.status === 200){
-        Swal.fire("ทำรายการเบิกสำเร็จ", "", "success")
-      }else if (res.status === 500){
-        console.log("555555555555555555555555555555")
-        Swal.fire("ไม่สามารถอัพโหลดข้อมูลได้", "เนื่องจากไม่ได้เเนบรูปภาพ", "error")
-      }
-    })
-    // axios.post('http://localhost:3307/submitDis', {
-    //   dis_quantity: dis_quantity,
-    //   dis_unit: dis_unit,
-    //   std_id: i.std_id,
-    //   prof_id: prof_id,
-    //   ch_id: item.ch_id
-    // })
+        if (res.status === 200) {
+          Swal.fire("ทำรายการเบิกสำเร็จ", "", "success")
+          removeCartItem();
+        } else if (res.status === 500) {
+          Swal.fire("ทำรายการไม่สำเร็จ", "กรุณากรอกข้อมูลให้ครบถ้วน", "error")
+        }
+      })
   }
 
 
   const [professerList, setProfesserList] = useState([]);
 
-
   const delItem = (key) => {
     localStorage.removeItem('item'[key]);
     item.splice(key)
-    console.log(item);
     setCartItem(item);
     window.location.reload();
 
@@ -100,8 +83,9 @@ const StBorrow = () => {
                         setCartData([...cartData])
                       }}
                     /></td>
-                    <td><Form.Select aria-label="Default select example" onChange={(event) => {
-                      setUnit(event.target.value)
+                    <td><Form.Select aria-label="Default select example" value={cartData[key].unit} onChange={(event) => {
+                      cartData[key].unit = event.target.value;
+                      setCartData([...cartData])
                     }}>
                       <option value="0">หน่วย</option>
                       <option value="1">g.</option>
@@ -116,7 +100,7 @@ const StBorrow = () => {
             <div className="row mt-3">
               <div className="col-xl-6 col-sm-12 col-md-6 col-lg-6 col-12 ">
                 <div className="dropdown text-end mt-2">
-                  <Form.Select aria-label="Default select example" onChange={(Event) => { setProf_id(Event.target.value) }}>
+                  <Form.Select aria-label="Default select example" value={prof_id} onChange={(Event) => { setProf_id(Event.target.value) }}>
                     {professerList.map((val, key) => {
                       return (<>
                         <option value={val.prof_id}>{val.prof_name}</option>

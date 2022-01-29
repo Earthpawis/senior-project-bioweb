@@ -76,8 +76,7 @@ app.get('/dataStudent', (req, res) => {
 app.post('/stuRead:std_id', (req, res) => {
     const id = req.params.std_id;
     db.query("SELECT * FROM student WHERE std_id = ?", id, (err, result) => {
-        if (err) {
-            console.log(err);
+        if (err) {             
         } else {
             res.send(result);
         }

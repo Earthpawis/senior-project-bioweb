@@ -7,6 +7,13 @@ import { getCartItemTool , setCartItemTool} from '../../functions/cartItem'
 const StCartTools = () => {
 
   let item = getCartItemTool();
+  const i = JSON.parse(localStorage.getItem("user"));
+
+  //Cart_detail
+  const [prof_id, setProf_id] = useState("1");
+  const [dis_descrip, setDis_descrip] = useState();
+
+  
   const [proid, setProid] = useState();
   const [professerList, setProfesserList] = useState([]);
   const delItem = (key) => {
