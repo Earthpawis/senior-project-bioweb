@@ -63,7 +63,7 @@ const StBorrow = () => {
             <table className=" table table-bordered ">
               <thead className=" ">
                 <tr>
-                  <th width="10%" style={{ minWidth: 100 }}></th>
+                  <th width="2%" style={{ minWidth: 20 }}/>
                   <th width="10%" style={{ minWidth: 100 }}>ID</th>
                   <th width="30%" style={{ minWidth: 170 }}>รายการ</th>
                   <th width="10%" style={{ minWidth: 100 }}>จำนวน</th>
@@ -74,7 +74,7 @@ const StBorrow = () => {
               <tbody style={{ verticalAlign: 'middle' }}>
                 {cartData.map((val, key) => {
                   return (<tr key={key}>
-                    <th scope="row">{key + 1}</th>
+                    <td >{key + 1}</td>
                     <th scope="row">{val.ch_id}</th>
                     <td>{val.ch_name}</td>
                     <td><input className="form-control form-control-sm" type="text" aria-label=".form-control-sm example"
@@ -91,7 +91,7 @@ const StBorrow = () => {
                       <option value="1">g.</option>
                       <option value="2">mL.</option>
                     </Form.Select></td>
-                    <td style={{ textAlign: 'center' }}><button><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center' }} onClick={() => delItem(key)} /></button></td>
+                    <td style={{ textAlign: 'center' }}><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center', cursor:'pointer'}} onClick={() => delItem(key)} />  </td>
                   </tr>)
 
                 })}

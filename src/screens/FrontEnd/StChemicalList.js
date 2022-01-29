@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import { Modal, Button, Form, Card, CardImg } from 'react-bootstrap'
 import Pagination from '../../Components/Paginations/Pagination';
 import { getCartItem, setCartItem } from '../../functions/cartItem';
-
+import moment from 'moment'
 
 const StChemicalList = () => {
 
@@ -70,7 +70,7 @@ const StChemicalList = () => {
         <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
           <div className="card-body">
             <div className="row">
-              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'><h2>สารเคมี สารเคมีในตะกร้า ({itemInCart.length})</h2></div>
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'><h2>สารเคมี <span className='itemCart'>สารเคมีในตะกร้า {itemInCart.length} </span></h2></div>
               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>
                 <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
                   onChange={(event) => {
@@ -140,16 +140,16 @@ const StChemicalList = () => {
           {readChe.map((val, key) => {
             return (
               <div className="row" key={key}>
-                <div className="col-xl-4 col-lg-5 col-md-5 col-12 col-sm-12">
+                <div className="col-xl-4 col-lg-5 col-md-12 col-12 col-sm-12">
                   <div className="row mb-3">
-                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-3  col-3 col-form-label form-name labal-name-mie">ชื่อสารเคมี :
                     </label>
-                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                    <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-9 col-9 mt-2">
                       {val.ch_name}
                     </div>
                   </div>
                   <div className="row mb-3">
-                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-3  col-3  col-4 col-form-label form-name labal-name-mie">ชนิด
                       :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
@@ -185,7 +185,7 @@ const StChemicalList = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-xl-5 col-lg-5 col-md-5 col-12 col-sm-12">
+                <div className="col-xl-5 col-lg-5 col-md-12 col-12 col-sm-12">
                   <div className="row mb-3">
                     <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">สถานที่เก็บ :
                     </label>
@@ -212,7 +212,7 @@ const StChemicalList = () => {
                     <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                      {val.ch_exp}
+                      {moment(val.ch_exp).format('L')}
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -224,7 +224,7 @@ const StChemicalList = () => {
                   </div>
                 </div>
                 <div className="col-xl-3">
-                  <div className="form-group mb-3">
+                  <div className="form-group ">
                     <div className="image-upload">
                       <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>

@@ -45,7 +45,7 @@ const StCartTools = () => {
             <table className=" table table-bordered  ">
               <thead className=" ">
                 <tr>
-                <th width="10%" style={{ minWidth: 100 }}></th>
+                <th width="2%" style={{ minWidth: 20 }}></th>
                   <th width="10%" style={{ minWidth: 100 }}>ID</th>
                   <th width="30%" style={{ minWidth: 170 }}>รายการ</th>
                   <th width="10%" style={{ minWidth: 100 }}>จำนวน</th>
@@ -65,7 +65,7 @@ const StCartTools = () => {
                       <option value="1">g.</option>
                       <option value="2">mL.</option>
                     </Form.Select></td>
-                    <td style={{ textAlign: 'center' }}><button><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center' }} onClick={() => delItem(key)} /></button></td>
+                    <td style={{ textAlign: 'center' }}><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center' , cursor:'pointer' }} onClick={() => delItem(key)} /></td>
                   </tr>)
                   
                 })}

@@ -182,19 +182,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <footer>
-        <div class="footer-content">
-        <div className="text-center">
-     
-        </div>
-        </div>
-      </footer>
-
-      {/* <footer id="sticky-footer" className="flex-shrink-0 py-4   text-white-50">
-        <div className="container text-center">
-          <small>Copyright &copy; 2022 </small>
-        </div>
-      </footer> */}
+   
     </>
   );
 

@@ -49,13 +49,7 @@ const StNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <footer>
-        <div className="footer-content">
-          <div className="text-center">
-
-          </div>
-        </div>
-      </footer>
+      
     </>
 
   );
