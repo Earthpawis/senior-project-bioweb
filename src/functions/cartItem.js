@@ -27,6 +27,9 @@ export const getCartItemTool = () => {
 export const setCartItemTool = (item) => {
     localStorage.setItem('Tool', JSON.stringify(item))
 }
+export const removeCartItemTool = () =>{
+    localStorage.removeItem('Tool')
+}
 //----------- LocalStorage User ------------------------
 export const getUserData = () => {
     JSON.parse(localStorage.getItem('user'));

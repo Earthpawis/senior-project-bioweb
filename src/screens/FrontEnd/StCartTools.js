@@ -2,7 +2,7 @@ import React from 'react'
 import { Modal, Button, Form, Card } from 'react-bootstrap'
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
-import { getCartItemTool, setCartItemTool } from '../../functions/cartItem'
+import { getCartItemTool , setCartItemTool ,removeCartItemTool} from '../../functions/cartItem'
 import Swal from 'sweetalert2'
 
 const StCartTools = () => {
@@ -22,6 +22,7 @@ const StCartTools = () => {
       res => {
         if (res.status === 200) {
           Swal.fire("ทำรายการยืมอุปกรณ์สำเร็จ", "", "success")
+          removeCartItemTool();
         } else if (res.status === 500) {
           Swal.fire("ทำรายการไม่สำเร็จ", "กรุณากรอกข้อมูลให้ครบถ้วน", "error")
         }

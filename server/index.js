@@ -29,6 +29,7 @@ app.use(function(req, res, next) {
 
 require('./chemical')(app)
 require('./cart')(app)
+require('./pickingList')(app)
 
 app.listen('3307', () => {
     console.log('Server is running on port 3307');
