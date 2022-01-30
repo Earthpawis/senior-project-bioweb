@@ -6,46 +6,18 @@
 
 .BioName{
     text-shadow: rgb(163, 162, 162) 0.1em 0.1em 0.2em;
-    /* text-shadow: 0.1em 0.1em 0.2em rgb(148, 148, 148); */
     font-size: 25px;
 }
 
 .NavBarName{
     color: black !important;   
 }
-/* 
-.sild-home{
-    margin-top: 3rem;
-    background: #fff;
-} */
+
 .cradhome {
     background: white;
     border-radius: 8px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-   /*  cursor: pointer;
-    height: 300px;
-    margin: 20px;
-    padding: 0 20px;
-    position: relative;
-    -webkit-tap-highlight-color: rgba(0,0,0,0.025);
-    text-align: center;
-    transition: height 1000ms;*/
     width: 160px; 
     margin-top: 4rem;
   }
 
-  footer{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgb(253, 253, 253);
-    height: auto;
-    width: 100vw;
-    padding-top: 40px;
-    color: #f8f9fa;
-}
-
-.font-footer{
-    color: black;
-}

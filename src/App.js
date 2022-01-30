@@ -17,7 +17,8 @@ import StHome from "./screens/FrontEnd/StHome"
 import StToolsList from "./screens/FrontEnd/StToolsList";
 import StPickingListChemical from "./screens/FrontEnd/StPickingListChemical";
 import StPickingListTool from "./screens/FrontEnd/StPickingListTool";
-
+import AjPickingListTool from "./screens/FrontEnd/AjPickingListTool";
+import AjPickingListChemical from "./screens/FrontEnd/AjPickingListChemical";
 
 import {
   BrowserRouter as Router,
@@ -52,7 +53,8 @@ const studentRoute = () => (
     <Route exact path="/StToolsList" component={StToolsList} />
     <Route exact path="/StPickingListChemical" component={StPickingListChemical} />
     <Route exact path="/StPickingListTool" component={StPickingListTool} />
-
+    <Route exact path="/AjPickingListTool" component={AjPickingListTool} />
+    <Route exact path="/AjPickingListChemical" component={AjPickingListChemical} />
     <Route path="*" exact component={_404Page} />
   </Switch>
 );

@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Prompt:wght@200;300;400&display=swap');
 @import url("https://cdn.syncfusion.com/ej2/material.css");
-/* body{
- font-family: 'Prompt', sans-serif;
-} */
 
 .warpper{
   display:flex;
@@ -136,3 +133,4 @@
     font-size: 20px;
     box-shadow: 5px 8px 15px #707070;
 }
+
