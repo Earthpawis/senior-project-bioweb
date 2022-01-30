@@ -25,23 +25,25 @@ const PickingListChemical = () => {
       >
         <div className="card-body">
           <h3>รายการเบิกสารเคมี</h3>
+          <div className="table-responsive">
           <table className="table bg-white  table-bordered ">
             <thead className="bg-dark text-light">
               <tr>
-                <th width="10%" style={{ minWidth: 100 }}>
+                <th width="2%" style={{ minWidth: 100 }}>
                   ORDER ID
                 </th>
-                <th width="30%" style={{ minWidth: 170 }}>
+                <th width="20%" style={{ minWidth: 170 }}>
                   เพื่อ
                 </th>
-                <th width="10%" style={{ minWidth: 100 }}>
+                <th width="8%" style={{ minWidth: 100 }}>
                   จำนวน
                 </th>
-                <th width="15%" style={{ minWidth: 100 }} />
-                <th width="22%" style={{ minWidth: 100 }}>
+                <th width="10%" style={{ minWidth: 180 }} />
+                <th width="20%" style={{ minWidth: 250 }}>
                   รายชื่ออาจารย์ที่อนุมัติ
                 </th>
-                <th>สถานะ</th>
+                <th  width="10%" style={{ minWidth: 180 }}>เวลาที่เบิก</th>
+                <th  width="15%" style={{ minWidth: 180 }}>สถานะ</th>
               </tr>
             </thead>
             <tbody style={{ verticalAlign: "middle" }}>
@@ -52,28 +54,22 @@ const PickingListChemical = () => {
                     <td data-title="Number">{val.o_dis_item_amount}</td>
                     <td data-title="button">
                       {" "}
-                      <button
-                        type="button"
-                        className="btn btn-report "
-                        style={{ backgroundColor: "#63B0C0", color: "#fff" }}
-                      >
-                        <i
-                          aria-hidden="true"
-                          className="fas fa-search-plus"
-                          style={{ fontSize: 15 }}
-                        />
+                      <button type="button" className="btn btn-report " style={{ backgroundColor: "#63B0C0", color: "#fff" }}>
+                        <i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }}/>
                         <label className="mx-2">ดูรายละเอียด</label>{" "}
                       </button>
                     </td>
-                    <td data-title="Email">{val.prof_name}</td>
+                    <td data-title="Aj">{val.prof_name}</td>
+                    <td></td>
                     <td data-title="status">
-                      <label className="iconcheck-name mx-2">{val.o_dis_status == 1 ? 'รอการอนุมัติ': val.o_dis_status ==2 ? 'อนุมัติ': 'ไม่อนุมัติ'}</label>
-                      <i className="fas fa-check iconcheck-name" />
+                      <label className="iconcheck-name mx-2"><i className="fas fa-check iconcheck-name mx-2" />{val.o_dis_status == 1 ? 'รอการอนุมัติ': val.o_dis_status ==2 ? 'อนุมัติ': 'ไม่อนุมัติ'}</label>
+
                     </td>
                   </tr>)
              })}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
