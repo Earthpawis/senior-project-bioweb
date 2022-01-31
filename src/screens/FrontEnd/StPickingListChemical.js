@@ -6,14 +6,12 @@ import { Modal, Button, ModalFooter } from 'react-bootstrap'
 const PickingListChemical = () => {
 
 
-  const [detailPL , setDetailPL] = useState();
+  const [detailPL , setDetailPL] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLChemical = (id) => {
     axios.get(`http://localhost:3307/detailPLChemical/`+ id).then((response)=>{
       setDetailPL(response.data);
-      console.log(detailPL);
-     
     }
     )
     setShowDetail(true)
@@ -99,8 +97,7 @@ const PickingListChemical = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : เบิกใช้สารเคมี
-          </Modal.Title>
+          <Modal.Title>ดูรายละเอียด : เบิกใช้สารเคมี </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <table class="table table-bordered">
@@ -113,13 +110,15 @@ const PickingListChemical = () => {
               </tr>
             </thead>
             <tbody>
-
-              <tr>
-                <th scope="row"> Acarbose</th>
-                <td>2 </td>
-                <td>mL</td>
+            {detailPL.map((val,key)=> {
+              return (
+                <tr key={key} >
+                <th scope="row"> {val.ch_name}</th>
+                <td>{val.dis_quantity}</td>
+                <td>{val.dis_unit ==1 ? 'g' : 'mL'}</td>
               </tr>
-
+              )
+            })}  
             </tbody>
           </table>
           <div className='row'>

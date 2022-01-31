@@ -34,7 +34,7 @@ module.exports = function(app){
     app.get('/detailPLChemical/:id',(req,res) => {
         const id = req.params.id;
         console.log(id);
-        db.query("SELECT * FROM o_disbursement od JOIN order_dis ord ON od.o_dis_id = ord.o_dis_id JOIN chemical che ON che.ch_id = od.ch_id JOIN professer prof ON prof.prof_id = ord.prof_id WHERE od.o_dis_id = ?", [id],(err,result)=>{
+        db.query("SELECT ch_name, dis_quantity, dis_unit, prof_name , o_dis_date , o_dis_status ,o_dis_descrip FROM o_disbursement od JOIN order_dis ord ON od.o_dis_id = ord.o_dis_id JOIN chemical che ON che.ch_id = od.ch_id JOIN professer prof ON prof.prof_id = ord.prof_id WHERE od.o_dis_id = ?", [id],(err,result)=>{
             if(err){
                 console.log(err);
             }else{
