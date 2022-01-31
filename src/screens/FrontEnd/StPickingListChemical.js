@@ -1,7 +1,23 @@
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import moment from 'moment'
+import { Modal, Button, ModalFooter } from 'react-bootstrap'
 
 const PickingListChemical = () => {
+
+
+  const [detailPL , setDetailPL] = useState();
+  const [showDetail, setShowDetail] = useState(false);
+  const closeShowDetail = () => setShowDetail(false);
+  const showDetailPLChemical = (id) => {
+    axios.get(`http://localhost:3307/detailPLChemical/`+ id).then((response)=>{
+      setDetailPL(response.data);
+      console.log(detailPL);
+     
+    }
+    )
+    setShowDetail(true)
+  };
 
   const [pickingList, setPickingList] = useState([]);
   const getPickingListChemical = () => {
@@ -54,13 +70,13 @@ const PickingListChemical = () => {
                     <td data-title="Number">{val.o_dis_item_amount}</td>
                     <td data-title="button">
                       {" "}
-                      <button type="button" className="btn btn-report " style={{ backgroundColor: "#63B0C0", color: "#fff" }}>
+                      <button type="button" className="btn btn-report" onClick={() => {showDetailPLChemical(val.o_dis_id)}} style={{ backgroundColor: "#63B0C0", color: "#fff" }}>
                         <i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }}/>
-                        <label className="mx-2">ดูรายละเอียด</label>{" "}
+                        <label className="mx-2" >ดูรายละเอียด</label>{" "}
                       </button>
                     </td>
                     <td data-title="Aj">{val.prof_name}</td>
-                    <td></td>
+                    <td>{moment(val.o_dis_date).format('L')}</td>
                     <td data-title="status">
                       <label className="iconcheck-name mx-2"><i className="fas fa-check iconcheck-name mx-2" />{val.o_dis_status == 1 ? 'รอการอนุมัติ': val.o_dis_status ==2 ? 'อนุมัติ': 'ไม่อนุมัติ'}</label>
 
@@ -72,7 +88,59 @@ const PickingListChemical = () => {
           </div>
         </div>
       </div>
+
+
+      <Modal
+        show={showDetail}
+        onHide={closeShowDetail}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>ดูรายละเอียด : เบิกใช้สารเคมี
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+              
+                <th scope="col">รายการ</th>
+                <th scope="col">จำนวน</th>
+                <th scope="col">หน่วย</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <th scope="row"> Acarbose</th>
+                <td>2 </td>
+                <td>mL</td>
+              </tr>
+
+            </tbody>
+          </table>
+          <div className='row'>
+            <div className='col-6' style={{ textAlign: 'center' }} >
+              <i className="fas fa-check" style={{ color: '#41B949' }} />
+              <label className="mx-2" style={{ color: '#41B949' }}>อนุมัติ : โดย ดร.วันรดาย์ แพงสุข </label>
+            </div>
+            <div className='col-6' style={{ textAlign: 'center' }}>
+              <label>เวลาเบิก : 22/11/2021
+                16.30 น.
+              </label>
+            </div>
+          </div>
+        </Modal.Body>
+
+      </Modal>
+
+
     </div>
+
+    
   );
 };
 

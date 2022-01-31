@@ -10,7 +10,7 @@ const db = mysql.createConnection({
 module.exports = function(app){
 
     app.get('/pickingListChemical', (req, res) => {
-        db.query("SELECT o_dis_id,o_dis_item_amount,o_dis_descrip,o_dis_status,professer.prof_name FROM order_dis INNER JOIN professer ON order_dis.prof_id = professer.prof_id ", (err, result) => {
+        db.query("SELECT o_dis_id,o_dis_item_amount,o_dis_descrip,o_dis_status,o_dis_date,professer.prof_name FROM order_dis INNER JOIN professer ON order_dis.prof_id = professer.prof_id ", (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -31,5 +31,18 @@ module.exports = function(app){
         })
     }) 
 
-
+    app.get('/detailPLChemical/:id',(req,res) => {
+        const id = req.params.id;
+        console.log(id);
+        db.query("SELECT * FROM o_disbursement od JOIN order_dis ord ON od.o_dis_id = ord.o_dis_id JOIN chemical che ON che.ch_id = od.ch_id JOIN professer prof ON prof.prof_id = ord.prof_id WHERE od.o_dis_id = ?", [id],(err,result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.json(result);
+                console.log(result);          
+            } 
+        }
+        )
+    }
+    ) 
 }

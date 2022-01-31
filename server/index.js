@@ -15,8 +15,6 @@ const db = mysql.createConnection({
     database: "bio",
     port: "3306",
     password: "",
-
-
 })
 
 app.use(function(req, res, next) {
@@ -24,6 +22,7 @@ app.use(function(req, res, next) {
         "Access-Control-Allow-Headers",
         "x-access-token, Origin, Content-Type, Accept"
     );
+    console.log(req.originalUrl);
     next();
 }); 
 
@@ -152,6 +151,7 @@ app.post("/login", (req, res) => {
 
 const { readFileSync, createReadStream, unlinkSync } = require('fs');
 const { query } = require('express');
+const { log } = require('console');
 app.post('/uploadFileCSV', (req, res) => {
     try {
         let upload = multer({
