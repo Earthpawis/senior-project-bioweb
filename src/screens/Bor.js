@@ -1,9 +1,13 @@
 import React from 'react'
 import '../css/Bor.css'
 import Axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button, ModalFooter } from 'react-bootstrap'
 import moment from 'moment'
+import Pagination from '../Components/Paginations/Pagination';
+
+let PageSize = 7;
+
 
 export default function Bor() {
 
@@ -36,6 +40,7 @@ export default function Bor() {
     })
     setShowDetailPLDis(true)
   };
+
   const [pickListDis, setPickListDis] = useState([]);
   const pickList = () => {
     Axios.get('http://localhost:3307/pickingListDis_admin').then((Response) => {
@@ -54,6 +59,23 @@ export default function Bor() {
   useEffect(() => {
     console.log(pickListBor);
   }, [pickListBor])
+  // --------- ---------- page ---------- ---------- ---------- ----------
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const currentPickListDisTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return pickListDis.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, pickListDis]);
+
+  const currentPickListBorTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return pickListBor.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, pickListBor]);
+  // --------- ---------- search---------- ---------- ---------- ----------
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <>
       <div className="col-9 " style={{ marginRight: '5rem', marginTop: '5rem' }}>
@@ -67,6 +89,9 @@ export default function Bor() {
             </div>
             <div className='col-6'>
               <input type='text' className='form-control' placeholder='ค้นหาชื่อรายชื่อเบิกใช้สารเคมี ยืมอุปกรณ์' style={{ marginLeft: '17.4rem' }}
+                 onChange={(event) => {
+                  setSearchTerm(event.target.value);
+              }}
               />
             </div>
           </div>
@@ -76,71 +101,84 @@ export default function Bor() {
                 <thead>
                   <tr>
                     <th className="headname-th" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                    <th className="headname-th" width="10%" style={{ minWidth: 235 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 200 }}><span> ชื่อ-นามสกุล</span></th>
                     <th className="class-room" width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" width="10%" style={{ minWidth: 340 }}><span >เพื่อ</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 300 }}><span >เพื่อ</span></th>
                     <th className="class-room" width="3%" style={{ minWidth: 100 }}><span>รายการ</span></th>
-                    <th className="headname-th" width="10%" style={{ minWidth: 165 }} />
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 0 }}> </th>
-                    <th className="headname-th" width="5%" style={{ minWidth: 180 }} ><span>สถานะ</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 90 }} ><span>เวลาที่เบิก</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 165 }} ></th>
+                    <th className="headname-th" width="5%" style={{ minWidth: 160 }} ><span>สถานะ</span></th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
 
-                {pickListDis.map((val,key)=>{
-                  return(
-                    <tr className="table-name-report">
-                    <th className='order-id'>{val.o_dis_id}</th>
-                    <td>{val.std_name}</td>
-                    <td className='class-room'><label className="class-room">{val.std_level}</label> </td>
-                    <td><label className="class-room">{val.o_dis_descrip}</label> </td>
-                    <td className='class-room'>{val.o_dis_item_amount}</td>
-                    <td><button type="button" className="btn btn-report " onClick={() => (showDetailPLDisShow(val.o_dis_id))} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                    <td></td>
-                    <td><label className="mx-2" >
-                    {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'> รอการอนุมัติ</label> </> 
-                    : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name' >อนุมัติ</label></> 
-                    : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label></>}</label> </td>
-                  </tr>
-                  )
-                })}
-              
+                  {currentPickListDisTableData
+                  .filter((val) => {
+                    if (searchTerm == "") {
+                        return val
+                    } else if (val.o_dis_descrip.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    } else if (val.std_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    }
+                }).map((val, key) => {
+                    return (
+                      <tr className="table-name-report">
+                        <th className='order-id'>{val.o_dis_id}</th>
+                        <td>{val.std_name}</td>
+                        <td className='class-room'><label className="class-room">{val.std_level}</label> </td>
+                        <td><label className="class-room">{val.o_dis_descrip}</label> </td>
+                        <td className='class-room'>{val.o_dis_item_amount}</td>
+                        <td>{moment(detailPLDis[0]?.o_dis_date).format('L')}</td>
+                        <td><button type="button" className="btn btn-report " onClick={() => (showDetailPLDisShow(val.o_dis_id))} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
+
+                        <td><label className="mx-2" >
+                          {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'> รอการอนุมัติ</label> </>
+                            : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name' >อนุมัติ</label></>
+                              : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label></>}</label> </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
-              <div className='row' >
-                <nav aria-label="Page navigation example">
-                  <ul className="pagination justify-content-end">
-                    <li className="page-item disabled">
-                      <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li className="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={pickListDis.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)} />
             </div>
+
             <div className="panel" id="two-panel">
-              <table className="table table-responsive">
+              <table className="table  ">
                 <thead>
                   <tr>
-                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 200 }}><span> ชื่อ-นามสกุล</span></th>
-                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 300 }}><span>เพื่อ</span> </th>
-                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 100 }}><span>รายการ</span></th>
-                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 165 }} />
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150 }} ><span>สถานะ</span></th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 120 }}>
+                    <th className="class-room" width="3%" style={{ minWidth: 92}}> <span>ORDER ID</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 200 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="class-room"  width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 191 }}><span>เพื่อ</span> </th>
+                    <th className="class-room"  width="3%" style={{ minWidth: 50 }}><span>รายการ</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 162 }} />
+                    <th className="headname-th" width="5%" style={{ minWidth: 149 }} ><span>สถานะ</span></th>
+                    <th className="headname-th"  width="5%" style={{ minWidth: 120 }}>
                       <label className="mx-2">คืนอุปกรณ์</label>
+                    </th>
+                    <th className="headname-th"  width="3%" style={{ minWidth: 150 }}>
+                      <label className="mx-2">เวลาที่คืนอุปกรณ์</label>
                     </th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
-                  {pickListBor.map((val, key) => {
+                  {currentPickListBorTableData.filter((val) => {
+                    if (searchTerm == "") {
+                        return val
+                    } else if (val.o_bor_descrip.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    } else if (val.std_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    }
+                })
+                  .map((val, key) => {
                     return (
                       <tr className="table-name-report ">
                         <th className='order-id'>{val.o_bor_id}</th>
@@ -152,36 +190,26 @@ export default function Bor() {
                         <td><label className="mx-2" >{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'>รอการอนุมัติ</label>  </>
                           : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
                             : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
-                        <th>
-                          <label>
-                            <input type="checkbox" value={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
+                        <td className='class-room'>
+                            <input type="checkbox"  value={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
                               pickListBor[key].o_bor_returned = e.target.checked ? 1 : 0;
                               setPickListBor(pickListBor)
-                              
+
                             }} />
-                          </label>
-                        </th>
+                        </td>
+                        <td></td>
                       </tr>
                     )
                   })}
 
                 </tbody>
               </table>
-              <div className='row' >
-                <nav aria-label="Page navigation example">
-                  <ul className="pagination justify-content-end">
-                    <li className="page-item disabled">
-                      <a class="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li className="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={pickListBor.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)} />
             </div>
           </div>
         </div>

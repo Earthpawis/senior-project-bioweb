@@ -1,8 +1,13 @@
 import React from 'react'
 import '../css/dashboard.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect , useMemo} from 'react'
 import { Modal, Button, ModalFooter } from 'react-bootstrap'
 import Axios from 'axios'
+import moment from 'moment'
+import Pagination from '../Components/Paginations/Pagination';
+
+let PageSize = 2;
+
 export default function Dashboard() {
 
 //-------------------- ยืมอุปกรณ์ ------------------------------
@@ -43,11 +48,28 @@ const pickList_bor = () => {
     pickList();
     pickList_bor();
   }, []);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const currentPickListDisTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return pickListDis.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, pickListDis]);
+
+  const currentPickListBorTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return pickListBor.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, pickListBor]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <>
       <div>
         <div className="col-9 col-lg-9 col-xl-9 col-mb-9 col-xs-9" >
-          <div className="row" style={{ marginTop: '3rem', width: '70rem', marginLeft: '-6rem' }}>
+          <div className="row" style={{  width: '77rem', marginLeft: '-6rem' }}>
             <ul className="nav nav-tabs">
               <li className="nav-item">
                 <a className="nav-link active report-name" aria-current="page" href="#">เบิกใช้</a>
@@ -56,21 +78,30 @@ const pickList_bor = () => {
             <div className="row">
               <div className="card cardsidebar">
                 <div className="card-body">
-                  <table className="table table-responsive">
+                  <table className="table ">
                     <thead>
                     <tr>
                     <th className="headname-th" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                    <th className="headname-th" width="10%" style={{ minWidth: 235 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 200 }}><span> ชื่อ-นามสกุล</span></th>
                     <th className="class-room" width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" width="10%" style={{ minWidth: 340 }}><span >เพื่อ</span></th>
-                    <th className="class-room" width="3%" style={{ minWidth: 100 }}><span>รายการ</span></th>
-                    <th className="headname-th" width="10%" style={{ minWidth: 165 }} />
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 0 }}> </th>
-                    <th className="headname-th" width="5%" style={{ minWidth: 180 }} ><span>สถานะ</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 300 }}><span >เพื่อ</span></th>
+                    <th className="class-room" width="3%" style={{ minWidth: 70 }}><span>รายการ</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 90 }} ><span>เวลาที่เบิก</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 160 }} />
+                    <th className="headname-th" width="5%" style={{ minWidth: 150 }} ><span>สถานะ</span></th>
                   </tr>
                     </thead>
                     <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
-                    {pickListDis.map((val,key)=>{
+                    {currentPickListDisTableData
+                  .filter((val) => {
+                    if (searchTerm == "") {
+                        return val
+                    } else if (val.o_dis_descrip.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    } else if (val.std_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    }
+                }).map((val,key)=>{
                   return(
                     <tr className="table-name-report">
                     <th className='order-id'>{val.o_dis_id}</th>
@@ -78,8 +109,9 @@ const pickList_bor = () => {
                     <td className='class-room'><label className="class-room">{val.std_level}</label> </td>
                     <td><label className="class-room">{val.o_dis_descrip}</label> </td>
                     <td className='class-room'>{val.o_dis_item_amount}</td>
+                    <td>{moment(detailPLDis[0]?.o_dis_date).format('L')}</td>
                     <td><button type="button" className="btn btn-report " onClick={() => (showDetailPLDisShow(val.o_dis_id))} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                    <td></td>
+                  
                     <td><label className="mx-2" >
                     {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'> รอการอนุมัติ</label> </> 
                     : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name' >อนุมัติ</label></> 
@@ -89,11 +121,17 @@ const pickList_bor = () => {
                 })}
                     </tbody>
                   </table>
+                  <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={pickListDis.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)} />
                 </div>
               </div>
             </div>
           </div>
-          <div className="row" style={{ marginTop: '1rem', width: '70rem', marginLeft: '-6rem' }}>
+          <div className="row" style={{ marginTop: '0.5rem', width: '77rem', marginLeft: '-6rem'  }}>
             <ul className="nav nav-tabs">
               <li className="nav-item">
                 <a className="nav-link active report-name" aria-current="page" href="#">ยืมอุปกรณ์</a>
@@ -118,7 +156,15 @@ const pickList_bor = () => {
                   </tr>
                     </thead>
                     <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
-                    {pickListBor.map((val, key) => {
+                    {currentPickListBorTableData.filter((val) => {
+                    if (searchTerm == "") {
+                        return val
+                    } else if (val.o_bor_descrip.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    } else if (val.std_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        return val
+                    }
+                }).map((val, key) => {
                     return (
                       <tr className="table-name-report ">
                         <th className='order-id'>{val.o_bor_id}</th>
@@ -145,6 +191,12 @@ const pickList_bor = () => {
                       
                     </tbody>
                   </table>
+                  <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={pickListBor.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)} />
                 </div>
               </div>
             </div>
