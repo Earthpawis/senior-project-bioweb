@@ -7,9 +7,28 @@ import moment from 'moment'
 
 export default function Bor() {
 
+//-------------------- ยืมอุปกรณ์ ------------------------------
+const [pickListBor, setPickListBor] = useState([]);
+const pickList_bor = () => {
+    Axios.get('http://localhost:3307/pickingListBor_admin').then((Response) => {
+      setPickListBor(Response.data);
+    });
+}
+
+  const [detailPLBor,setDetailPLBor] = useState([]);
+  const [showDetailPLBor, setShowDetailPLBor] = useState(false);
+  const showDetailPLBorClose = () => setShowDetailPLBor(false);
+  const showDetailPLBorShow = (id) => {
+    Axios.get('http://localhost:3307/detailPLBor_admin/'+ id).then((response) => {
+      setDetailPLBor(response.data);
+    })
+    setShowDetailPLBor(true)
+  }
+
+
+  //-------------------- เบิกสารเคมี ------------------------------
   const [showDetailPLDis, setShowDetailPLDis] = useState(false);
   const showDetailPLDisClose = () => setShowDetailPLDis(false);
-
   const [detailPLDis,setDetailPLDis] = useState([]);
   const showDetailPLDisShow = (id) => {
     Axios.get('http://localhost:3307/detailPLDis_admin/'+ id).then((response) => {
@@ -17,12 +36,6 @@ export default function Bor() {
     })
     setShowDetailPLDis(true)
   };
-
-  const [showDetaileMei, setshowDetaileMei] = useState(false);
-  const detailCloseEmi = () => setshowDetaileMei(false);
-  const detailEmi = () => setshowDetaileMei(true);
-
-
   const [pickListDis, setPickListDis] = useState([]);
   const pickList = () => {
       Axios.get('http://localhost:3307/pickingListDis_admin').then((Response) => {
@@ -32,11 +45,12 @@ export default function Bor() {
 
   useEffect(() => {
     pickList();
+    pickList_bor();
   }, []);
 
   useEffect(() => {
-    console.log(detailPLDis);
-  }, [detailPLDis]);
+    console.log(detailPLBor);
+  }, [detailPLBor]);
 
   return (
     <>
@@ -111,44 +125,35 @@ export default function Bor() {
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}> <span>ORDER ID</span> </th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 250 }}><span> ชื่อ-นามสกุล</span></th>
                     <th className="headname-th" scope="col" width="3%" style={{ minWidth: 80 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 120 }} />
+                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 80 }}><span></span> </th>
+                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 120 }}><span>รายการ</span></th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 165 }} />
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 160 }} />
                     <th className="headname-th" scope="col" width="5%"  style={{ minWidth: 170 }}>
-                      <button type="button" className="btn btn-report " style={{ backgroundColor: '#5DD480', borderRadius: 4, width: 175, color: '#fff' }}>
-                        <i aria-hidden="true" className="fas fa-check" style={{ fontSize: 15 }} /><label className="mx-2">ยืนยันคืนอุปกรณ์</label> </button>
+                        <label className="mx-2">คืนอุปกรณ์</label> 
                     </th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
+                {pickListBor.map((val,key)=>{
+                  return(
+                  <tr className="table-name-report ">
+                  <th scope="row">{val.o_bor_id}</th>
+                  <td>{val.std_name}</td>
+                  <td><label className="class-room">{val.std_level}</label> </td>
+                  <td>{val.o_bor_descrip}</td>
+                  <td>{val.o_bor_item_amount}</td>
+                  <td><button type="button" onClick={() => {showDetailPLBorShow(val.o_bor_id)}} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
+                  <td><label className="mx-2" >{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ </> : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>}</label> </td>
+                  <th>
+                    <label>
+                      <input type="checkbox" /> 
+                    </label>
+                  </th>
+                </tr>
+                  )
+                })}
 
-                  <tr className="table-name-report ">
-                    <th scope="row">1</th>
-                    <td>นาย ภวิษย์พร ขันธพร</td>
-                    <td><label className="class-room">1</label> </td>
-                    <td>3 รายการ</td>
-                    <td><button type="button" onClick={detailEmi} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                    <td><i className="fas fa-check" style={{ color: '#41B949' }} /><label className="mx-2" style={{ color: '#41B949' }}>อนุมัติ</label> </td>
-                    <th>
-                      <label>
-                        <input type="checkbox" /> คืนอุปกรณ์
-                      </label>
-                    </th>
-                  </tr>
-                  <tr className="table-name-report ">
-                 
-                 <th scope="row">1</th>
-                 <td>นาย ภวิษย์พร ขันธพร</td>
-                 <td><label className="class-room">1</label> </td>
-                 <td>3 รายการ</td>
-                 <td><button type="button" onClick={detailEmi} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                 <td><i className="fas fa-check" style={{ color: '#41B949' }} /><label className="mx-2" style={{ color: '#41B949' }}>อนุมัติ</label> </td>
-                 <th>
-                   <label>
-                     <input type="checkbox" /> คืนอุปกรณ์
-                   </label>
-                 </th>
-               </tr>
                 </tbody>
               </table>
               <div className='row' >
@@ -218,8 +223,8 @@ export default function Bor() {
       </Modal>
 
       <Modal
-        show={showDetaileMei}
-        onHide={detailCloseEmi}
+        show={showDetailPLBor}
+        onHide={showDetailPLBorClose}
         backdrop="static"
         keyboard={false}
         size="lg"

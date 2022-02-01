@@ -76,7 +76,7 @@ module.exports = function (app) {
                console.log(data);
                const values = data.map(item => [max_o_bor_id,item.tool_id,item.amount])
                console.log(values);
-               db.query('INSERT INTO o_borrow (o_bor_id,tool_id,tool_amount) VALUES ?',[values],(err3,result3) => {
+               db.query('INSERT INTO o_borrow (o_bor_id,tool_id,o_tool_amount) VALUES ?',[values],(err3,result3) => {
                    if(err3){
                        console.log(err3);
                        return res.status(500).json(err3)

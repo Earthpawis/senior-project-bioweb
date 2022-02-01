@@ -4,9 +4,9 @@ import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import { getCartItemTool , setCartItemTool ,removeCartItemTool} from '../../functions/cartItem'
 import Swal from 'sweetalert2'
-
+import {useHistory} from 'react-router-dom'
 const StCartTools = () => {
-
+  const history = useHistory();
   let item = getCartItemTool();
   const i = JSON.parse(localStorage.getItem("user"));
 
@@ -23,6 +23,7 @@ const StCartTools = () => {
         if (res.status === 200) {
           Swal.fire("ทำรายการยืมอุปกรณ์สำเร็จ", "", "success")
           removeCartItemTool();
+          history.push('/StPickingListTool')
         } else if (res.status === 500) {
           Swal.fire("ทำรายการไม่สำเร็จ", "กรุณากรอกข้อมูลให้ครบถ้วน", "error")
         }

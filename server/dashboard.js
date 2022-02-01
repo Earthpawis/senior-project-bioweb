@@ -33,5 +33,29 @@ module.exports = function (app) {
             } 
         })
     }) 
+
+    app.get('/pickingListBor_admin', (req, res) => {
+        db.query("SELECT o_bor_id, std_name, std_level, o_bor_descrip, o_bor_item_amount, o_bor_returned_date, o_bor_status,o_bor_returned FROM order_bor ob JOIN student std ON std.std_id = ob.std_id  ", (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json(result);
+                console.log(result);
+            }
+        })
+    });
+
+    app.get('/detailPLBor_admin/:id',(req,res) => {
+        const id = req.params.id;
+        console.log(id);
+        db.query("", [id],(err,result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.json(result);
+                console.log(result);          
+            } 
+        })
+    }) 
     
 }
