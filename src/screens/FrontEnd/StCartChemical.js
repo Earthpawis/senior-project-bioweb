@@ -4,11 +4,9 @@ import { useState, useEffect, useMemo } from 'react'
 import axios, { Axios } from 'axios'
 import { getCartItem, setCartItem, getUserData, removeCartItem } from '../../functions/cartItem'
 import Swal from 'sweetalert2'
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import {useHistory} from 'react-router-dom'
 
 const StBorrow = () => {
-
   const history = useHistory();
   let item = getCartItem();
   const i = JSON.parse(localStorage.getItem("user"));
@@ -25,7 +23,8 @@ const StBorrow = () => {
         if (res.status === 200) {
           Swal.fire("ทำรายการเบิกสำเร็จ", "", "success")
           removeCartItem();
-          history.pushState('/StPickingListChemical')
+          history.push('/StPickingListChemical')
+          // window.location='//'
         } else if (res.status === 500) {
           Swal.fire("ทำรายการไม่สำเร็จ", "กรุณากรอกข้อมูลให้ครบถ้วน", "error")
         }

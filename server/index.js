@@ -29,15 +29,11 @@ app.use(function(req, res, next) {
 require('./chemical')(app)
 require('./cart')(app)
 require('./pickingList')(app)
+require('./dashboard')(app)
 
 app.listen('3307', () => {
     console.log('Server is running on port 3307');
 })
-
-
-
-
-
 
 // --------------------- GET ----------------------
 
@@ -50,8 +46,6 @@ app.get('/bioo', (req, res) => {
         }
     })
 });
-
-
 
 app.get('/toolsList', (req, res) => {
     db.query("SELECT * FROM tools", (err, result) => {
@@ -68,7 +62,7 @@ app.get('/dataStudent', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.json(result);
+            res.json(result); 
         }
     })
 });

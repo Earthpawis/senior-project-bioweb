@@ -1,8 +1,6 @@
 import React from 'react'
 import '../css/Bor.css'
 /* import '../css/MIE.css' */
-
-
 import Swal from 'sweetalert2'
 import Axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
@@ -13,8 +11,6 @@ let PageSize = 6;
 
 export default function DataST() {
     const [currentPage, setCurrentPage] = useState(1);
-
-
     // --------- Modal Std ----------
     const [showAddStd, setshowAddStd] = useState(false);
     const addCloseStd = () => setshowAddStd(false);
@@ -116,7 +112,6 @@ export default function DataST() {
 
         });
     }
-
 
     const updateEditdataProfesser = (id) => {
         console.log(readprof);
@@ -249,6 +244,7 @@ export default function DataST() {
 
     useEffect(() => {
         getStudent()
+        console.log(studentList);
         getProfesser()
     }, []);
 

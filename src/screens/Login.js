@@ -5,11 +5,13 @@ import pic2 from '../img/connection.png'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import {useHistory} from 'react-router-dom'
 
 export default function Login() {
 
   const [useremail, setuseremail] = useState("");
   const [userpassword, setuserpassword] = useState("");
+  // const history = useHistory();
 
  
 
@@ -25,6 +27,7 @@ export default function Login() {
         if (response.data.length > 0) {
           localStorage.setItem('user',JSON.stringify(response.data[0]))
           // console.log(response.data)
+          // history.push('/Dashboard')
           window.location.reload()
         }
       })

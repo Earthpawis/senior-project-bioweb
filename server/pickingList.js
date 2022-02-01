@@ -41,8 +41,23 @@ module.exports = function(app){
                 res.json(result);
                 console.log(result);          
             } 
+        })
+    }) 
+
+    app.get('/detailPLTool/:id',(req,res) => {
+        const id = req.params.id;
+        console.log(id);
+        db.query("SELECT tool_name, tool_size,o_tool_amount, prof_name , o_bor_date , o_bor_status ,o_bor_descrip,o_bor_returned_date FROM o_borrow ob JOIN order_bor orb ON ob.o_bor_id = orb.o_bor_id JOIN tools t ON t.tool_id = ob.tool_id JOIN professer prof ON prof.prof_id = orb.prof_id WHERE ob.o_bor_id = ?", [id],(err,result)=>{
+            if(err){
+                console.log(err);
+            }else{
+                res.json(result);
+                console.log(result);           
+            } 
         }
         )
     }
     ) 
+
+
 }
