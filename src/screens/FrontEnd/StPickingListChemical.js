@@ -72,7 +72,10 @@ const PickingListChemical = () => {
                     <td data-title="Aj">{val.prof_name}</td>
                     <td>{moment(val.o_dis_date).format('L')}</td>
                     <td data-title="status">
-                      <label className=" mx-2">{val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label> </> : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times mx-2 iconcheck-times"></i> <label>ไม่อนุมัติ</label></>}</label>
+                      <label className=" mx-2">
+                        {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label> </> 
+                        : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className="iconcheck-name">อนุมัติ</label></> 
+                        : <><i class="fas fa-times mx-2 iconcheck-times"></i> <label className=" iconcheck-times">ไม่อนุมัติ</label></>}</label>
 
                     </td>
                   </tr>)
