@@ -7,19 +7,19 @@ import moment from 'moment'
 
 export default function Bor() {
 
-//-------------------- ยืมอุปกรณ์ ------------------------------
-const [pickListBor, setPickListBor] = useState([]);
-const pickList_bor = () => {
+  //-------------------- ยืมอุปกรณ์ ------------------------------
+  const [pickListBor, setPickListBor] = useState([]);
+  const pickList_bor = () => {
     Axios.get('http://localhost:3307/pickingListBor_admin').then((Response) => {
       setPickListBor(Response.data);
     });
-}
+  }
 
-  const [detailPLBor,setDetailPLBor] = useState([]);
+  const [detailPLBor, setDetailPLBor] = useState([]);
   const [showDetailPLBor, setShowDetailPLBor] = useState(false);
   const showDetailPLBorClose = () => setShowDetailPLBor(false);
   const showDetailPLBorShow = (id) => {
-    Axios.get('http://localhost:3307/detailPLBor_admin/'+ id).then((response) => {
+    Axios.get('http://localhost:3307/detailPLBor_admin/' + id).then((response) => {
       setDetailPLBor(response.data);
     })
     setShowDetailPLBor(true)
@@ -29,18 +29,18 @@ const pickList_bor = () => {
   //-------------------- เบิกสารเคมี ------------------------------
   const [showDetailPLDis, setShowDetailPLDis] = useState(false);
   const showDetailPLDisClose = () => setShowDetailPLDis(false);
-  const [detailPLDis,setDetailPLDis] = useState([]);
+  const [detailPLDis, setDetailPLDis] = useState([]);
   const showDetailPLDisShow = (id) => {
-    Axios.get('http://localhost:3307/detailPLDis_admin/'+ id).then((response) => {
+    Axios.get('http://localhost:3307/detailPLDis_admin/' + id).then((response) => {
       setDetailPLDis(response.data);
     })
     setShowDetailPLDis(true)
   };
   const [pickListDis, setPickListDis] = useState([]);
   const pickList = () => {
-      Axios.get('http://localhost:3307/pickingListDis_admin').then((Response) => {
-        setPickListDis(Response.data);
-      });
+    Axios.get('http://localhost:3307/pickingListDis_admin').then((Response) => {
+      setPickListDis(Response.data);
+    });
   }
 
   useEffect(() => {
@@ -51,7 +51,9 @@ const pickList_bor = () => {
   useEffect(() => {
     console.log(detailPLBor);
   }, [detailPLBor]);
-
+  useEffect(() => {
+    console.log(pickListBor);
+  }, [pickListBor])
   return (
     <>
       <div className="col-9 " style={{ marginRight: '5rem', marginTop: '5rem' }}>
@@ -73,14 +75,14 @@ const pickList_bor = () => {
               <table className="table  ">
                 <thead>
                   <tr>
-                    <th className="headname-th" width="3%"  style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                    <th className="headname-th" width="10%" style={{ minWidth:235 }}><span> ชื่อ-นามสกุล</span></th>
-                    <th className="class-room" width="3%"  style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 235 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="class-room" width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
                     <th className="headname-th" width="10%" style={{ minWidth: 340 }}><span >เพื่อ</span></th>
-                    <th className="class-room" width="3%"  style={{ minWidth: 100 }}><span>รายการ</span></th>
+                    <th className="class-room" width="3%" style={{ minWidth: 100 }}><span>รายการ</span></th>
                     <th className="headname-th" width="10%" style={{ minWidth: 165 }} />
-                    <th className="headname-th" scope="col" width="5%"  style={{ minWidth: 0 }}> </th>
-                    <th className="headname-th" width="5%"  style={{ minWidth: 180 }} ><span>สถานะ</span></th>
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 0 }}> </th>
+                    <th className="headname-th" width="5%" style={{ minWidth: 180 }} ><span>สถานะ</span></th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
@@ -125,7 +127,6 @@ const pickList_bor = () => {
               <table className="table table-responsive">
                 <thead>
                   <tr>
-                    
                     <th className="class-room" scope="col" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
                     <th className="headname-th" scope="col" width="10%" style={{ minWidth: 200 }}><span> ชื่อ-นามสกุล</span></th>
                     <th className="class-room" scope="col" width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
@@ -133,33 +134,36 @@ const pickList_bor = () => {
                     <th className="class-room" scope="col" width="3%" style={{ minWidth: 100 }}><span>รายการ</span></th>
                     <th className="headname-th" scope="col" width="10%" style={{ minWidth: 165 }} />
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150 }} ><span>สถานะ</span></th>
-                    <th className="headname-th" scope="col" width="5%"  style={{ minWidth: 120 }}>
-                        <label className="mx-2">คืนอุปกรณ์</label> 
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 120 }}>
+                      <label className="mx-2">คืนอุปกรณ์</label>
                     </th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
-                {pickListBor.map((val,key)=>{
-                  return(
-                  <tr className="table-name-report ">
-                  <th  className='order-id'>{val.o_bor_id}</th>
-                  <td>{val.std_name}</td>
-                  <td className='class-room'><label className="">{val.std_level}</label> </td>
-                  <td className=''>{val.o_bor_descrip}</td>
-                  <td className='class-room'>{val.o_bor_item_amount}</td>
-                  <td><button type="button" onClick={() => {showDetailPLBorShow(val.o_bor_id)}} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                  <td><label className="mx-2" >
-                    {val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'>รอการอนุมัติ</label>  </> 
-                  : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></> 
-                  : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
-                  <th>
-                    <label>
-                      <input type="checkbox" /> 
-                    </label>
-                  </th>
-                </tr>
-                  )
-                })}
+                  {pickListBor.map((val, key) => {
+                    return (
+                      <tr className="table-name-report ">
+                        <th className='order-id'>{val.o_bor_id}</th>
+                        <td>{val.std_name}</td>
+                        <td className='class-room'><label className="">{val.std_level}</label> </td>
+                        <td className=''>{val.o_bor_descrip}</td>
+                        <td className='class-room'>{val.o_bor_item_amount}</td>
+                        <td><button type="button" onClick={() => { showDetailPLBorShow(val.o_bor_id) }} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
+                        <td><label className="mx-2" >{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'>รอการอนุมัติ</label>  </>
+                          : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
+                            : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
+                        <th>
+                          <label>
+                            <input type="checkbox" value={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
+                              pickListBor[key].o_bor_returned = e.target.checked ? 1 : 0;
+                              setPickListBor(pickListBor)
+                              
+                            }} />
+                          </label>
+                        </th>
+                      </tr>
+                    )
+                  })}
 
                 </tbody>
               </table>
@@ -194,7 +198,7 @@ const pickList_bor = () => {
         <Modal.Header closeButton>
           <Modal.Title>ดูรายละเอียด : {detailPLDis[0]?.o_dis_descrip}
           </Modal.Title>
-           <label className=''> ผู้เบิก : {detailPLDis[0]?.std_name}</label>
+          <label className=''> ผู้เบิก : {detailPLDis[0]?.std_name}</label>
         </Modal.Header>
         <Modal.Body>
           <table class="table table-bordered">
@@ -206,23 +210,22 @@ const pickList_bor = () => {
               </tr>
             </thead>
             <tbody>
-           {detailPLDis.map((val,key)=>{
-             return(
-              <tr>
+              {detailPLDis.map((val, key) => {
+                return (
+                  <tr>
                     <th scope="row"> {val.ch_name}</th>
                     <td>{val.dis_quantity}</td>
                     <td>{val.dis_unit == 1 ? 'g' : 'mL'}</td>
-            </tr>
-             )
-           })}
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
           <div className='row'>
             <div className='col-9' style={{ textAlign: 'center' }} >
-              <label className="mx-2" >
-                {detailPLDis[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i> <label className='iconellipsis-name'>รอการอนุมัติ</label> </> 
-              : detailPLDis[0]?.o_dis_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></> 
-              : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label> </> } : โดย {detailPLDis[0]?.prof_name} </label>
+              <label className="mx-2" >{detailPLDis[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i> <label className='iconellipsis-name'>รอการอนุมัติ</label> </>
+                : detailPLDis[0]?.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
+                  : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label> </>} : โดย {detailPLDis[0]?.prof_name} </label>
             </div>
             <div className='col-3' style={{ textAlign: 'center' }}>
               <label>  เวลาเบิก : {moment(detailPLDis[0]?.o_dis_date).format('L')}
@@ -242,7 +245,7 @@ const pickList_bor = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : ยืมอุปกรณ์
+          <Modal.Title>ดูรายละเอียด : {detailPLBor[0]?.o_bor_descrip} ผู้เบิก : {detailPLBor[0]?.std_name}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -255,29 +258,31 @@ const pickList_bor = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row"> Test Tube</th>
-                <td>250 mL</td>
-                <td>4 หลอด</td>
+              {detailPLBor.map((val, key) => {
+                return (
+                  <tr>
+                    <th scope="row">{val.tool_name}</th>
+                    <td>{val.tool_size}</td>
+                    <td>{val.o_tool_amount}</td>
+                  </tr>
+                )
+              })}
 
-              </tr>
-     
             </tbody>
           </table>
           <div className='row'>
-            <div className='col-4' style={{ textAlign: 'start' }} >
-              {/* <i className="fas fa-check" style={{ color: '#41B949' }} /> */}
-              <label className="mx-2" style={{ color: '#41B949' }}>อนุมัติ : โดย ดร.วันรดาย์ แพงสุข </label>
-            </div>
-            <div className='col-4'>
-              <label>เวลาเบิก : 22/11/2021
-                16.30 น.
+            <div className='col-6' style={{ textAlign: 'center' }}>
+              <label>วันที่เบิก : {moment(detailPLBor[0]?.o_bor_date).format('L')}
               </label>
             </div>
-            <div className='col-4' >
-              <label>เวลาคืน : 29/11/2021
-                16.30 น.
+            <div className='col-6' style={{ textAlign: 'center' }}>
+              <label>วันที่คืน : {moment(detailPLBor[0]?.o_bor_returned_date).format('L')}
               </label>
+            </div>
+          </div>
+          <div className="row">
+            <div className='col-6' style={{ textAlign: 'center' }} >
+              <label className="mx-2" style={{ color: '#41B949' }}>{detailPLBor[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ</> : detailPLBor[0]?.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>} : โดย {detailPLBor[0]?.prof_name} </label>
             </div>
           </div>
         </Modal.Body>

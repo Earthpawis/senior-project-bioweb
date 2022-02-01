@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql');
+const mysql = require('mysql2');
+const mysql2 = require('mysql2/promise')
 const cors = require('cors');
 const csvParser = require('csv-parser')
 app.use(express.static('public'));
@@ -17,14 +18,14 @@ const db = mysql.createConnection({
     password: "",
 })
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header(
         "Access-Control-Allow-Headers",
         "x-access-token, Origin, Content-Type, Accept"
     );
     console.log(req.originalUrl);
     next();
-}); 
+});
 
 require('./chemical')(app)
 require('./cart')(app)
@@ -62,7 +63,7 @@ app.get('/dataStudent', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.json(result); 
+            res.json(result);
         }
     })
 });
@@ -70,7 +71,7 @@ app.get('/dataStudent', (req, res) => {
 app.post('/stuRead:std_id', (req, res) => {
     const id = req.params.std_id;
     db.query("SELECT * FROM student WHERE std_id = ?", id, (err, result) => {
-        if (err) {             
+        if (err) {
         } else {
             res.send(result);
         }
@@ -116,29 +117,63 @@ app.get("/readProfesser/:id", (req, res) => {
 const multer = require('multer');
 const path = require('path');
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     const useremail = req.body.email;
     const userpassword = req.body.password;
-    db.query("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword], (err, resultAdmin) => {
-        if (err) {
-            console.log(err);
-        } else {
-            if(resultAdmin.length == 0) {
-                db.query("SELECT * FROM student where std_id = ? and std_password = ?", [useremail, userpassword],(err, resultStudent) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                   if(resultStudent.length == 0 ){
-                       res.status(400).json({result:"Not found"})
-                   }
-                    res.json(resultStudent);     
-                  }
-                })
-            }else{
-                res.json(resultAdmin);
-            }
-        }
-    });
+    const database = await mysql2.createConnection({
+        host: "localhost",
+        user: "root",
+        database: "bio",
+        port: "3306",
+        password: "",
+    })
+    const [_resultAdmin, _fieldAdmin] = await database.execute("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword]);
+    console.log('admin', _resultAdmin);
+    if (_resultAdmin.length>0) {
+        return res.json(_resultAdmin);
+    }
+    const [_resultStudent, _fieldStudent] = await database.execute("SELECT * FROM student where std_id = ? and std_password = ? ", [useremail, userpassword]);
+    console.log('student', _resultStudent);
+    if (_resultStudent) {
+        return res.json(_resultStudent);
+    }
+    const [_resultProfesser, _fieldProfesser] = await database.execute("SELECT * FROM professer where prof_username = ? and prof_password = ?", [useremail, userpassword]);
+    console.log('professer', _resultProfesser);
+    if (_resultProfesser) {
+        return res.json(_resultProfesser);
+    }
+    // db.query("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword], (err, resultAdmin) => {
+    //     if (err) {
+    //         console.log(err);
+    //         return res.json(err);
+    //     } else {
+    //         if (resultAdmin.length == 0) {
+    //             db.query("SELECT * FROM student where std_id = ? and std_password = ?", [useremail, userpassword], (err2, resultStudent) => {
+    //                 if (err) {
+    //                     console.log(err2);
+    //                     return res.json(err2);
+    //                 } else {
+    //                     if (resultStudent.length == 0) {
+    //                         db.query("SELECT * FROM professer where prof_username = ? and prof_password = ?", [useremail, userpassword], (err3, resultProfesser) => {
+    //                             if (err3) {
+    //                                 console.log(err3);
+    //                                 return res.json(err3);
+    //                             }
+    //                             console.log(resultProfesser);
+    //                             return res.json(resultProfesser);
+
+    //                         })
+
+    //                     }
+
+    //                     return res.json(resultStudent);
+    //                 }
+    //             })
+    //         } else {
+    //             return res.json(resultAdmin);
+    //         }
+    //     }
+    // });
 });
 
 
@@ -170,14 +205,14 @@ app.post('/uploadFileCSV', (req, res) => {
                 .on('end', () => {
                     for (let index = 1; index < results.length; index++) {
                         let data = results[index];
-                        var sql = `INSERT INTO chemical (ch_code,ch_name,ch_formula) values('${data[`_1`]}','${data[`_2`]}','${data[`_3`]}')`;  
-                        console.log(data[`_1`],data[`_2`],data[`_3`] ) 
+                        var sql = `INSERT INTO chemical (ch_code,ch_name,ch_formula) values('${data[`_1`]}','${data[`_2`]}','${data[`_3`]}')`;
+                        console.log(data[`_1`], data[`_2`], data[`_3`])
                         // console.log(`INSERT INTO tableName values(${data[`_0`]},${data[`_1`]},${data[`_2`]})`);
                         // db.query(`INSERT INTO chemical (ch_code,ch_name,ch_formula) VALUES(?,?,?),`,[data[`_1`],data[`_2`],data[`_3`]])
                         db.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log(err);
-                          });
+                        });
                     }
                 });
             unlinkSync("./public/excel_pool/" + fileName)
@@ -224,8 +259,8 @@ app.post('/addChemical', (req, res) => {
 
             console.log(req.body.CheExp)
             db.query("INSERT INTO chemical (ch_name , ch_cas_no , ch_formula , ch_code , ch_manufacturer , ch_quantity , ch_amount ,ch_status ,ch_storage ,ch_img ,ch_exp) VALUES(?,?,?,?,?,?,?,?,?,?,?) "
-                , [CheName, CheCas, CheFormular, CheCode, CheManu, CheQuan, CheAmount, CheStatus, CheStorage, req.file.filename,CheExp ],
-                (err,result)=>{
+                , [CheName, CheCas, CheFormular, CheCode, CheManu, CheQuan, CheAmount, CheStatus, CheStorage, req.file.filename, CheExp],
+                (err, result) => {
                     if (err) {
                         console.log(err);
                     } else {
@@ -265,7 +300,7 @@ app.post('/addTool', (req, res) => {
             console.log(req.body.ToolName)
             db.query("INSERT INTO tools (tool_name , tool_storage , tool_size , tool_amount , tool_img) VALUES(?,?,?,?,?) "
                 , [ToolName, ToolStorage, ToolSize, ToolAmount, req.file.filename],
-                (err,result)=>{
+                (err, result) => {
                     if (err) {
                         console.log(err);
                     } else {
@@ -312,7 +347,7 @@ app.get("/readTool/:id", (req, res) => {
 //                 }
 //             }
 //         )
-    
+
 // })
 
 //------------- delTool -------------------------------

@@ -3,7 +3,8 @@ import axios from "axios";
 import moment from 'moment'
 import { Modal, Button, ModalFooter } from 'react-bootstrap'
 const StPickingListTool = () => {
-
+  const i = JSON.parse(localStorage.getItem("user"));
+  const [user_id , setUser_id] = useState(i.std_id)
 
     const [detailPL, setDetailPL] = useState([]);
     const [showDetail, setShowDetail] = useState(false);
@@ -16,14 +17,14 @@ const StPickingListTool = () => {
     };
 
     const [pickingList, setPickingList] = useState([]);
-    const getPickingListTool = () => {
-        axios.get("http://localhost:3307/pickingListTool").then((response) => {
+    const getPickingListTool = (id) => {
+        axios.get("http://localhost:3307/pickingListTool/"+ id).then((response) => {
             setPickingList(response.data);
         })
     }
 
     useEffect(() => {
-        getPickingListTool();
+        getPickingListTool(user_id);
     }, []);
 
     useEffect(() => {

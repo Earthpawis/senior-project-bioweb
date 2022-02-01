@@ -5,6 +5,8 @@ import { Modal, Button, ModalFooter } from 'react-bootstrap'
 
 const PickingListChemical = () => {
 
+  const i = JSON.parse(localStorage.getItem("user"));
+  const [user_id , setUser_id] = useState(i.std_id)
 
   const [detailPL, setDetailPL] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
@@ -16,15 +18,14 @@ const PickingListChemical = () => {
     )
     setShowDetail(true)
   };
-
   const [pickingList, setPickingList] = useState([]);
-  const getPickingListChemical = () => {
-    axios.get("http://localhost:3307/pickingListChemical").then((response) => {
+  const getPickingListChemical = (id) => {
+    axios.get("http://localhost:3307/pickingListChemical/" + id).then((response) => {
       setPickingList(response.data);
     })
   }
   useEffect(() => {
-    getPickingListChemical();
+    getPickingListChemical(user_id);
   }, []);
 
   useEffect(() => {
