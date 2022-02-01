@@ -57,7 +57,7 @@ const StPickingListTool = () => {
                                         <td data-title="button"> <button type="button" className="btn btn-report" onClick={() => { showDetailPLTool(val.o_bor_id) }} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
                                         <td data-title="Email">{val.prof_name}</td>
                                         <td data-title="date">{moment(val.o_bor_date).format('L')}</td>
-                                        <td data-title="status"><label className="iconcheck-name mx-2">{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ </> : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>}</label> </td>
+                                        <td data-title="status"><label className=" mx-2">{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i> <label className="iconellipsis-name">รอการอนุมัติ</label> </> : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>}</label> </td>
                                     </tr>
                                 )
                             })}
@@ -103,18 +103,19 @@ const StPickingListTool = () => {
             </tbody>
           </table>
           <div className='row'>
-            <div className='col-6' style={{ textAlign: 'center' }}>
+            <div className='col-6 ' style={{ textAlign: 'center' }}>
               <label>วันที่เบิก : {moment(detailPL[0]?.o_bor_date).format('L')}
               </label>
             </div>
-            <div className='col-6' style={{ textAlign: 'center' }}>
+            <div className='col-6 mb-3' style={{ textAlign: 'center' }}>
               <label>วันที่คืน : {moment(detailPL[0]?.o_bor_returned_date).format('L')}
               </label>
             </div>
           </div>
           <div className="row">
-          <div className='col-6' style={{ textAlign: 'center' }} >
-              <label className="mx-2" style={{ color: '#41B949' }}>{detailPL[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ</> : detailPL[0]?.o_bor_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</> } : โดย {detailPL[0]?.prof_name} </label>
+          <div className='col-xl-12' style={{ textAlign: 'center' }} >
+              <label className="mx-2" >{detailPL[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i> <label className="iconellipsis-name">รอการอนุมัติ</label></> 
+              : detailPL[0]?.o_bor_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" /><label className="iconcheck-name">อนุมัติ</label></> : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className="iconcheck-times">ไม่อนุมัติ</label></> } : โดย {detailPL[0]?.prof_name} </label>
             </div>
           </div>
         </Modal.Body>

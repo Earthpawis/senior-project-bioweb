@@ -64,23 +64,23 @@ const pickList_bor = () => {
               <label className="tab" id="two-tab" htmlFor="two">ยืมอุปกรณ์</label>
             </div>
             <div className='col-6'>
-              <input type='text' className='form-control' placeholder='ค้นหาชื่อรายชื่อเบิกใช้สารเคมี ยืมอุปกรณ์' style={{ marginLeft: '8.5rem' }}
+              <input type='text' className='form-control' placeholder='ค้นหาชื่อรายชื่อเบิกใช้สารเคมี ยืมอุปกรณ์' style={{ marginLeft: '17.4rem' }}
               />
             </div>
           </div>
           <div className="panels">
             <div className="panel" id="one-panel">
-              <table className="table table-responsive">
+              <table className="table  ">
                 <thead>
                   <tr>
-
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 110 }}> <span>ORDER ID</span> </th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 280 }}><span> ชื่อ-นามสกุล</span></th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }}></th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 150 }}><span>รายการ</span></th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} />
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} />
+                    <th className="headname-th" width="3%"  style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth:235 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="class-room" width="3%"  style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 340 }}><span >เพื่อ</span></th>
+                    <th className="class-room" width="3%"  style={{ minWidth: 100 }}><span>รายการ</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 165 }} />
+                    <th className="headname-th" scope="col" width="5%"  style={{ minWidth: 0 }}> </th>
+                    <th className="headname-th" width="5%"  style={{ minWidth: 180 }} ><span>สถานะ</span></th>
                   </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
@@ -88,13 +88,16 @@ const pickList_bor = () => {
                 {pickListDis.map((val,key)=>{
                   return(
                     <tr className="table-name-report">
-                    <th scope="row">{val.o_dis_id}</th>
+                    <th className='order-id'>{val.o_dis_id}</th>
                     <td>{val.std_name}</td>
-                    <td><label className="class-room">{val.std_level}</label> </td>
+                    <td className='class-room'><label className="class-room">{val.std_level}</label> </td>
                     <td><label className="class-room">{val.o_dis_descrip}</label> </td>
-                    <td>{val.o_dis_item_amount}</td>
+                    <td className='class-room'>{val.o_dis_item_amount}</td>
                     <td><button type="button" className="btn btn-report " onClick={() => (showDetailPLDisShow(val.o_dis_id))} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                    <td><label className="mx-2" style={{ color: '#41B949' }}>{val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ </> : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>}</label> </td>
+                    <td></td>
+                    <td><label className="mx-2" >{val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'> รอการอนุมัติ</label> </> 
+                    : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label >อนุมัติ</label></> 
+                    : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label></>}</label> </td>
                   </tr>
                   )
                 })}
@@ -122,14 +125,14 @@ const pickList_bor = () => {
                 <thead>
                   <tr>
                     
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}> <span>ORDER ID</span> </th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 250 }}><span> ชื่อ-นามสกุล</span></th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 80 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 80 }}><span></span> </th>
-                    <th className="headname-th" scope="col" width="3%" style={{ minWidth: 120 }}><span>รายการ</span></th>
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 165 }} />
-                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 160 }} />
-                    <th className="headname-th" scope="col" width="5%"  style={{ minWidth: 170 }}>
+                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
+                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 200 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 300 }}><span>เพื่อ</span> </th>
+                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 100 }}><span>รายการ</span></th>
+                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 165 }} />
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150 }} ><span>สถานะ</span></th>
+                    <th className="headname-th" scope="col" width="5%"  style={{ minWidth: 120 }}>
                         <label className="mx-2">คืนอุปกรณ์</label> 
                     </th>
                   </tr>
@@ -138,13 +141,15 @@ const pickList_bor = () => {
                 {pickListBor.map((val,key)=>{
                   return(
                   <tr className="table-name-report ">
-                  <th scope="row">{val.o_bor_id}</th>
+                  <th  className='order-id'>{val.o_bor_id}</th>
                   <td>{val.std_name}</td>
-                  <td><label className="class-room">{val.std_level}</label> </td>
-                  <td>{val.o_bor_descrip}</td>
-                  <td>{val.o_bor_item_amount}</td>
+                  <td className='class-room'><label className="">{val.std_level}</label> </td>
+                  <td className=''>{val.o_bor_descrip}</td>
+                  <td className='class-room'>{val.o_bor_item_amount}</td>
                   <td><button type="button" onClick={() => {showDetailPLBorShow(val.o_bor_id)}} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
-                  <td><label className="mx-2" >{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ </> : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>}</label> </td>
+                  <td><label className="mx-2" >{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'>รอการอนุมัติ</label>  </> 
+                  : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></> 
+                  : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
                   <th>
                     <label>
                       <input type="checkbox" /> 
@@ -185,8 +190,9 @@ const pickList_bor = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : {detailPLDis[0]?.o_dis_descrip}  ผู้เบิก : {detailPLDis[0]?.std_name}
+          <Modal.Title>ดูรายละเอียด : {detailPLDis[0]?.o_dis_descrip}
           </Modal.Title>
+           <label className=''> ผู้เบิก : {detailPLDis[0]?.std_name}</label>
         </Modal.Header>
         <Modal.Body>
           <table class="table table-bordered">
@@ -210,10 +216,12 @@ const pickList_bor = () => {
             </tbody>
           </table>
           <div className='row'>
-            <div className='col-6' style={{ textAlign: 'center' }} >
-              <label className="mx-2" style={{ color: '#41B949' }}>{detailPLDis[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ</> : detailPLDis[0]?.o_dis_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</> } : โดย {detailPLDis[0]?.prof_name} </label>
+            <div className='col-9' style={{ textAlign: 'center' }} >
+              <label className="mx-2" >{detailPLDis[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i> <label className='iconellipsis-name'>รอการอนุมัติ</label> </> 
+              : detailPLDis[0]?.o_dis_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></> 
+              : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label> </> } : โดย {detailPLDis[0]?.prof_name} </label>
             </div>
-            <div className='col-6' style={{ textAlign: 'center' }}>
+            <div className='col-3' style={{ textAlign: 'center' }}>
               <label>  เวลาเบิก : {moment(detailPLDis[0]?.o_dis_date).format('L')}
               </label>
             </div>

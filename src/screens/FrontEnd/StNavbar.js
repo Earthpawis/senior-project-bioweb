@@ -49,7 +49,7 @@ const StNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      
+
     </>
 
   );

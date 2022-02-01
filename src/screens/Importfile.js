@@ -37,7 +37,7 @@ export default function Importfile() {
           </li>
         </ul>
         <div className="row" style={{ width: '90.5%' }} >
-          <div className="card" style={{ height: '38rem' }}>
+          <div className="card cardsidebar" style={{ height: '38rem' }}>
             <div className="card-body">
               <div className="row">
                 <label htmlFor='uploadCSV' className="dotted" style={{ marginTop: '3rem', borderStyle: 'solid', height: '25rem', borderRadius: 20, width: '55rem', marginLeft: 'auto', marginRight: 'auto', color: '#707070' }}>

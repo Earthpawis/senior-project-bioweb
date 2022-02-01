@@ -44,29 +44,21 @@ const PickingListChemical = () => {
         <div className="card-body">
           <h3>รายการเบิกสารเคมี</h3>
           <div className="table-responsive">
-            <table className="table bg-white  table-bordered ">
-              <thead className="bg-dark text-light">
-                <tr>
-                  <th width="2%" style={{ minWidth: 100 }}>
-                    ORDER ID
-                  </th>
-                  <th width="20%" style={{ minWidth: 170 }}>
-                    เพื่อ
-                  </th>
-                  <th width="8%" style={{ minWidth: 100 }}>
-                    จำนวน
-                  </th>
-                  <th width="10%" style={{ minWidth: 180 }} />
-                  <th width="20%" style={{ minWidth: 250 }}>
-                    รายชื่ออาจารย์ที่อนุมัติ
-                  </th>
-                  <th width="10%" style={{ minWidth: 180 }}>วันที่เบิก</th>
-                  <th width="15%" style={{ minWidth: 180 }}>สถานะ</th>
-                </tr>
-              </thead>
-              <tbody style={{ verticalAlign: "middle" }}>
-                {pickingList.map((val, key) => {
-                  return (<tr key={key}>
+          <table className="table bg-white  table-bordered ">
+            <thead className="bg-dark text-light">
+              <tr>
+                <th width="5%" style={{ minWidth: 100 }}> ORDER ID</th>
+                <th width="35%" style={{ minWidth: 250 }}>เพื่อ</th>
+                <th width="5%" style={{ minWidth: 10 }}>จำนวน</th>
+                <th width="10%" style={{ minWidth: 165 }} />
+                <th width="20%" style={{ minWidth: 250 }}>รายชื่ออาจารย์ที่อนุมัติ</th>
+                <th  width="10%" style={{ minWidth: 170 }}>เวลาที่เบิก</th>
+                <th  width="15%" style={{ minWidth: 180 }}>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody style={{ verticalAlign: "middle" }}>
+             {pickingList.map((val,key) => {
+                 return( <tr key={key}>
                     <td data-title="ID">{val.o_dis_id}</td>
                     <td data-title>{val.o_dis_descrip}</td>
                     <td data-title="Number">{val.o_dis_item_amount}</td>
@@ -80,7 +72,7 @@ const PickingListChemical = () => {
                     <td data-title="Aj">{val.prof_name}</td>
                     <td>{moment(val.o_dis_date).format('L')}</td>
                     <td data-title="status">
-                      <label className="iconcheck-name mx-2">{val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ </> : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>}</label>
+                      <label className=" mx-2">{val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label> </> : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times mx-2 iconcheck-times"></i> <label>ไม่อนุมัติ</label></>}</label>
 
                     </td>
                   </tr>)
@@ -125,10 +117,12 @@ const PickingListChemical = () => {
             </tbody>
           </table>
           <div className='row'>
-            <div className='col-6' style={{ textAlign: 'center' }} >
-              <label className="mx-2" style={{ color: '#41B949' }}> {detailPL[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ</> : detailPL[0]?.o_dis_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</> } : โดย {detailPL[0]?.prof_name} </label>
+            <div className='col-8' style={{ textAlign: 'center' }} >
+              <label className="mx-2" > {detailPL[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label></> 
+              : detailPL[0]?.o_dis_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" /> <label className="iconcheck-name">อนุมัติ</label></> 
+              : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className="iconcheck-times"> ไม่อนุมัติ</label></> } : โดย {detailPL[0]?.prof_name} </label>
             </div>
-            <div className='col-6' style={{ textAlign: 'center' }}>
+            <div className='col-4' style={{ textAlign: 'center' }}>
               <label>เวลาเบิก : {moment(detailPL[0]?.o_dis_date).format('L')}
               </label>
             </div>
