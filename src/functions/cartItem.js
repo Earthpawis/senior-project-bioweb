@@ -32,7 +32,7 @@ export const removeCartItemTool = () =>{
 }
 //----------- LocalStorage User ------------------------
 export const getUserData = () => {
-    JSON.parse(localStorage.getItem('user'));
+   return JSON.parse(localStorage.getItem('user'));
 }
 
 

@@ -20,6 +20,7 @@ import StPickingListTool from "./screens/FrontEnd/StPickingListTool";
 import AjPickingListTool from "./screens/FrontEnd/AjPickingListTool";
 import AjPickingListChemical from "./screens/FrontEnd/AjPickingListChemical";
 
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -59,6 +60,7 @@ const studentRoute = () => (
   </Switch>
 );
 
+
 const _mapRoute = () => {
   const i = JSON.parse(localStorage.getItem("user"));
   if (i?.std_id) {
@@ -80,6 +82,11 @@ const _mapRoute = () => {
         </div>
       </div>
     );
+  } else if(i.prof_id){
+    return (<div className="">
+      <StNavbar />
+      {studentRoute()}
+    </div>);
   } else {
     return (
       <>

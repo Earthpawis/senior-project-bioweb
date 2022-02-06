@@ -134,13 +134,13 @@ app.post("/login", async (req, res) => {
     }
     const [_resultStudent, _fieldStudent] = await database.execute("SELECT * FROM student where std_id = ? and std_password = ? ", [useremail, userpassword]);
     console.log('student', _resultStudent);
-    if (_resultStudent) {
+    if (_resultStudent.length>0) {
         return res.json(_resultStudent);
     }
     const [_resultProfesser, _fieldProfesser] = await database.execute("SELECT * FROM professer where prof_username = ? and prof_password = ?", [useremail, userpassword]);
     console.log('professer', _resultProfesser);
     if (_resultProfesser) {
-        return res.json(_resultProfesser);
+        return res.json(_resultProfesser);   
     }
     // db.query("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword], (err, resultAdmin) => {
     //     if (err) {

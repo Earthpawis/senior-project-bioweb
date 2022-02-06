@@ -181,7 +181,6 @@ const pickList_bor = () => {
                             <input type="checkbox" value={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
                               pickListBor[key].o_bor_returned = e.target.checked ? 1 : 0;
                               setPickListBor(pickListBor)
-                              
                             }} />
                           </label>
                         </th>
@@ -213,7 +212,7 @@ const pickList_bor = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : เบิกใช้สารเคมี
+          <Modal.Title>ดูรายละเอียด :{}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

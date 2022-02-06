@@ -27,7 +27,18 @@ export default function Login() {
         if (response.data.length > 0) {
           localStorage.setItem('user',JSON.stringify(response.data[0]))
           // console.log(response.data)
-          history.push('Dashboard')
+          const i = JSON.parse(localStorage.getItem("user"));
+          
+          if (i?.admin_id) {
+            history.push('Dashboard')
+            window.location.reload();
+          } else if (i?.std_id) {
+            history.push('StHome')
+            window.location.reload();
+          } else if (i?.prof_id) {
+            history.push('StHome')
+            window.location.reload();
+          } 
          window.location.reload();
         }
       })

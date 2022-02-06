@@ -33,15 +33,17 @@ const StNavbar = () => {
               <Nav.Link href="/StHome">หน้าเเรก</Nav.Link>
               <Nav.Link href="/StChemicalList">สารเคมี</Nav.Link>
               <Nav.Link href="/StToolsList">อุปกรณ์</Nav.Link>
-              <Nav.Link href="/StPickingListChemical">รายการเบิกสารเคมี</Nav.Link>
-              <Nav.Link href="/StPickingListTool">รายการเบิกอุปกรณ์</Nav.Link>
-              <NavDropdown title="ตะกร้าสารเคมีและอุปกรณ์" id="collasible-nav-dropdown">
+              {i.std_id && <Nav.Link href="/StPickingListChemical">รายการเบิกสารเคมี</Nav.Link>}
+              {i.std_id && <Nav.Link href="/StPickingListTool">รายการเบิกอุปกรณ์</Nav.Link>}
+              {i.std_id && <NavDropdown title="ตะกร้าสารเคมีและอุปกรณ์" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/StCartChemical">เบิกสารเคมี</NavDropdown.Item>
                 <NavDropdown.Item href="/StCartTools">ยืมอุปกรณ์</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown>}
+              {i.prof_id && <Nav.Link href="/AjPickingListChemical">รายการเบิกสารเคมี</Nav.Link>}
+              {i.prof_id && <Nav.Link href="/AjPickingListTool">รายการเบิกอุปกรณ์</Nav.Link>}
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">{i.std_name}</Nav.Link>
+              <Nav.Link href="#deets">{i.std_name}{i.prof_name}</Nav.Link>
               <Nav.Link eventKey={2} onClick={logout} href="#memes">
                 ออกจากระบบ
               </Nav.Link>

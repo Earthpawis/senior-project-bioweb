@@ -4,10 +4,12 @@ import Axios from 'axios'
 import Swal from 'sweetalert2'
 import { Modal, Button, Form, Card, CardImg } from 'react-bootstrap'
 import Pagination from '../../Components/Paginations/Pagination';
-import { getCartItem, setCartItem } from '../../functions/cartItem';
+import { getCartItem, setCartItem , getUserData} from '../../functions/cartItem';
 import moment from 'moment'
 
 const StChemicalList = () => {
+
+  const i = getUserData();
 
   useEffect(() => {
     getChemical();
@@ -71,7 +73,8 @@ const StChemicalList = () => {
         <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
           <div className="card-body">
             <div className="row">
-              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>สารเคมี <span className='itemCart'>สารเคมีในตะกร้า {itemInCart.length} </span></h2></div>
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>สารเคมี  {i.std_id &&  <span className='itemCart'>สารเคมีในตะกร้า {itemInCart.length} </span>}</h2></div>
+             
               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4'>
                 <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
                   onChange={(event) => {
@@ -98,9 +101,12 @@ const StChemicalList = () => {
                       <div className="card-body">
                         <h5 className="card-title mb-2">{val.ch_id}. {val.ch_name}</h5>
                         <div className="row">
+                          
                           <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                            <button type="button" className="btn btn-success" onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
-                          </div>
+                          <button type="button" className="btn btn-success" disabled={!!i.prof_id} onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
+                        </div>
+                          
+                          
                           <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <button type="button" className="btn btn-secondary" onClick={() => { detailShow(val.ch_id) }}><i className="fas fa-search p-1" /><span className="NameCrub">ดูรายละเอียด</span></button>
                           </div>

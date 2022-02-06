@@ -102,8 +102,8 @@ export default function Bor() {
                   <tr>
                     <th className="headname-th" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
                     <th className="headname-th" width="10%" style={{ minWidth: 200 }}><span> ชื่อ-นามสกุล</span></th>
-                    <th className="class-room" width="3%" style={{ minWidth: 49 }}><span>ชั้นปี</span> </th>
-                    <th className="headname-th" width="10%" style={{ minWidth: 300 }}><span >เพื่อ</span></th>
+                    <th className="class-room" width="3%" style={{ minWidth: 70 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 250 }}><span >เพื่อ</span></th>
                     <th className="class-room" width="3%" style={{ minWidth: 100 }}><span>รายการ</span></th>
                     <th className="headname-th" width="10%" style={{ minWidth: 90 }} ><span>เวลาที่เบิก</span></th>
                     <th className="headname-th" width="10%" style={{ minWidth: 165 }} ></th>

@@ -7,7 +7,7 @@ export default function Report() {
             <div className="row" style={{ marginTop: '3rem', width: '70rem', marginLeft:'-6rem'}}>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <a className="nav-link active report-name" aria-current="page" href="#">รายงานเบิกใช้</a>
+                        <a className="nav-link active report-name" aria-current="page" href="#">สารเคมี</a>
                     </li>
                 </ul>
                 <div className="row">
@@ -25,11 +25,7 @@ export default function Report() {
                                         <td>รายงานยอดคงเหลือสารเคมี</td>
                                        < td><button type="button" className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-print" style={{ fontSize: 15 }} /> ดาวน์โหลด</button></td>
                                     </tr>
-                                    <tr className="table-name-report">
-                                        <th scope="row">3</th>
-                                        <td>รายงาน</td>
-                                        <td><button type="button" className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-print" style={{ fontSize: 15 }} /> ดาวน์โหลด</button></td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -39,7 +35,7 @@ export default function Report() {
             <div className="row" style={{ marginTop: '1rem', width: '70rem' ,  marginLeft:'-6rem'}}>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <a className="nav-link active report-name" aria-current="page" href="#">รายงานยืมอุปกรณ์</a>
+                        <a className="nav-link active report-name" aria-current="page" href="#">อุปกรณ์</a>
                     </li>
                 </ul>
                 <div className="row">
@@ -49,22 +45,17 @@ export default function Report() {
                                 <tbody style={{ height: '14rem', verticalAlign: 'middle' }}>
                                     <tr className="table-name-report ">
                                         <th scope="row">1</th>
-                                        <td>รายงานการเบิกใช้สารเคมี</td>
+                                        <td>รายงานการเบิกใช้อุปกรณ์</td>
                                         {/* <td></td> */}
                                         <td><button type="button" className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-print " style={{ fontSize: 15 }} />  ดาวน์โหลด</button></td>
                                     </tr>
                                     <tr className="table-name-report">
                                         <th scope="row">2</th>
-                                        <td>รายงานยอดคงเหลือสารเคมี</td>
+                                        <td>รายงานยอดคงเหลืออุปกรณ์</td>
                                         {/* <td></td> */}
                                         <td><button type="button" className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-print" style={{ fontSize: 15 }} />  ดาวน์โหลด</button></td>
                                     </tr>
-                                    <tr className="table-name-report">
-                                        <th scope="row">3</th>
-                                        <td>รายงาน</td>
-                                        {/* <td></td> */}
-                                        <td><button type="button" className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-print" style={{ fontSize: 15 }} /> ดาวน์โหลด</button></td>
-                                    </tr>
+                                   
                                 </tbody>
                             </table>
                         </div>
