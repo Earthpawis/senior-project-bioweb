@@ -70,7 +70,7 @@ module.exports = function(app){
                 console.log(err);
             } else {
                 res.json(result);
-                console.log(result); 
+                console.log(result);  
             }
         })
     });
