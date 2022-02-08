@@ -2,21 +2,22 @@ import React from 'react'
 import { Modal, Button, Form, Card } from 'react-bootstrap'
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
-import { getCartItemTool , setCartItemTool ,removeCartItemTool} from '../../functions/cartItem'
+import { getCartItemTool, setCartItemTool, removeCartItemTool } from '../../functions/cartItem'
 import Swal from 'sweetalert2'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 const StCartTools = () => {
+
   const history = useHistory();
   let item = getCartItemTool();
   const i = JSON.parse(localStorage.getItem("user"));
 
-  //--------------------------Cart_detail-------------------------------------------
+  //--------------------------Cart_detail--------------------------------------------------------------------------------------------------------//
   const [prof_id, setProf_id] = useState("1");
   const [bor_descrip, setBor_descrip] = useState();
   const [cartData, setCartData] = useState([]);
   const [professerList, setProfesserList] = useState([]);
 
-  // ------------------------ ButtonSubmit -----------------------------------------
+  // ------------------------ ButtonSubmit -----------------------------------------------------------------------------------------------------//
   const submit = () => {
     axios.post('http://localhost:3307/submitBor', { item: cartData, user: i, descrip: bor_descrip, prof: prof_id }).then(
       res => {
@@ -30,7 +31,7 @@ const StCartTools = () => {
       })
   }
 
-  // ------------------------ deleleถังขยะ -----------------------------------------
+  // -----------------------------------------------deleleถังขยะ-----------------------------------------------------------------------------//
   const delItem = (key) => {
     localStorage.removeItem('item'[key]);
     item.splice(key)
@@ -39,7 +40,7 @@ const StCartTools = () => {
     window.location.reload();
   }
 
-  // ------------------------ Dropdrowอาจารย์-----------------------------------------
+  // ------------------------ Dropdrowอาจารย์--------------------------------------------------------------------------------------------------//
   const getProfesser = () => {
     axios.get('http://localhost:3307/dataProfesser').then((Response) => {
       setProfesserList(Response.data);
@@ -67,9 +68,9 @@ const StCartTools = () => {
               <thead className=" ">
                 <tr>
                   <th width="2%" ></th>
-                  <th width="5%"  style={{ minWidth: 100 }}>ID</th>
+                  <th width="5%" style={{ minWidth: 100 }}>ID</th>
                   <th width="20%" style={{ minWidth: 170 }}>รายการ</th>
-                  <th width="5%"  style={{ minWidth: 100 }}>จำนวน</th>
+                  <th width="5%" style={{ minWidth: 100 }}>จำนวน</th>
                   <th width="2%" ></th>
                 </tr>
               </thead>

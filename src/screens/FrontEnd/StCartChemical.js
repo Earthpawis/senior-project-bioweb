@@ -4,19 +4,20 @@ import { useState, useEffect, useMemo } from 'react'
 import axios, { Axios } from 'axios'
 import { getCartItem, setCartItem, getUserData, removeCartItem } from '../../functions/cartItem'
 import Swal from 'sweetalert2'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const StBorrow = () => {
   const history = useHistory();
   let item = getCartItem();
   const i = JSON.parse(localStorage.getItem("user"));
 
-  //Cart_detail
+  //-------------------------------------------------------Cart_detail ----------------------------------------------------------------- //
   const [prof_id, setProf_id] = useState("1");
   const [dis_descrip, setDis_descrip] = useState();
   const [cartData, setCartData] = useState([]);
   const [professerList, setProfesserList] = useState([]);
 
+  //-------------------------------------------------------button_submit----------------------------------------------------------------- //
   const submit = () => {
     axios.post('http://localhost:3307/submitDis', { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
       res => {
@@ -31,24 +32,30 @@ const StBorrow = () => {
       })
   }
 
+  //-------------------------------------------------------DEL_chemical----------------------------------------------------------------- //
   const delItem = (key) => {
     localStorage.removeItem('item'[key]);
     item.splice(key)
     setCartItem(item);
     window.location.reload();
   }
+  //-------------------------------------------------------professer--------------------------------------------------------------------- //
   const getProfesser = () => {
     axios.get('http://localhost:3307/dataProfesser').then((Response) => {
       setProfesserList(Response.data);
     });
   }
+
+  //----------------------------------------------------------------------------------------------------------------------------------- //
   useEffect(() => {
     console.log(cartData);
   }, [cartData])
+
   useEffect(() => {
     getProfesser();
     setCartData(getCartItem())
   }, [])
+
   return (
 
     <div className="container">
@@ -62,7 +69,7 @@ const StBorrow = () => {
                   <th width="2%" style={{ minWidth: 20 }} />
                   <th width="10%" style={{ minWidth: 100 }}>ID</th>
                   <th width="30%" style={{ minWidth: 170 }}>รายการ</th>
-                  <th width="10%" style={{ minWidth: 100 }}>จำนวน</th>
+                  <th width="10%" style={{ minWidth: 100 }}>ปริมาณ</th>
                   <th width="5%" style={{ minWidth: 100 }}>หน่วย</th>
                   <th width="2%" style={{ minWidth: 20 }} />
                 </tr>
@@ -94,6 +101,7 @@ const StBorrow = () => {
               </tbody>
             </table>
           </div>
+
           <div className="row mt-3">
             <div className="col-xl-6 col-sm-12 col-md-6 col-lg-6 col-12 mb-2 ">
               <div className="dropdown text-end mt-2">
@@ -117,6 +125,7 @@ const StBorrow = () => {
               </div>
             </div>
           </div>
+
           <div className="row mt-5">
             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
               <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={submit}  >

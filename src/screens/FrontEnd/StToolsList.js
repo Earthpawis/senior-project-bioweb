@@ -69,7 +69,7 @@ const StToolsList = () => {
         <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
           <div className="card-body">
             <div className="row">
-              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>อุปกรณ์ <span className='itemCart'> {i.std_id &&  <span className='itemCart'>อุปกรณ์ในตะกร้า {itemInCartTool.length} </span>}</span></h2></div>
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>อุปกรณ์ <span className='itemCart'> {i.std_id &&  <span className='itemCart'><i class="fas fa-shopping-cart"></i>{itemInCartTool.length} </span>}</span></h2></div>
               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4'>
                 <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
                   onChange={(event) => {

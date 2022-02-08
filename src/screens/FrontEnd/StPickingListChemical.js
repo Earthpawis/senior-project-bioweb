@@ -6,8 +6,9 @@ import { Modal, Button, ModalFooter } from 'react-bootstrap'
 const PickingListChemical = () => {
 
   const i = JSON.parse(localStorage.getItem("user"));
-  const [user_id , setUser_id] = useState(i.std_id)
+  const [user_id, setUser_id] = useState(i.std_id)
 
+  //--------------------------------------------------------------------------------------------------------------//
   const [detailPL, setDetailPL] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
   const closeShowDetail = () => setShowDetail(false);
@@ -18,6 +19,8 @@ const PickingListChemical = () => {
     )
     setShowDetail(true)
   };
+
+  //--------------------------------------------------------------------------------------------------------------//
   const [pickingList, setPickingList] = useState([]);
   const getPickingListChemical = (id) => {
     axios.get("http://localhost:3307/pickingListChemical/" + id).then((response) => {
@@ -45,21 +48,21 @@ const PickingListChemical = () => {
         <div className="card-body">
           <h3>รายการเบิกสารเคมี</h3>
           <div className="table-responsive">
-          <table className="table bg-white  table-bordered ">
-            <thead className="bg-dark text-light">
-              <tr>
-                <th width="5%" style={{ minWidth: 100 }}> ORDER ID</th>
-                <th width="35%" style={{ minWidth: 250 }}>เพื่อ</th>
-                <th width="5%" style={{ minWidth: 10 }}>จำนวน</th>
-                <th width="10%" style={{ minWidth: 165 }} />
-                <th width="20%" style={{ minWidth: 250 }}>รายชื่ออาจารย์ที่อนุมัติ</th>
-                <th  width="10%" style={{ minWidth: 170 }}>เวลาที่เบิก</th>
-                <th  width="15%" style={{ minWidth: 180 }}>สถานะ</th>
-              </tr>
-            </thead>
-            <tbody style={{ verticalAlign: "middle" }}>
-             {pickingList.map((val,key) => {
-                 return( <tr key={key}>
+            <table className="table bg-white  table-bordered ">
+              <thead className="bg-dark text-light">
+                <tr>
+                  <th width="5%" style={{ minWidth: 100 }}> ORDER ID</th>
+                  <th width="35%" style={{ minWidth: 250 }}>เพื่อ</th>
+                  <th width="5%" style={{ minWidth: 10 }}>จำนวน</th>
+                  <th width="10%" style={{ minWidth: 165 }} />
+                  <th width="20%" style={{ minWidth: 250 }}>รายชื่ออาจารย์ที่อนุมัติ</th>
+                  <th width="10%" style={{ minWidth: 170 }}>เวลาที่เบิก</th>
+                  <th width="15%" style={{ minWidth: 180 }}>สถานะ</th>
+                </tr>
+              </thead>
+              <tbody style={{ verticalAlign: "middle" }}>
+                {pickingList.map((val, key) => {
+                  return (<tr key={key}>
                     <td data-title="ID">{val.o_dis_id}</td>
                     <td data-title>{val.o_dis_descrip}</td>
                     <td data-title="Number">{val.o_dis_item_amount}</td>
@@ -74,9 +77,9 @@ const PickingListChemical = () => {
                     <td>{moment(val.o_dis_date).format('L')}</td>
                     <td data-title="status">
                       <label className=" mx-2">
-                        {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label> </> 
-                        : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className="iconcheck-name">อนุมัติ</label></> 
-                        : <><i class="fas fa-times mx-2 iconcheck-times"></i> <label className=" iconcheck-times">ไม่อนุมัติ</label></>}</label>
+                        {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label> </>
+                          : val.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className="iconcheck-name">อนุมัติ</label></>
+                            : <><i class="fas fa-times mx-2 iconcheck-times"></i> <label className=" iconcheck-times">ไม่อนุมัติ</label></>}</label>
 
                     </td>
                   </tr>)
@@ -87,7 +90,7 @@ const PickingListChemical = () => {
         </div>
       </div>
 
-
+     {/*  //--------------------------------------------------------------------Modal ดูรายละเอียด------------------------------------------------------------------------------// */}
       <Modal
         show={showDetail}
         onHide={closeShowDetail}
@@ -122,9 +125,9 @@ const PickingListChemical = () => {
           </table>
           <div className='row'>
             <div className='col-8' style={{ textAlign: 'center' }} >
-              <label className="mx-2" > {detailPL[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label></> 
-              : detailPL[0]?.o_dis_status == 2 ?  <><i className="fas fa-check iconcheck-name mx-2" /> <label className="iconcheck-name">อนุมัติ</label></> 
-              : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className="iconcheck-times"> ไม่อนุมัติ</label></> } : โดย {detailPL[0]?.prof_name} </label>
+              <label className="mx-2" > {detailPL[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label></>
+                : detailPL[0]?.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className="iconcheck-name">อนุมัติ</label></>
+                  : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className="iconcheck-times"> ไม่อนุมัติ</label></>} : โดย {detailPL[0]?.prof_name} </label>
             </div>
             <div className='col-4' style={{ textAlign: 'center' }}>
               <label>เวลาเบิก : {moment(detailPL[0]?.o_dis_date).format('L')}
@@ -134,7 +137,6 @@ const PickingListChemical = () => {
         </Modal.Body>
 
       </Modal>
-
 
     </div>
 

@@ -49,9 +49,9 @@ const StChemicalList = () => {
     }
     // localStorage.setItem('item', JSON.stringify())
   }
+  
   useEffect(() => {
     console.log(cart);
-
   }, [cart])
   //------------------------------------search-------------------------------------
   const [searchMie, setSearchMie] = useState("");
@@ -73,7 +73,7 @@ const StChemicalList = () => {
         <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
           <div className="card-body">
             <div className="row">
-              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>สารเคมี  {i.std_id &&  <span className='itemCart'>สารเคมีในตะกร้า {itemInCart.length} </span>}</h2></div>
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>สารเคมี  {i.std_id &&  <span className='itemCart'><i class="fas fa-shopping-cart"></i>{itemInCart.length} </span>}</h2></div>
              
               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4'>
                 <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
