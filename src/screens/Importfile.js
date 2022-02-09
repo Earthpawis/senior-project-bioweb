@@ -42,11 +42,12 @@ export default function Importfile() {
               <div className="row">
                 <label htmlFor='uploadCSV' className="dotted" style={{ marginTop: '3rem', borderStyle: 'solid', height: '25rem', borderRadius: 20, width: '55rem', marginLeft: 'auto', marginRight: 'auto', color: '#707070' }}>
                   <div className="row" style={{ marginTop: '7rem', textAlign: 'center' }}>
-                    <i className="fas fa-file-upload icon-import " />
+                    <i className="fas fa-file-upload icon-import "  />
                   </div>
                   <div className="row">
                     <span className="fornt-upload-import ">Upload</span>
                   </div>
+                  
                 </label>
                 <input type="file" id="uploadCSV" style={{ textAlign: 'center' , marginTop:'1em' }} onChange={(e) => setFileCSV(e.target.files[0])} />
 

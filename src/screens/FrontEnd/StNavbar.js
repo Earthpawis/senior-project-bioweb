@@ -41,16 +41,16 @@ const StNavbar = () => {
               </NavDropdown>}
               {i.prof_id && <Nav.Link href="/AjPickingListChemical">รายการเบิกสารเคมี</Nav.Link>}
               {i.prof_id && <Nav.Link href="/AjPickingListTool">รายการเบิกอุปกรณ์</Nav.Link>}
-       
-            </Nav> 
-           
+
+            </Nav>
+
             <Nav>
               <Nav.Link href="#deets">{i.std_name}{i.prof_name}</Nav.Link>
               <Nav.Link eventKey={2} onClick={logout} href="#memes">
                 ออกจากระบบ
               </Nav.Link>
             </Nav>
-           
+
           </Navbar.Collapse>
         </Container>
       </Navbar>

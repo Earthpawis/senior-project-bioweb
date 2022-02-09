@@ -14,15 +14,16 @@ import moment from 'moment'
 export default function MIE() {
 
 
-  //------------------------ Chemical -----------------------------------------------
-  //---------------------------  GET  ---------------------------------------
+  //--------------------------------------------------- Chemical -----------------------------------------------//
+  //------------------------------------------------------  GET  -----------------------------------------------//
   const [chemicalList, setChemicalList] = useState([]);
   const getChemical = () => {
     Axios.get('http://localhost:3307/chemicalList').then((response) => {
       setChemicalList(response.data);
     });
   }
-  // --------- Modal Che ----------
+
+  // -----------------------------------------------------Modal Che ------------------------------------------//
   const [showDetail, setShowDetail] = useState(false);
   const detailClose = () => setShowDetail(false);
   const detailShow = (id) => {
@@ -33,7 +34,8 @@ export default function MIE() {
     }
     );
   }
-  //------------------ AddChe ----------------------------------------
+
+  //--------------------------------------------- AddChe ---------------------------------------------------------//
   const [showAdd, setShowAdd] = useState(false);
   const addClose = () => setShowAdd(false);
   const addShow = () => setShowAdd(true);
@@ -49,8 +51,7 @@ export default function MIE() {
   const [CheStatus, setCheStatus] = useState(0);
   const [CheStorage, setCheStorage] = useState("");
 
-
-  // ------------------------ Edit -----------------------------------------
+  // ------------------------------------------------------- Edit ----------------------------------------------------------//
   const [readChe, setreadChe] = useState([{}])
   const [showEdit, setShowEdit] = useState(false);
   const editClose = () => setShowEdit(false);
@@ -64,17 +65,18 @@ export default function MIE() {
     );
   }
 
-  //----------------- AddChe ---------------------------------------
+  //------------------------------------------------- AddChe --------------------------------------------------------------------//
   const [infoImg, setInfoImg] = useState({
     file: [],
   })
-  
+
   const handleInputChange = (event) => {
     setInfoImg({
       ...infoImg,
       file: event.target.files[0],
     })
   }
+
   const submit = async () => {
     const formdata = new FormData();
     formdata.append('IMG', infoImg.file);
@@ -93,14 +95,14 @@ export default function MIE() {
       headers: { "Content-Type": "multipart/form-data" }
     }).then(res => {
       console.log(res)
-      if(res.status === 200){
+      if (res.status === 200) {
         addClose();
-      getChemical();
-      Swal.fire("อัพโหลดข้อมูลสำเร็จ", "อัพโหลดข้อมูลแล้ว", "success")
-      } else if (res.status === 400){
+        getChemical();
+        Swal.fire("อัพโหลดข้อมูลสำเร็จ", "อัพโหลดข้อมูลแล้ว", "success")
+      } else if (res.status === 400) {
         console.log("555555555555555555555555555555")
         addClose();
-      getChemical();
+        getChemical();
         Swal.fire("ไม่สามารถอัพโหลดข้อมูลได้", "เนื่องจากไม่ได้เเนบรูปภาพ", "error")
       }
 
@@ -108,7 +110,8 @@ export default function MIE() {
       console.log(e);
     })
   }
-  //-------------------------- Update Che ---------------------------------------
+
+  //---------------------------------------------------------- Update Che ---------------------------------------//
   const updateChe = (id) => {
     console.log(readChe)
     Axios.put("http://localhost:3307/updateChe/", {
@@ -133,7 +136,8 @@ export default function MIE() {
       console.log(e);
     })
   }
-  //------------------ delect Che ---------------------------------
+
+  //-------------------------------------------------- delect Che -----------------------------------------------------------------//
   const delChe = (id) => {
     Swal.fire({
       title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -141,8 +145,9 @@ export default function MIE() {
       icon: 'warning',
       timer: 10000,
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'ตกลง',
       confirmButtonColor: '#3085d6',
+      cancelButtonText: 'ยกเลิก',
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -170,10 +175,9 @@ export default function MIE() {
   }
 
 
-
-  //-------------------------------------------------------------------------------
-  //------------------------ Tool -----------------------------------------------
-  // ---------------- Modal Tools ------------
+  //---------------------------------------------------------------------------------------------------------------------------//
+  //-------------------------------------------------------------------- Tool ------------------------------------------------//
+  // ------------------------------------------------------------------ Modal Tools ------------------------------------------//
   const [readTool, setreadTool] = useState([{}])
   const [showAddTools, setShowAddTools] = useState(false);
   const addToolsClose = () => setShowAddTools(false);
@@ -185,7 +189,7 @@ export default function MIE() {
   const [ToolName, setToolName] = useState("");
 
 
-  //-------------------------------------------------
+  //------------------------------------------------------------------------------------------------------------------------------------//
 
   const [showDeatailTools, setshowDeatailTools] = useState(false);
   const DtailToolsClose = () => setshowDeatailTools(false);
@@ -197,6 +201,7 @@ export default function MIE() {
     });
   }
 
+  //------------------------------------------------------------------------------------------------------------------------------------//
   const [showEditToolsShow, setshowEditToolsShow] = useState(false);
   const EditToolsClose = () => setshowEditToolsShow(false);
   const EditToolsShow = (id) => {
@@ -207,42 +212,44 @@ export default function MIE() {
     });
   }
 
-const [infoUpdateTool,setInfoUpdateTool] = useState ({ file: [],})
+  //------------------------------------------------------------------------------------------------------------------------------------//
+  const [infoUpdateTool, setInfoUpdateTool] = useState({ file: [], })
 
-const updatePhotoTool = (event) => {
-  setInfoUpdateTool({
-    ...infoUpdateTool,
-    file: event.target.file[0],
-  })
-}
+  const updatePhotoTool = (event) => {
+    setInfoUpdateTool({
+      ...infoUpdateTool,
+      file: event.target.file[0],
+    })
+  }
 
-const submitUpdateTool = async (id) => {
-  const formdata = new FormData();
-  formdata.append('IMG',infoUpdateTool);
-  formdata.append('tool_id',readTool[0].tool_id);
-  formdata.append('tool_name',readTool[0].tool_name);
-  formdata.append('tool_storage',readTool[0].tool_storage);
-  formdata.append('tool_size',readTool[0].tool_size);
-  formdata.append('tool_amount',readTool[0].tool_amount);
-  console.log(readTool[0].tool_name)
-  console.log(formdata.getAll('tool_name'))
-  axios.put("http://localhost:3307/updateTool/", formdata, {
-    headers: { "Content-Type": "multipart/form-data" }
-  }).then(res => {
-    console.log(res)
-    if(res.status === 200){
-      EditToolsClose();
-      getEquipment();
-    Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
-    } else if (res.status === 400){
-      console.log("555555555555555555555555555555")
-      Swal.fire("ไม่สามารถอัพโหลดข้อมูลได้", "เนื่องจากไม่ได้เเนบรูปภาพ", "error")
-    }
+  //------------------------------------------------------------------------------------------------------------------------------------//
+  const submitUpdateTool = async (id) => {
+    const formdata = new FormData();
+    formdata.append('IMG', infoUpdateTool);
+    formdata.append('tool_id', readTool[0].tool_id);
+    formdata.append('tool_name', readTool[0].tool_name);
+    formdata.append('tool_storage', readTool[0].tool_storage);
+    formdata.append('tool_size', readTool[0].tool_size);
+    formdata.append('tool_amount', readTool[0].tool_amount);
+    console.log(readTool[0].tool_name)
+    console.log(formdata.getAll('tool_name'))
+    axios.put("http://localhost:3307/updateTool/", formdata, {
+      headers: { "Content-Type": "multipart/form-data" }
+    }).then(res => {
+      console.log(res)
+      if (res.status === 200) {
+        EditToolsClose();
+        getEquipment();
+        Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+      } else if (res.status === 400) {
+        console.log("555555555555555555555555555555")
+        Swal.fire("ไม่สามารถอัพโหลดข้อมูลได้", "เนื่องจากไม่ได้เเนบรูปภาพ", "error")
+      }
 
-  }).catch(e => {
-    console.log(e);
-  })
-}
+    }).catch(e => {
+      console.log(e);
+    })
+  }
 
 
   // const updateTool = (id) => {
@@ -262,6 +269,7 @@ const submitUpdateTool = async (id) => {
 
   // }
 
+  //-------------------------------------------------------ลบอุปกรณ์-----------------------------------------------------------------------------//
   const delTool = (id) => {
     Swal.fire({
       title: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
@@ -297,7 +305,7 @@ const submitUpdateTool = async (id) => {
     })
   }
 
-  //---------------------------  GET  ---------------------------------------
+  //------------------------------------------------------------------  GET  ------------------------------------------------------//
 
   const [equipmentList, setEquipmentList] = useState([]);
   const getEquipment = () => {
@@ -305,17 +313,19 @@ const submitUpdateTool = async (id) => {
       setEquipmentList(response.data);
     });
   }
-  //---------------------------  POST  ---------------------------------------
-  //----------------- Addtool ---------------------------------------
+  //------------------------------------------------------------------  POST  ------------------------------------------------------//
+  //------------------------------------------------------------------- Addtool ----------------------------------------------------//
   const [infoImgTool, setInfoImgTool] = useState({
     file: [],
   })
+
   const handleInputChange2 = (event) => {
     setInfoImgTool({
       ...infoImgTool,
       file: event.target.files[0],
     })
   }
+
   const submitTool = async () => {
     const formdataTool = new FormData();
     formdataTool.append('IMG', infoImgTool.file);
@@ -336,16 +346,16 @@ const submitUpdateTool = async (id) => {
     })
   }
 
-
   //---------------------------------------------------------------------------
   const [searchMie, setSearchMie] = useState("");
   useEffect(() => {
     getChemical();
     getEquipment();
   }, []);
+
   //-----------------------------------PageSize-----------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  let PageSize = 4;
+  let PageSize = 8;
 
 
   const currentchemicalListTableData = useMemo(() => {
@@ -425,7 +435,6 @@ const submitUpdateTool = async (id) => {
                       </tr>)
 
                   })}
-
                 </tbody>
               </table>
               <Pagination
@@ -489,7 +498,7 @@ const submitUpdateTool = async (id) => {
       </div>
 
 
-      {/* ---------- addChe ------------ */}
+      {/* ----------------------------------------------- addChe -------------------------------------------------------------------------*/}
       <Modal
         show={showAdd}
         onHide={addClose}
@@ -500,7 +509,6 @@ const submitUpdateTool = async (id) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>เพิ่มข้อมูลสารเคมี</Modal.Title>
-
         </Modal.Header>
         <Modal.Body>
           <div className="row">
@@ -607,7 +615,7 @@ const submitUpdateTool = async (id) => {
                       var date = (Event.target.value).toISOString();
                       date = date.split("T")[0]
                       var dateArray = date.split("-");
-                      setCheExp([dateArray[0],dateArray[1],parseInt(dateArray[2])+1].join('-'))
+                      setCheExp([dateArray[0], dateArray[1], parseInt(dateArray[2]) + 1].join('-'))
                     }
                   }} />
                 </div>
@@ -630,7 +638,7 @@ const submitUpdateTool = async (id) => {
                 </div>
               </div>
             </div>
-            {/*   <div class="modal-footer"> */}
+            
             <div className="row mt-3 ">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
                 <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => submit()} >
@@ -648,7 +656,7 @@ const submitUpdateTool = async (id) => {
         </Modal.Body>
       </Modal>
 
-      {/* ---------- detailChe ------------ */}
+      {/* --------------------------------------------------------------------------- detailChe ----------------------------------------------- */}
       <Modal
         show={showDetail}
         onHide={detailClose}
@@ -683,7 +691,7 @@ const submitUpdateTool = async (id) => {
                     </div>
                   </div>
                   <div className="row mb-3">
-                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
                       {val.ch_formula}
@@ -738,7 +746,7 @@ const submitUpdateTool = async (id) => {
                     <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                    {moment(val.ch_exp).format('L')}
+                      {moment(val.ch_exp).format('L')}
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -757,17 +765,7 @@ const submitUpdateTool = async (id) => {
                   </div>
                 </div>
                 <div className="row mt-3">
-                  {/*  <div className="col-4 col-lg-4 col-xl-4 col-mb-4 col-xs-4" style={{ textAlign: 'end' }}>
-                    <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
-                      <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
-                    </button>
-                  </div> */}
-                  {/*      <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
-                    <button type="submit" className="btn btn-bacode" style={{ color: '#fff' }}>
-                      <i aria-hidden="true" className="fas fa-barcode mx-2" style={{ fontSize: 16 }} />พิมพ์บาร์โค๊ด
-                    </button>
-                  </div> */}
-                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'end' }}>
+                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'center' }}>
                     <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delChe(val.ch_id)} >
                       <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                       ลบข้อมูล
@@ -777,18 +775,15 @@ const submitUpdateTool = async (id) => {
               </div>
             )
           })}
-
-
         </Modal.Body>
       </Modal>
 
-      {/* ---------- editChe ------------ */}
+      {/* ------------------------------------------------------------ editChe ------------------------------------------------------------------------ */}
       <Modal
         show={showEdit}
         onHide={editClose}
         backdrop="static"
         keyboard={false}
-
         size="lg"
         centered
       >
@@ -815,8 +810,8 @@ const submitUpdateTool = async (id) => {
                     </div>
                   </div>
                   <div className="row mb-3">
-                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">ชนิด
-                      :
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">
+                      ชนิด :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
                       <input type="text" className="input-text form-control " id formcontrolname defaultValue={val.ch_id} disabled />
@@ -848,7 +843,8 @@ const submitUpdateTool = async (id) => {
                     </div>
                   </div>
                   <div className="row mb-3">
-                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
+                    <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">
+                      รหัสสารเคมี
 
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
@@ -923,17 +919,17 @@ const submitUpdateTool = async (id) => {
                     <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                    <DatePickerComponent
-                    onChange={(Event) => {
-                    if (Event.target.value) {
-                      var date = (Event.target.value).toISOString();
-                      date = date.split("T")[0]
-                      var dateArray = date.split("-");
-                      setreadChe([{
-                        ...readChe[0], ch_exp: ([dateArray[0],dateArray[1],parseInt(dateArray[2])+1].join('-'))
-                      }])
-                    }
-                  }} />
+                      <DatePickerComponent
+                        onChange={(Event) => {
+                          if (Event.target.value) {
+                            var date = (Event.target.value).toISOString();
+                            date = date.split("T")[0]
+                            var dateArray = date.split("-");
+                            setreadChe([{
+                              ...readChe[0], ch_exp: ([dateArray[0], dateArray[1], parseInt(dateArray[2]) + 1].join('-'))
+                            }])
+                          }
+                        }} />
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -954,7 +950,7 @@ const submitUpdateTool = async (id) => {
                   <div className="form-group mb-3">
                     <div className="image-upload">
                       <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
-                      <input className="form-control mt-4" type="file" name="upload_file"  />
+                      <input className="form-control mt-4" type="file" name="upload_file" />
                     </div>
                   </div>
                 </div>
@@ -977,7 +973,7 @@ const submitUpdateTool = async (id) => {
         </Modal.Body>
       </Modal>
 
-      {/* ---------- addTools ------------ */}
+      {/* ---------------------------------------------------------------------- addTools ------------------------------------------------------------------------ */}
       <Modal
         show={showAddTools}
         onHide={addToolsClose}
@@ -988,7 +984,6 @@ const submitUpdateTool = async (id) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>เพิ่มข้อมูลอุปกรณ์</Modal.Title>
-
         </Modal.Header>
         <Modal.Body>
           <div className="row">
@@ -1073,7 +1068,7 @@ const submitUpdateTool = async (id) => {
         </Modal.Body>
       </Modal>
 
-      {/* ---------- detailTools ------------ */}
+      {/* -------------------------------------------------------------------------------- detailTools --------------------------------------------------------------*/}
       <Modal
         show={showDeatailTools}
         onHide={DtailToolsClose}
@@ -1128,7 +1123,6 @@ const submitUpdateTool = async (id) => {
                       className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name">ขนาดบรรจุ :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-
                       {val.tool_size}
                     </div>
                   </div>
@@ -1141,12 +1135,7 @@ const submitUpdateTool = async (id) => {
                   </div>
                 </div>
                 <div className="row mt-3">
-                  {/*   <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: 'end' }}>
-                <button type="submit" className="btn btn-edit " style={{ color: '#fff' }}>
-                  <i aria-hidden="true" className="far fa-edit mx-2" style={{ fontSize: 16 }} />แก้ไขข้อมูล
-                </button>
-              </div> */}
-                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'end' }}>
+                  <div className="col-12 col-lg-12 col-xl-12 col-mb-12 col-xs-12" style={{ textAlign: 'center' }}>
                     <button type="button" className="btn  btn-del" style={{ color: '#fff' }} onClick={() => delTool(val.tool_id)} >
                       <i aria-hidden="true" className="fas fa-trash mx-2" style={{ fontSize: 16 }} />
                       ลบข้อมูล
@@ -1159,13 +1148,12 @@ const submitUpdateTool = async (id) => {
         </Modal.Body>
       </Modal>
 
-      {/* ---------- editTools ------------ */}
+      {/* ----------------------------------------------------------------------------------editTools -----------------------------------------------------------------*/}
       <Modal
         show={showEditToolsShow}
         onHide={EditToolsClose}
         backdrop="static"
         keyboard={false}
-
         size="lg"
         centered
       >
@@ -1244,7 +1232,7 @@ const submitUpdateTool = async (id) => {
                   <div className="form-group mb-3">
                     <div className="image-upload">
                       <img src={"http://localhost:3307/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
-                      <input className="form-control mt-4" type="file" name="upload_file"  />
+                      <input className="form-control mt-4" type="file" name="upload_file" />
                     </div>
                   </div>
                 </div>

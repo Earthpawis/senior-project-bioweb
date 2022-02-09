@@ -1,6 +1,5 @@
 import React from 'react'
 import '../css/Bor.css'
-/* import '../css/MIE.css' */
 import Swal from 'sweetalert2'
 import Axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
@@ -10,13 +9,15 @@ import Pagination from '../Components/Paginations/Pagination';
 let PageSize = 6;
 
 export default function DataST() {
+
     const [currentPage, setCurrentPage] = useState(1);
-    // --------- Modal Std ----------
+
+    // --------------------------------------  Modal Std ------------------------------------------------ //
     const [showAddStd, setshowAddStd] = useState(false);
     const addCloseStd = () => setshowAddStd(false);
     const addShowStd = () => setshowAddStd(true);
 
-    //--------- Modal editStd ----------
+    //---------------------------- -------------------  Modal editStd -------------------------------------//
 
     const [showEditDataStd, setshowEditDataStd] = useState(false);
     const [readuser, setreaduser] = useState([{}])
@@ -40,21 +41,18 @@ export default function DataST() {
         })
             .then(function (response) {
                 console.log(response);
-
                 //searchuser(Search, type , typeuser)
-
                 //handleClose();
                 Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
                 editCloseDataStd();
                 getStudent();
-
             })
             .catch(function (error) {
                 console.log(error);
             });
     }
 
-    //--------- Modal ลบStd ----------
+     //---------------------------- -------------------  Modal deleteStd -------------------------------------//
 
     const deleteStudent = (id) => {
         Swal.fire({
@@ -63,8 +61,9 @@ export default function DataST() {
             icon: 'warning',
             timer: 10000,
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: 'ตกลง',
             confirmButtonColor: '#3085d6',
+            cancelButtonText: 'ยกเลิก',
             cancelButtonColor: '#d33',
         }).then((result) => {
             if (result.isConfirmed) {
@@ -91,7 +90,7 @@ export default function DataST() {
         })
     }
 
-    // --------- Modal Aj ----------
+  //---------------------------- -------------------  Modal AJ-------------------------------------//
     const [showAddDataAj, setshowAddDataAj] = useState(false);
     const AddCloseDataAj = () => setshowAddDataAj(false);
     const addShowAj = () => setshowAddDataAj(true);
@@ -124,11 +123,11 @@ export default function DataST() {
         })
             .then(function (response) {
                 console.log(response);
-
                 //searchuser(Search, type , typeuser)
-
                 //handleClose();
                 Swal.fire("แก้ไขข้อมูลสำเร็จ", "ข้อมูลของคุณถูกแก้ไขแล้ว", "success")
+                editCloseDataAj();
+                getProfesser();
             })
             .catch(function (error) {
                 console.log(error);
@@ -142,8 +141,9 @@ export default function DataST() {
             icon: 'warning',
             timer: 10000,
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: 'ตกลง',
             confirmButtonColor: '#3085d6',
+            cancelButtonText :'ยกเลิก',
             cancelButtonColor: '#d33',
         }).then((result) => {
             if (result.isConfirmed) {
@@ -169,14 +169,14 @@ export default function DataST() {
         })
     }
 
-    // --------- Modal Addstd ----------
+     //---------------------------- -------------------  Modal AddStd -------------------------------------//
 
     const [std_id, setstd_id] = useState("");
     const [std_name, setstd_name] = useState("");
     const [std_password, setstd_password] = useState("");
     const [std_level, setstd_level] = useState("");
     const [std_tel, setstd_tel] = useState("");
-    const [newstd_password, setnewstd_password] = useState("");
+    
 
     const addStudent = () => {
         Axios.post('http://localhost:3307/dataStudentcreate', {
@@ -197,7 +197,7 @@ export default function DataST() {
 
     }
 
-    // --------- Modal AdddataAj ----------
+    // ---------------------------------------------- -------------------Modal AdddataAj------------------------------------//
     const [prof_id, setprof_id] = useState("");
     const [prof_name, setprof_name] = useState("");
     const [prof_password, setprof_password] = useState("");
@@ -223,7 +223,7 @@ export default function DataST() {
     }
 
 
-    // --------- Modal  ----------
+    //---------------------------- -------------------  Modal  -------------------------------------//
 
     const [studentList, setStudentList] = useState([]);
     const getStudent = () => {
@@ -240,6 +240,7 @@ export default function DataST() {
         });
     }
 
+     //---------------------------- ------------------- serach -------------------------------------//
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
@@ -247,6 +248,7 @@ export default function DataST() {
         console.log(studentList);
         getProfesser()
     }, []);
+
 
     const currentProfesserListTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
@@ -289,7 +291,6 @@ export default function DataST() {
                                         <th className="headname-th" scope="col" width="3%" style={{ minWidth: 100 }}><span>ชั้นปี</span> </th>
                                         <th className="headname-th" scope="col" width="3%" style={{ minWidth: 200 }}><span>เบอร์โทร</span> </th>
                                         <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150 }} />
-                                        {/*       <th ></th> */}
                                         <th className="headname-th" scope="col" width="5%">
                                             <button type="button" className="btn btn-report " onClick={addShowStd} style={{ backgroundColor: '#5DD480', borderRadius: 4, width: 95, color: '#fff' }}>
                                                 <i aria-hidden="true" className="fas fa-plus" style={{ fontSize: 15 }} /><label className="mx-2">เพิ่ม</label> </button>
@@ -299,35 +300,35 @@ export default function DataST() {
                                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
 
                                     {currentStudentListTableData
-                                    .filter((val) => {
-                                        if (searchTerm == "") {
-                                            return val
-                                        } else if (val.std_id.toLowerCase().includes(searchTerm.toLowerCase())) {
-                                            return val
-                                        } else if (val.std_name.toLowerCase().includes(searchTerm.toLowerCase())) {
-                                            return val
-                                        }
-                                    }).map((val, key) => {
-                                        return (<tr className="table-name-report " key={key}>
-                                            <th scope="row">{val.std_id}</th>
-                                            <td>{val.std_name}</td>
-                                            <td><label className="class-room">{val.std_level}</label></td>
-                                            <td>{val.std_tel}</td>
-                                            <td>
-                                                <button type="button" className="btn btn-report " onClick={() => editShowDataStd(val.std_id)}
-                                                    style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit"
-                                                        style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button>
+                                        .filter((val) => {
+                                            if (searchTerm == "") {
+                                                return val
+                                            } else if (val.std_id.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val
+                                            } else if (val.std_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val
+                                            }
+                                        }).map((val, key) => {
+                                            return (<tr className="table-name-report " key={key}>
+                                                <th scope="row">{val.std_id}</th>
+                                                <td>{val.std_name}</td>
+                                                <td><label className="class-room">{val.std_level}</label></td>
+                                                <td>{val.std_tel}</td>
+                                                <td>
+                                                    <button type="button" className="btn btn-report " onClick={() => editShowDataStd(val.std_id)}
+                                                        style={{ backgroundColor: '#958F8F', color: '#fff' }}><i aria-hidden="true" className="far fa-edit"
+                                                            style={{ fontSize: 15 }} /><label className="mx-2">แก้ไข</label> </button>
 
-                                            </td>
-                                            <td>
-                                                <button type="button" className="btn btn-report " onClick={() => {
-                                                    deleteStudent(val.std_id);
-                                                }}
-                                                    style={{ backgroundColor: '#D12E2E', color: '#fff', width: '90px' }}>
-                                                    <i aria-hidden="true" className="fas fa-trash" style={{ fontSize: 15 }} /><label className="mx-2">ลบ</label> </button>
-                                            </td>
-                                        </tr>)
-                                    })}
+                                                </td>
+                                                <td>
+                                                    <button type="button" className="btn btn-report " onClick={() => {
+                                                        deleteStudent(val.std_id);
+                                                    }}
+                                                        style={{ backgroundColor: '#D12E2E', color: '#fff', width: '90px' }}>
+                                                        <i aria-hidden="true" className="fas fa-trash" style={{ fontSize: 15 }} /><label className="mx-2">ลบ</label> </button>
+                                                </td>
+                                            </tr>)
+                                        })}
                                 </tbody>
                             </table>
                             <Pagination
@@ -398,7 +399,7 @@ export default function DataST() {
                     </div>
                 </div>
             </div>
-            {/* ---------- AddStd ------------ */}
+            {/* ---------------------------------------------------------------------- AddStd ------------------------------------------------------------------------------------------------ */}
             <Modal
                 show={showAddStd}
                 onHide={addCloseStd}
@@ -409,7 +410,6 @@ export default function DataST() {
             >
                 <Modal.Header closeButton>
                     <Modal.Title>เพิ่มข้อมูลนักศึกษา</Modal.Title>
-
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
@@ -423,7 +423,7 @@ export default function DataST() {
                                     }}
                                 />
                             </div>
-                        </div>.
+                        </div>
                         <div className="form-group row mb-3">
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
@@ -484,7 +484,7 @@ export default function DataST() {
                 </Modal.Body>
             </Modal>
 
-            {/* ---------- editStd ------------ */}
+            {/* ---------------------------------------------------------------------- editStd ------------------------------------------------------------------------------------------------ */}
             <Modal
                 show={showEditDataStd}
                 onHide={editCloseDataStd}
@@ -576,11 +576,10 @@ export default function DataST() {
 
                         )
                     })}
-
                 </Modal.Body>
             </Modal>
 
-            {/* ---------- AddAj------------ */}
+            {/* ---------------------------------------------------------------------------------- AddAj------------------------------------------------------------------------ */}
             <Modal
                 show={showAddDataAj}
                 onHide={AddCloseDataAj}
@@ -648,7 +647,6 @@ export default function DataST() {
                                         setprof_password(event.target.value)
                                     }}
                                 />
-
                             </div>
                         </div>
                         <div className="row mt-3 ">
@@ -668,79 +666,7 @@ export default function DataST() {
                 </Modal.Body>
             </Modal>
 
-            {/* ---------- editpasswordAj------------ */}
-            <Modal
-                show={showEditDataAj}
-                onHide={editClosePassAj}
-                backdrop="static"
-                keyboard={false}
-                size="lg"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>เปลี่ยนรหัสผ่าน : อาจารย์</Modal.Title>
 
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="row">
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                ดร.ประเจต อำนาจนาน
-                            </div>
-                        </div>.
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                0809383891
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสอาจารย์ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                1
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">Username :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                Narath
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                                1234
-                            </div>
-                        </div>
-                        <div className="form-group row mb-3">
-                            <label htmlFor=""
-                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่านใหม่ :</label>
-                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                <input type="text" className="input-text form-control " id formcontrolname />
-                            </div>
-                        </div>
-                        <div className="row mt-3 ">
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }}>
-                                    <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
-                                </button>
-                            </div>
-                            <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6">
-                                <button type="button" className="btn  btn-add-cancal" style={{ color: '#fff' }} onclick={editClosePassAj}>
-                                    <i aria-hidden="true" className="fas fa-times mx-3" style={{ fontSize: 20 }} />
-                                    ยกเลิก
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
 
             {/* ---------- editAj------------ */}
             <Modal

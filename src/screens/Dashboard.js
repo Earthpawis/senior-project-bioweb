@@ -10,8 +10,8 @@ import Swal from 'sweetalert2'
 
 
 export default function Dashboard() {
-
-  //-------------------- ยืมอุปกรณ์ ------------------------------
+  let PageSize = 4;
+  //-------------------------------------------------- ยืมอุปกรณ์ ------------------------------------------------------------//
   const [pickListBor, setPickListBor] = useState([]);
   const pickList_bor = () => {
     Axios.get('http://localhost:3307/pickingListBor_admin').then((Response) => {
@@ -19,7 +19,8 @@ export default function Dashboard() {
     });
   }
 
-  let PageSize = 4;
+  //-----------------------------------------------------------------------------------------------------------------------//
+
   const [detailPLBor, setDetailPLBor] = useState([]);
   const [showDetailPLBor, setShowDetailPLBor] = useState(false);
   const showDetailPLBorClose = () => setShowDetailPLBor(false);
@@ -29,7 +30,7 @@ export default function Dashboard() {
     })
     setShowDetailPLBor(true)
   }
-  //-------------------- เบิกสารเคมี ------------------------------
+  //-------------------- เบิกสารเคมี ---------------------------------------------------------------------------------------//
   const [showDetailPLDis, setShowDetailPLDis] = useState(false);
   const showDetailPLDisClose = () => setShowDetailPLDis(false);
   const [detailPLDis, setDetailPLDis] = useState([]);
@@ -39,6 +40,8 @@ export default function Dashboard() {
     })
     setShowDetailPLDis(true)
   };
+
+  //-----------------------------------------------------------------------------------------------------------------------//
   const [pickListDis, setPickListDis] = useState([]);
   const pickList = () => {
     Axios.get('http://localhost:3307/pickingListDis_admin').then((Response) => {
@@ -46,31 +49,32 @@ export default function Dashboard() {
     });
   }
 
-
+  //-----------------------------------------------------------------------------------------------------------------------//
   const Returned = (e, key, obj) => {
     console.log(obj.o_bor_returned);
-    if(obj.o_bor_returned === 0){
+    if (obj.o_bor_returned === 0) {
       Swal.fire({
         title: 'ยืนยันการคืนอุปกรณ์ ?',
         text: "Order ID : " + obj.o_bor_id,
         icon: 'warning',
         timer: 10000,
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'ตกลง',
         confirmButtonColor: '#3085d6',
+        cancelButtonText: 'ยกเลิก',
         cancelButtonColor: '#d33',
       }).then((result) => {
         if (result.isConfirmed) {
-          pickListBor[key].o_bor_returned = 1 ;
+          pickListBor[key].o_bor_returned = 1;
           setPickListBor([...pickListBor])
           Axios.put(`http://localhost:3307/PLBor_returned/${obj.o_bor_id}`, obj)
             .then(function (response) {
               Swal.fire(
-                "ยืนยันการคืนอุปกรณ์เเล้ว" ,
+                "ยืนยันการคืนอุปกรณ์เเล้ว",
                 "Order ID : " + obj.o_bor_id,
                 'success'
               )
-  
+
             })
             .catch(function (error) {
               Swal.fire(
@@ -79,35 +83,36 @@ export default function Dashboard() {
                 'error'
               )
             })
-        }else{
-          pickListBor[key].o_bor_returned = 0 ;
+        } else {
+          pickListBor[key].o_bor_returned = 0;
           setPickListBor([...pickListBor])
           console.log(pickListBor[key]);
         }
       })
-    } else if (obj.o_bor_returned === 1){
+    } else if (obj.o_bor_returned === 1) {
       Swal.fire({
         title: 'ยกเลิกการคืนอุปกรณ์ ?',
         text: " Order ID : " + obj.o_bor_id,
         icon: 'warning',
         timer: 10000,
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'ตกลง',
         confirmButtonColor: '#3085d6',
+        cancelButtonText: 'ยกเลิก',
         cancelButtonColor: '#d33',
       }).then((result) => {
         if (result.isConfirmed) {
-          pickListBor[key].o_bor_returned = 0 ;
+          pickListBor[key].o_bor_returned = 0;
           setPickListBor([...pickListBor])
           Axios.put(`http://localhost:3307/PLBor_returned/${obj.o_bor_id}`, obj)
             .then(function (response) {
-  
+
               Swal.fire(
                 'ยกเลิกการคืนอุปกรณ์เเล้ว',
-                'Order ID :' + obj.o_bor_id ,
+                'Order ID :' + obj.o_bor_id,
                 'success'
               )
-  
+
             })
             .catch(function (error) {
               Swal.fire(
@@ -116,8 +121,8 @@ export default function Dashboard() {
                 'error'
               )
             })
-        }else{
-          pickListBor[key].o_bor_returned = 1 ;
+        } else {
+          pickListBor[key].o_bor_returned = 1;
           setPickListBor([...pickListBor])
           console.log(pickListBor[key]);
         }
@@ -126,30 +131,34 @@ export default function Dashboard() {
 
   }
 
+  //-----------------------------------------------------------------------------------------------------------------------//
 
   useEffect(() => {
     pickList();
     pickList_bor();
   }, []);
 
-
   useEffect(() => {
     console.log(pickListDis);
   }, [setPickListDis]);
-  const [currentPage, setCurrentPage] = useState(1);
 
+  //-----------------------------------------------------------------------------------------------------------------------//
+  const [currentPage, setCurrentPage] = useState(1);
   const currentPickListDisTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
     return pickListDis.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, pickListDis]);
 
+  //-----------------------------------------------------------------------------------------------------------------------//
   const currentPickListBorTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
     return pickListBor.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, pickListBor]);
-useState(()=>{console.log(pickListBor);},[pickListBor])
+
+  //-----------------------------------------------------------------------------------------------------------------------//
+  useState(() => { console.log(pickListBor); }, [pickListBor])
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
@@ -218,6 +227,7 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
               </div>
             </div>
           </div>
+
           <div className="row" style={{ marginTop: '0.5rem', width: '77rem', marginLeft: '-6rem' }}>
             <ul className="nav nav-tabs">
               <li className="nav-item">
@@ -227,7 +237,7 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
             <div className="row">
               <div className="card cardsidebar">
                 <div className="card-body">
-                  <table className="table">
+                  <table className="table ">
                     <thead>
                       <tr>
                         <th className="class-room" scope="col" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
@@ -263,17 +273,16 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
                             <td><label className="mx-2" >{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'>รอการอนุมัติ</label>  </>
                               : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
                                 : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
-                            <th>
-                              <label>
-                                <input type="checkbox" checked={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
-                                  Returned(e, key, val);
-                                }} />
-                              </label>
+                            <th style={{ textAlign: 'center' }}>
+                              {/* <label> */}
+                              <input type="checkbox" checked={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
+                                Returned(e, key, val);
+                              }} />
+                              {/* </label> */}
                             </th>
                           </tr>
                         )
                       })}
-
                     </tbody>
                   </table>
                   <Pagination
@@ -289,6 +298,7 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
         </div>
       </div>
 
+      {/*      //-----------------------------------------------------modalเบิกใช้สารเคมี------------------------------------------------------------------// */}
       <Modal
         show={showDetailPLDis}
         onHide={showDetailPLDisClose}
@@ -306,7 +316,7 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
             <thead>
               <tr>
                 <th scope="col">รายการ</th>
-                <th scope="col">จำนวน</th>
+                <th scope="col">ปริมาณ</th>
                 <th scope="col">หน่วย</th>
               </tr>
             </thead>
@@ -323,7 +333,7 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
             </tbody>
           </table>
           <div className='row'>
-            <div className='col-9' style={{ textAlign: 'center' }} >
+            <div className='col-8' style={{ textAlign: 'center' }} >
               <label className="mx-2" >{detailPLDis[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i> <label className='iconellipsis-name'>รอการอนุมัติ</label> </>
                 : detailPLDis[0]?.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
                   : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label> </>} : โดย {detailPLDis[0]?.prof_name} </label>
@@ -334,9 +344,9 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
             </div>
           </div>
         </Modal.Body>
-
       </Modal>
 
+      {/*      //-----------------------------------------------------modal ยืมอุปกรณ์------------------------------------------------------------------// */}
       <Modal
         show={showDetailPLBor}
         onHide={showDetailPLBorClose}
@@ -368,10 +378,9 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
                   </tr>
                 )
               })}
-
             </tbody>
           </table>
-          <div className='row'>
+          <div className='row mb-3'>
             <div className='col-6' style={{ textAlign: 'center' }}>
               <label>วันที่เบิก : {moment(detailPLBor[0]?.o_bor_date).format('L')}
               </label>
@@ -381,13 +390,19 @@ useState(()=>{console.log(pickListBor);},[pickListBor])
               </label>
             </div>
           </div>
-          <div className="row">
+          <div className="row mb-3">
+            <div className='col-6 mt-3' style={{ textAlign: 'center' }} >
+              <label className="mx-2">{detailPLBor[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name"></i> <label className='iconellipsis-name'> รอการอนุมัติ</label></> : detailPLBor[0]?.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className='iconcheck-name'>อนุมัติ</label></> : <><i class="fas fa-times iconcheck-times"></i><label className='iconcheck-times'>ไม่อนุมัติ</label></>} : โดย {detailPLBor[0]?.prof_name} </label>
+            </div>
             <div className='col-6' style={{ textAlign: 'center' }} >
-              <label className="mx-2" style={{ color: '#41B949' }}>{detailPLBor[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h"></i> รอการอนุมัติ</> : detailPLBor[0]?.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" />อนุมัติ</> : <><i class="fas fa-times"></i> ไม่อนุมัติ</>} : โดย {detailPLBor[0]?.prof_name} </label>
+              <div className="input-group">
+                <span className="input-group-text">หมายเหตุ</span>
+                <textarea className="form-control" aria-label="With textarea" defaultValue={""}
+               />
+              </div>
             </div>
           </div>
         </Modal.Body>
-
       </Modal>
     </>
   )
