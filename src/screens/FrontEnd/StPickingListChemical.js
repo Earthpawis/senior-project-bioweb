@@ -134,6 +134,7 @@ const PickingListChemical = () => {
               </label>
             </div>
           </div>
+          
         </Modal.Body>
 
       </Modal>

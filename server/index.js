@@ -31,6 +31,7 @@ require('./chemical')(app)
 require('./cart')(app)
 require('./pickingList')(app)
 require('./dashboard')(app)
+require('./aj_pickingList')(app)  
 
 app.listen('3307', () => {
     console.log('Server is running on port 3307');
@@ -328,27 +329,7 @@ app.get("/readTool/:id", (req, res) => {
         }
     });
 });
-//-------------- updateTool --------------------------------
-// app.put('/updateTool', (req, res) => {
-//     const tool_id = req.body.tool_id;
-//     const tool_name = req.body.tool_name;
-//     const tool_storage = req.body.tool_storage;
-//     const tool_size = req.body.tool_size;
-//     const tool_amount = req.body.tool_amount;
-//     const err = "";
 
-//     db.query("UPDATE tools SET tool_name =? ,tool_storage =?, tool_size =?, tool_amount =? WHERE tool_id=? ",
-//         [tool_name, tool_storage, tool_size, tool_amount, tool_id],
-//         (err,result) => {
-//                 if (err) {
-//                     console.log(err);
-//                 } else {
-//                     res.send("values insert complete")
-//                 }
-//             }
-//         )
-
-// })
 
 //------------- delTool -------------------------------
 app.delete("/delTool/:id", (req, res) => {

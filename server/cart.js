@@ -60,7 +60,10 @@ module.exports = function (app) {
         let user = req.body.user
         let prof_id = req.body.prof
         let item_amount = item.length
-        let o_bor_status = 1;
+        let o_bor_status = 1
+        // let date_returned = new Date(),
+        //     month = date_returned.getDay() + 7 
+        //     console.log(month);
 
        db.query('INSERT INTO order_bor (std_id,prof_id,o_bor_item_amount,o_bor_descrip,o_bor_status) VALUES (?,?,?,?,?)',
        [user.std_id, prof_id, item_amount, descrip, o_bor_status],(err,result) => {

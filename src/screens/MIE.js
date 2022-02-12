@@ -357,12 +357,14 @@ export default function MIE() {
   const [currentPage, setCurrentPage] = useState(1);
   let PageSize = 8;
 
+  const [currentPageCh, setCurrentPageCh] = useState(1);
+  let PageSizeCh = 4;
 
   const currentchemicalListTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * PageSize;
-    const lastPageIndex = firstPageIndex + PageSize;
+    const firstPageIndex = (currentPageCh - 1) * PageSizeCh; 
+    const lastPageIndex = firstPageIndex + PageSizeCh;
     return chemicalList.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, chemicalList]);
+  }, [currentPageCh, chemicalList]);
 
 
   const currentequipmentListTableData = useMemo(() => {
@@ -439,10 +441,10 @@ export default function MIE() {
               </table>
               <Pagination
                 className="pagination-bar"
-                currentPage={currentPage}
+                currentPage={currentPageCh}
                 totalCount={chemicalList.length}
-                pageSize={PageSize}
-                onPageChange={page => setCurrentPage(page)}
+                pageSize={PageSizeCh}
+                onPageChange={page => setCurrentPageCh(page)}
               />
             </div>
 

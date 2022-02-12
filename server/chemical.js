@@ -8,7 +8,7 @@ const db = mysql.createConnection({
 })
 module.exports = function(app){
 
-app.get('/chemicalList', (req, res) => {
+app.get('/chemicalList', (req, res) => { 
         db.query("SELECT * FROM chemical", (err, result) => {
             if (err) {
                 console.log(err);

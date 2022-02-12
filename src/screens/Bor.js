@@ -5,29 +5,130 @@ import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button, ModalFooter } from 'react-bootstrap'
 import moment from 'moment'
 import Pagination from '../Components/Paginations/Pagination';
+import Swal from 'sweetalert2'
 
 let PageSize = 7;
 
 
 export default function Bor() {
+ //-------------------- ยืมอุปกรณ์ ------------------------------
+  const Returned = (e, key, obj) => {
+    console.log(obj.o_bor_returned);
+    if (obj.o_bor_returned === 0) {
+      Swal.fire({
+        title: 'ยืนยันการคืนอุปกรณ์ ?',
+        text: "Order ID : " + obj.o_bor_id,
+        icon: 'warning',
+        timer: 10000,
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'ยกเลิก',
+        cancelButtonColor: '#d33',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          pickListBor[key].o_bor_returned = 1;
+          setPickListBor([...pickListBor])
+          Axios.put(`http://localhost:3307/PLBor_returned/${obj.o_bor_id}`, obj)
+            .then(function (response) {
+              Swal.fire(
+                "ยืนยันการคืนอุปกรณ์เเล้ว",
+                "Order ID : " + obj.o_bor_id,
+                'success'
+              )
 
-  //-------------------- ยืมอุปกรณ์ ------------------------------
+            })
+            .catch(function (error) {
+              Swal.fire(
+                'ไม่สามารถยืนยันข้อมมูลได้!',
+                'ไม่สามารถยืนยันข้อมูลได้เนืองจาก :' + error,
+                'error'
+              )
+            })
+        } else {
+          pickListBor[key].o_bor_returned = 0;
+          setPickListBor([...pickListBor])
+          console.log(pickListBor[key]);
+        }
+      })
+    } else if (obj.o_bor_returned === 1) {
+      Swal.fire({
+        title: 'ยกเลิกการคืนอุปกรณ์ ?',
+        text: " Order ID : " + obj.o_bor_id,
+        icon: 'warning',
+        timer: 10000,
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#3085d6',
+        cancelButtonText: 'ยกเลิก',
+        cancelButtonColor: '#d33',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          pickListBor[key].o_bor_returned = 0;
+          setPickListBor([...pickListBor])
+          Axios.put(`http://localhost:3307/PLBor_returned/${obj.o_bor_id}`, obj)
+            .then(function (response) {
+
+              Swal.fire(
+                'ยกเลิกการคืนอุปกรณ์เเล้ว',
+                'Order ID :' + obj.o_bor_id,
+                'success'
+              )
+
+            })
+            .catch(function (error) {
+              Swal.fire(
+                'ไม่สามารถลบข้อมมูลได้!',
+                'ไม่สามารถลบข้อมมูลได้เนืองจาก :' + error,
+                'error'
+              )
+            })
+        } else {
+          pickListBor[key].o_bor_returned = 1;
+          setPickListBor([...pickListBor])
+          console.log(pickListBor[key]);
+        }
+      })
+    }
+  }
+
   const [pickListBor, setPickListBor] = useState([]);
   const pickList_bor = () => {
     Axios.get('http://localhost:3307/pickingListBor_admin').then((Response) => {
       setPickListBor(Response.data);
     });
   }
-
+ 
   const [detailPLBor, setDetailPLBor] = useState([]);
   const [showDetailPLBor, setShowDetailPLBor] = useState(false);
   const showDetailPLBorClose = () => setShowDetailPLBor(false);
   const showDetailPLBorShow = (id) => {
     Axios.get('http://localhost:3307/detailPLBor_admin/' + id).then((response) => {
       setDetailPLBor(response.data);
+      console.log(response.data);
+      setBor_id(id);
     })
     setShowDetailPLBor(true)
   }
+
+  const [bor_id , setBor_id] = useState();
+  const [BorDescription,setBorDescription] = useState();
+  const o_bor_description = () =>{
+    console.log();
+    Axios.put(`http://localhost:3307/o_bor_description`,{  
+      des : BorDescription,
+      id :  bor_id
+    }).then(res => {
+      if (res.status === 200) {
+        Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+        showDetailPLBorClose();
+        console.log(res); 
+      }
+    }).catch(e => {
+      console.log(e);
+    })
+  } 
+
 
 
   //-------------------- เบิกสารเคมี ------------------------------
@@ -47,20 +148,21 @@ export default function Bor() {
       setPickListDis(Response.data);
     });
   }
+ 
 
   useEffect(() => {
     pickList();
     pickList_bor();
   }, []);
 
-  useEffect(() => {
-    console.log(detailPLBor);
-  }, [detailPLBor]);
 
   useEffect(() => {
     console.log(pickListBor);
   }, [pickListBor])
 
+  useEffect(() => {
+    console.log(BorDescription);
+      },[BorDescription])
   // --------- ---------- page ---------- ---------- ---------- ----------
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -194,11 +296,9 @@ export default function Bor() {
                             : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
                               : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
                           <td className='class-room'>
-                            <input type="checkbox" value={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
-                              pickListBor[key].o_bor_returned = e.target.checked ? 1 : 0;
-                              setPickListBor(pickListBor)
-
-                            }} />
+                          <input type="checkbox" checked={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
+                                Returned(e, key, val);
+                              }} />
                           </td>
                           <td></td>
                         </tr>
@@ -317,8 +417,15 @@ export default function Bor() {
             <div className='col-6' style={{ textAlign: 'center' }} >
               <div className="input-group">
                 <span className="input-group-text">หมายเหตุ</span>
-                <textarea className="form-control" aria-label="With textarea" defaultValue={""} />
+                <textarea className="form-control"  aria-label="With textarea" defaultValue={detailPLBor[0]?.o_bor_description}
+                onChange={(e) => {
+                  setBorDescription(e.target.value)
+                }}
+                />  
               </div>
+              <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => {o_bor_description()}} >
+                  <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน 
+                </button>
             </div>
           </div>
         </Modal.Body>

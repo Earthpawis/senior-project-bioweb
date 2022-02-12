@@ -131,7 +131,10 @@ export default function Dashboard() {
 
   }
 
+
   //-----------------------------------------------------------------------------------------------------------------------//
+
+
 
   useEffect(() => {
     pickList();
@@ -398,6 +401,7 @@ export default function Dashboard() {
               <div className="input-group">
                 <span className="input-group-text">หมายเหตุ</span>
                 <textarea className="form-control" aria-label="With textarea" defaultValue={""}
+                
                />
               </div>
             </div>

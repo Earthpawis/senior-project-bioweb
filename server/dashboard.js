@@ -48,7 +48,7 @@ module.exports = function (app) {
     app.get('/detailPLBor_admin/:id', (req, res) => {
         const id = req.params.id;
         console.log(id);
-        db.query("SELECT o_bor_descrip , std_name , tool_name , tool_size , o_tool_amount , o_bor_date , o_bor_returned_date , prof_name,o_bor_status FROM o_borrow ob JOIN order_bor orb ON ob.o_bor_id = orb.o_bor_id JOIN student std ON std.std_id = orb.std_id JOIN professer prof ON prof.prof_id = orb.prof_id JOIN tools t ON t.tool_id = ob.tool_id WHERE ob.o_bor_id = ?", [id], (err, result) => {
+        db.query("SELECT o_bor_descrip , std_name , tool_name , tool_size , o_tool_amount , o_bor_date , o_bor_returned_date , prof_name,o_bor_status,o_bor_description FROM o_borrow ob JOIN order_bor orb ON ob.o_bor_id = orb.o_bor_id JOIN student std ON std.std_id = orb.std_id JOIN professer prof ON prof.prof_id = orb.prof_id JOIN tools t ON t.tool_id = ob.tool_id WHERE ob.o_bor_id = ?", [id], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -58,9 +58,8 @@ module.exports = function (app) {
         })
     })
 
-    app.put('/PLBor_returned/:id', (req, res) => {
+    app.put('/PLBor_returned/:id', (req, res) => { 
         const id = req.params.id;
-        console.log(req.body);
         console.log(id);
         db.query("UPDATE order_bor SET o_bor_returned =? WHERE o_bor_id = ?", [req.body.o_bor_returned, id],(err,result) => {
             if (err){
