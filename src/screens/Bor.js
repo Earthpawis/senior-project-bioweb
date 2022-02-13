@@ -344,7 +344,7 @@ export default function Bor() {
                   <tr>
                     <th scope="row"> {val.ch_name}</th>
                     <td>{val.dis_quantity}</td>
-                    <td>{val.dis_unit == 1 ? 'g' : 'mL'}</td>
+                    <td>{val.dis_unit == 1 ? 'g' : val.dis_unit == 2 ? 'mL' : val.dis_unit == 3 ? 'kg' : val.dis_unit == 4 ? 'mg' : 'L'}</td>
                   </tr>
                 )
               })}

@@ -93,6 +93,9 @@ const StBorrow = () => {
                       <option value="0">หน่วย</option>
                       <option value="1">g.</option>
                       <option value="2">mL.</option>
+                      <option value="3">kg.</option>
+                      <option value="4">mg.</option>
+                      <option value="5">L.</option>
                     </Form.Select></td>
                     <td style={{ textAlign: 'center' }}><i className="far fa-trash-alt" style={{ color: '#E91919', textAlign: 'center', cursor: 'pointer' }} onClick={() => delItem(key)} />  </td>
                   </tr>)
