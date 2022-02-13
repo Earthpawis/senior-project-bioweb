@@ -11,7 +11,7 @@ let PageSize = 7;
 
 
 export default function Bor() {
- //-------------------- ยืมอุปกรณ์ ------------------------------
+  //-------------------- ยืมอุปกรณ์ ------------------------------
   const Returned = (e, key, obj) => {
     console.log(obj.o_bor_returned);
     if (obj.o_bor_returned === 0) {
@@ -98,7 +98,7 @@ export default function Bor() {
       setPickListBor(Response.data);
     });
   }
- 
+
   const [detailPLBor, setDetailPLBor] = useState([]);
   const [showDetailPLBor, setShowDetailPLBor] = useState(false);
   const showDetailPLBorClose = () => setShowDetailPLBor(false);
@@ -106,28 +106,28 @@ export default function Bor() {
     Axios.get('http://localhost:3307/detailPLBor_admin/' + id).then((response) => {
       setDetailPLBor(response.data);
       console.log(response.data);
-      
+
       setShowDetailPLBor(true)
     })
   }
 
-  const [bor_id , setBor_id] = useState();
-  const [BorDescription,setBorDescription] = useState();
-  const o_bor_description = () =>{
+  const [bor_id, setBor_id] = useState();
+  const [BorDescription, setBorDescription] = useState();
+  const o_bor_description = () => {
     console.log();
-    Axios.put(`http://localhost:3307/o_bor_description`,{  
-      des : BorDescription,
-      id :  bor_id
+    Axios.put(`http://localhost:3307/o_bor_description`, {
+      des: BorDescription,
+      id: bor_id
     }).then(res => {
       if (res.status === 200) {
         Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
         showDetailPLBorClose();
-        
+
       }
     }).catch(e => {
       console.log(e);
     })
-  } 
+  }
 
 
 
@@ -148,7 +148,7 @@ export default function Bor() {
       setPickListDis(Response.data);
     });
   }
- 
+
 
   useEffect(() => {
     pickList();
@@ -160,7 +160,7 @@ export default function Bor() {
     console.log(pickListBor);
   }, [pickListBor])
 
- 
+
   // --------- ---------- page ---------- ---------- ---------- ----------
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -294,9 +294,9 @@ export default function Bor() {
                             : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
                               : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
                           <td className='class-room'>
-                          <input type="checkbox" checked={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
-                                Returned(e, key, val);
-                              }} />
+                            <input type="checkbox" checked={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
+                              Returned(e, key, val);
+                            }} />
                           </td>
                           <td></td>
                         </tr>
@@ -354,7 +354,7 @@ export default function Bor() {
             <div className='col-8' style={{ textAlign: 'center' }} >
               <label className="mx-2" >{detailPLDis[0]?.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i> <label className='iconellipsis-name'>รอการอนุมัติ</label> </>
                 : detailPLDis[0]?.o_dis_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
-                  : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times'>ไม่อนุมัติ</label> </>} : โดย {detailPLDis[0]?.prof_name} </label>
+                  : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className='iconcheck-times '>ไม่อนุมัติ</label> </>} : โดย {detailPLDis[0]?.prof_name} </label>
             </div>
             <div className='col-3' style={{ textAlign: 'center' }}>
               <label>  เวลาเบิก : {moment(detailPLDis[0]?.o_dis_date).format('L')}
@@ -410,20 +410,20 @@ export default function Bor() {
           </div>
           <div className="row mb-3">
             <div className='col-6 mt-3' style={{ textAlign: 'center' }} >
-            <label className="mx-2">{detailPLBor[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name"></i> <label className='iconellipsis-name'> รอการอนุมัติ</label></> : detailPLBor[0]?.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className='iconcheck-name'>อนุมัติ</label></> : <><i class="fas fa-times iconcheck-times"></i><label className='iconcheck-times'>ไม่อนุมัติ</label></>} : โดย {detailPLBor[0]?.prof_name} </label>
+              <label className="mx-2">{detailPLBor[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name"></i> <label className='iconellipsis-name'> รอการอนุมัติ</label></> : detailPLBor[0]?.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className='iconcheck-name'>อนุมัติ</label></> : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label></>} : โดย {detailPLBor[0]?.prof_name} </label>
             </div>
             <div className='col-6' style={{ textAlign: 'center' }} >
               <div className="input-group">
                 <span className="input-group-text">หมายเหตุ</span>
-                <textarea className="form-control"  aria-label="With textarea" defaultValue={detailPLBor[0]?.o_bor_description}
-                onChange={(e) => {
-                  setBorDescription(e.target.value)
-                }}
-                />  
+                <textarea className="form-control" aria-label="With textarea" defaultValue={detailPLBor[0]?.o_bor_description}
+                  onChange={(e) => {
+                    setBorDescription(e.target.value)
+                  }}
+                />
               </div>
-              <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => {o_bor_description()}} >
-                  <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน 
-                </button>
+              <button type="submit" className="btn btn-add-modal mt-2" style={{ color: '#fff' }} onClick={() => { o_bor_description() }} >
+                <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 20 }} />บันทึก
+              </button>
             </div>
           </div>
         </Modal.Body>

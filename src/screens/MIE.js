@@ -358,7 +358,7 @@ export default function MIE() {
   let PageSize = 8;
 
   const [currentPageCh, setCurrentPageCh] = useState(1);
-  let PageSizeCh = 4;
+  let PageSizeCh = 8;
 
   const currentchemicalListTableData = useMemo(() => {
     const firstPageIndex = (currentPageCh - 1) * PageSizeCh; 

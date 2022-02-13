@@ -10,7 +10,7 @@ import Swal from 'sweetalert2'
 
 
 export default function Dashboard() {
-  let PageSize = 4;
+ 
   //-------------------------------------------------- ยืมอุปกรณ์ ------------------------------------------------------------//
   const [pickListBor, setPickListBor] = useState([]);
   const pickList_bor = () => {
@@ -30,7 +30,7 @@ export default function Dashboard() {
       setBor_id(id)
       setShowDetailPLBor(true)
     })
-    
+
   }
   //-------------------- เบิกสารเคมี ---------------------------------------------------------------------------------------//
   const [showDetailPLDis, setShowDetailPLDis] = useState(false);
@@ -41,7 +41,7 @@ export default function Dashboard() {
       setDetailPLDis(response.data);
       setShowDetailPLDis(true)
     })
-    
+
   };
 
   //-----------------------------------------------------------------------------------------------------------------------//
@@ -136,26 +136,26 @@ export default function Dashboard() {
 
 
   //-----------------------------------------------------------------------------------------------------------------------//
-  const [bor_id , setBor_id] = useState();
-  const [BorDescription,setBorDescription] = useState();
-  const o_bor_description = () =>{
+  const [bor_id, setBor_id] = useState();
+  const [BorDescription, setBorDescription] = useState();
+  const o_bor_description = () => {
     console.log();
-    Axios.put(`http://localhost:3307/o_bor_description`,{  
-      des : BorDescription,
-      id :  bor_id
+    Axios.put(`http://localhost:3307/o_bor_description`, {
+      des: BorDescription,
+      id: bor_id
     }).then(res => {
       if (res.status === 200) {
         Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
         showDetailPLBorClose();
-        console.log(res); 
+        console.log(res);
       }
     }).catch(e => {
       console.log(e);
     })
-  } 
- useEffect(() => {
+  }
+  useEffect(() => {
     console.log(BorDescription);
-      },[BorDescription])
+  }, [BorDescription])
 
   useEffect(() => {
     pickList();
@@ -167,14 +167,17 @@ export default function Dashboard() {
   }, [setPickListDis]);
 
   //-----------------------------------------------------------------------------------------------------------------------//
-  const [currentPage, setCurrentPage] = useState(1);
+  let PageSizeDis = 3;
+  const [currentPageDis, setCurrentPageDis] = useState(1);
   const currentPickListDisTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * PageSize;
-    const lastPageIndex = firstPageIndex + PageSize;
+    const firstPageIndex = (currentPageDis - 1) * PageSizeDis;
+    const lastPageIndex = firstPageIndex + PageSizeDis;
     return pickListDis.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, pickListDis]);
+  }, [currentPageDis, pickListDis]);
 
   //-----------------------------------------------------------------------------------------------------------------------//
+  const [currentPage, setCurrentPage] = useState(1);
+  let PageSize = 3;
   const currentPickListBorTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
@@ -243,10 +246,10 @@ export default function Dashboard() {
                   </table>
                   <Pagination
                     className="pagination-bar"
-                    currentPage={currentPage}
+                    currentPage={currentPageDis}
                     totalCount={pickListDis.length}
-                    pageSize={PageSize}
-                    onPageChange={page => setCurrentPage(page)} />
+                    pageSize={PageSizeDis}
+                    onPageChange={page => setCurrentPageDis(page)} />
                 </div>
               </div>
             </div>
@@ -416,21 +419,24 @@ export default function Dashboard() {
           </div>
           <div className="row mb-3">
             <div className='col-6 mt-3' style={{ textAlign: 'center' }} >
-              <label className="mx-2">{detailPLBor[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name"></i> <label className='iconellipsis-name'> รอการอนุมัติ</label></> : detailPLBor[0]?.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className='iconcheck-name'>อนุมัติ</label></> : <><i class="fas fa-times iconcheck-times"></i><label className='iconcheck-times'>ไม่อนุมัติ</label></>} : โดย {detailPLBor[0]?.prof_name} </label>
+              <label className="mx-2">{detailPLBor[0]?.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name"></i> <label className='iconellipsis-name'> รอการอนุมัติ</label></> : detailPLBor[0]?.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /><label className='iconcheck-name'>อนุมัติ</label></> : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label></>} : โดย {detailPLBor[0]?.prof_name} </label>
             </div>
             <div className='col-6' style={{ textAlign: 'center' }} >
               <div className="input-group">
                 <span className="input-group-text">หมายเหตุ</span>
-                <textarea className="form-control"  aria-label="With textarea" defaultValue={detailPLBor[0]?.o_bor_description}
-                onChange={(e) => {
-                  setBorDescription(e.target.value)
-                }}
-                />  
+                <textarea className="form-control" aria-label="With textarea" defaultValue={detailPLBor[0]?.o_bor_description}
+                  onChange={(e) => {
+                    setBorDescription(e.target.value)
+                  }}
+                />
               </div>
-              <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => {o_bor_description()}} >
-                  <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน 
-                </button>
+              <button type="submit" className="btn btn-add-modal mt-2 " style={{ color: '#fff' }} onClick={() => { o_bor_description() }} >
+                <i aria-hidden="true" className="fas fa-check mx-2 " style={{ fontSize: 20 }} />บันทึก
+              </button>
             </div>
+          </div>
+          <div className='row' style={{ justifyContent: 'center' }}>
+
           </div>
         </Modal.Body>
       </Modal>
