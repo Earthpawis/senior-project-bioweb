@@ -1,11 +1,11 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useMemo} from "react";
 import axios from "axios";
 import { getUserData } from "../../functions/cartItem";
 import moment from "moment";
 import { Modal, Button, ModalFooter } from "react-bootstrap";
 import Swal from "sweetalert2";
-//------------------------------------search-------------------------------------
+import Pagination from '../../Components/Paginations/Pagination';
 
 const StPickingListTool = () => {
   const i = getUserData();
@@ -60,6 +60,19 @@ const StPickingListTool = () => {
   useEffect(() => {
     getPickingListTool(user_id);
   }, []);
+
+   //------------------------------------search-----------------------------------------------------------------------------//
+   const [searchMieAjTool, setSearchMieAjTool] = useState("");
+
+    //-----------------------------------PageSize------------------------------------------------------------------------------//
+    const [currentPageAjTool, setCurrentPageAjTool] = useState(1);
+    let PageSize = 8;
+    const currentAjToolListTableData = useMemo(() => {
+      const firstPageIndex = (currentPageAjTool - 1) * PageSize;
+      const lastPageIndex = firstPageIndex + PageSize;
+      return pickingList.slice(firstPageIndex, lastPageIndex);
+    }, [currentPageAjTool, pickingList]); 
+
   return (
     <div className="container">
       <div
@@ -80,16 +93,16 @@ const StPickingListTool = () => {
                 type="text"
                 className="form-control"
                 placeholder="ค้นหารายชื่อนักศึกษาเบิกอุปกรณ์"
-                /*  onChange={(event) => {
-                                 setSearchMie(event.target.value);
-                             }} */
+                 onChange={(event) => {
+                                 setSearchMieAjTool(event.target.value);
+                             }}
               />
             </div>
           </div>
 
           <div className="table-responsive mt-3">
-            <table className="table bg-white table-bordered">
-              <thead className="bg-dark text-light">
+            <table className="table  table-bordered">
+              <thead className="">
                 <tr>
                   <th width="10%" style={{ minWidth: 100 }}>
                     ORDER ID
@@ -113,7 +126,15 @@ const StPickingListTool = () => {
                 </tr>
               </thead>
               <tbody style={{ verticalAlign: "middle" }}>
-                {pickingList.map((val, key) => {
+                {currentAjToolListTableData.filter((val)=> {
+                   if (searchMieAjTool == "") {
+                    return val
+                  } else if (val.std_name.toLowerCase().includes(searchMieAjTool.toLowerCase())) {
+                    return val
+                  } else if (val.o_bor_descrip.toLowerCase().includes(searchMieAjTool.toLowerCase())) {
+                    return val
+                  }
+                }).map((val, key) => {
                   return (
                     <tr key={key}>
                       <td data-title="ID">{val.o_bor_id}</td>
@@ -170,9 +191,17 @@ const StPickingListTool = () => {
                 })}
               </tbody>
             </table>
+            <Pagination
+              className="pagination-bar"
+              currentPageAjChemical={currentPageAjTool}
+              totalCount={pickingList.length}
+              pageSize={PageSize}
+              onPageChange={page => setCurrentPageAjTool(page)}
+            />
           </div>
         </div>
       </div>
+
       <Modal
       show={showDetail}
       onHide={closeShowDetail}
@@ -239,7 +268,7 @@ const StPickingListTool = () => {
               >
                 <i
                   aria-hidden="true"
-                  className="fas fa-check mx-3"
+                  className="fas fa-check mx-1"
                   style={{ fontSize: 20 }}
                 />{" "}
                 อนุมัติ
@@ -255,7 +284,7 @@ const StPickingListTool = () => {
               >
                 <i
                   aria-hidden="true"
-                  className="fas fa-times mx-3"
+                  className="fas fa-times mx-1"
                   style={{ fontSize: 20 }}
                 />{" "}
                 ไม่อนุมัติ
@@ -263,7 +292,6 @@ const StPickingListTool = () => {
             </div>
           </div>
       </Modal.Body>
-
     </Modal>
     </div>
   );

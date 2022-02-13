@@ -1,14 +1,14 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { getUserData } from "../../functions/cartItem";
 import moment from "moment";
 import { Modal, Button, ModalFooter } from "react-bootstrap";
 import Swal from "sweetalert2";
-//------------------------------------search-------------------------------------
-//const [searchMie, setSearchMie] = useState("");
+import Pagination from '../../Components/Paginations/Pagination';
 
 const StPickingListTool = () => {
+
   const dissubmit = (id) => {
     axios
       .put(`http://localhost:3307/AJ_disSubmitPLChemical/` + id)
@@ -59,9 +59,25 @@ const StPickingListTool = () => {
         setPickingList(response.data);
       });
   };
+
   useEffect(() => {
     getPickingListChemical(user_id);
   }, []);
+
+
+  //------------------------------------search-----------------------------------------------------------------------------//
+  const [searchMieAjChemical, setSearchMieAjChemical] = useState("");
+
+  //-----------------------------------PageSize------------------------------------------------------------------------------//
+  const [currentPageAjChemical, setCurrentPageAjChemical] = useState(1);
+  let PageSize = 8;
+  const currentAjChemicalListTableData = useMemo(() => {
+    const firstPageIndex = (currentPageAjChemical - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return pickingList.slice(firstPageIndex, lastPageIndex);
+  }, [currentPageAjChemical, pickingList]);
+
+
   return (
     <div className="container">
       <div
@@ -82,9 +98,9 @@ const StPickingListTool = () => {
                 type="text"
                 className="form-control"
                 placeholder="ค้นหารายชื่อนักศึกษาเบิกสารเคมี"
-                /*  onChange={(event) => {
-                                    setSearchMie(event.target.value);
-                                }} */
+                onChange={(event) => {
+                  setSearchMieAjChemical(event.target.value);
+                }}
               />
             </div>
           </div>
@@ -116,7 +132,16 @@ const StPickingListTool = () => {
                 </tr>
               </thead>
               <tbody style={{ verticalAlign: "middle" }}>
-                {pickingList.map((val, key) => {
+                {currentAjChemicalListTableData.filter((val) => {
+                  if (searchMieAjChemical == "") {
+                    return val
+                  } else if (val.std_name.toLowerCase().includes(searchMieAjChemical.toLowerCase())) {
+                    return val
+                  } else if (val.o_dis_descrip.toLowerCase().includes(searchMieAjChemical.toLowerCase())) {
+                    return val
+
+                  }
+                }).map((val, key) => {
                   return (
                     <tr>
                       <td data-title="ID">{val.o_dis_id}</td>
@@ -172,6 +197,13 @@ const StPickingListTool = () => {
                 })}
               </tbody>
             </table>
+            <Pagination
+              className="pagination-bar"
+              currentPageAjChemical={currentPageAjChemical}
+              totalCount={pickingList.length}
+              pageSize={PageSize}
+              onPageChange={page => setCurrentPageAjChemical(page)}
+            />
           </div>
         </div>
       </div>
@@ -253,7 +285,7 @@ const StPickingListTool = () => {
               >
                 <i
                   aria-hidden="true"
-                  className="fas fa-check mx-3"
+                  className="fas fa-check mx-1"
                   style={{ fontSize: 20 }}
                 />{" "}
                 อนุมัติ
@@ -269,7 +301,7 @@ const StPickingListTool = () => {
               >
                 <i
                   aria-hidden="true"
-                  className="fas fa-times mx-3"
+                  className="fas fa-times mx-1"
                   style={{ fontSize: 20 }}
                 />{" "}
                 ไม่อนุมัติ
