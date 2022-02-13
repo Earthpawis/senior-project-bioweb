@@ -206,14 +206,21 @@ app.post('/uploadFileCSV', (req, res) => {
                 .on('end', () => {
                     for (let index = 1; index < results.length; index++) {
                         let data = results[index];
-                        var sql = `INSERT INTO chemical (ch_code,ch_name,ch_formula) values('${data[`_1`]}','${data[`_2`]}','${data[`_3`]}')`;
-                        console.log(data[`_1`], data[`_2`], data[`_3`])
-                        // console.log(`INSERT INTO tableName values(${data[`_0`]},${data[`_1`]},${data[`_2`]})`);
-                        // db.query(`INSERT INTO chemical (ch_code,ch_name,ch_formula) VALUES(?,?,?),`,[data[`_1`],data[`_2`],data[`_3`]])
-                        db.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log(err);
-                        });
+                        console.log(data);
+                        if (data['_1'] && data['_2']){
+                            var sql = `INSERT INTO chemical (ch_code,ch_name,ch_formula,ch_cas_no,ch_danger,ch_quantity,ch_amount,ch_grade,ch_price,ch_storage,ch_ststatus,ch_date_import,ch_date_enable,ch_seller,ch_manufacturer,ch_exp,ch_date_out,ch_budget
+                                ,ch_open,ch_note ) values ('${data['_1']}','${data['_2']}','${data['_3']}','${data[`_4`]}','${data[`_5`]}','${data[`_6`]}','${data[`_7`]}','${data[`_8`]}','${data[`_9`]}','${data[`_10`]}','${data[`_11`]}','${data[`_12`]}'
+                                ,'${data[`_13`]}','${data[`_14`]}','${data[`_15`]}','${data[`_16`]}','${data[`_17`]}','${data[`_18`]}','${data[`_19`]}','${data[`_20`]}')`;
+                            console.log(data[`_1`], data[`_2`], data[`_3`], data[`_4`]) 
+                            // console.log(`INSERT INTO tableName values(${data[`_0`]},${data[`_1`]},${data[`_2`]})`);
+                            // db.query(`INSERT INTO chemical (ch_code,ch_name,ch_formula) VALUES(?,?,?),`,[data[`_1`],data[`_2`],data[`_3`]]) 
+                            db.query(sql, function (err, result) {  
+                                if (err) throw err;
+                                console.log(err); 
+                            });
+
+                        }
+                        
                     }
                 });
             unlinkSync("./public/excel_pool/" + fileName)

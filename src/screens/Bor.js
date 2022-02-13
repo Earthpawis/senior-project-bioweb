@@ -106,9 +106,9 @@ export default function Bor() {
     Axios.get('http://localhost:3307/detailPLBor_admin/' + id).then((response) => {
       setDetailPLBor(response.data);
       console.log(response.data);
-      setBor_id(id);
+      
+      setShowDetailPLBor(true)
     })
-    setShowDetailPLBor(true)
   }
 
   const [bor_id , setBor_id] = useState();
@@ -122,7 +122,7 @@ export default function Bor() {
       if (res.status === 200) {
         Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
         showDetailPLBorClose();
-        console.log(res); 
+        
       }
     }).catch(e => {
       console.log(e);
@@ -160,9 +160,7 @@ export default function Bor() {
     console.log(pickListBor);
   }, [pickListBor])
 
-  useEffect(() => {
-    console.log(BorDescription);
-      },[BorDescription])
+ 
   // --------- ---------- page ---------- ---------- ---------- ----------
   const [currentPage, setCurrentPage] = useState(1);
 

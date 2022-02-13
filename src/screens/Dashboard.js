@@ -27,8 +27,10 @@ export default function Dashboard() {
   const showDetailPLBorShow = (id) => {
     Axios.get('http://localhost:3307/detailPLBor_admin/' + id).then((response) => {
       setDetailPLBor(response.data);
+      setBor_id(id)
+      setShowDetailPLBor(true)
     })
-    setShowDetailPLBor(true)
+    
   }
   //-------------------- เบิกสารเคมี ---------------------------------------------------------------------------------------//
   const [showDetailPLDis, setShowDetailPLDis] = useState(false);
@@ -37,8 +39,9 @@ export default function Dashboard() {
   const showDetailPLDisShow = (id) => {
     Axios.get('http://localhost:3307/detailPLDis_admin/' + id).then((response) => {
       setDetailPLDis(response.data);
+      setShowDetailPLDis(true)
     })
-    setShowDetailPLDis(true)
+    
   };
 
   //-----------------------------------------------------------------------------------------------------------------------//
@@ -133,8 +136,26 @@ export default function Dashboard() {
 
 
   //-----------------------------------------------------------------------------------------------------------------------//
-
-
+  const [bor_id , setBor_id] = useState();
+  const [BorDescription,setBorDescription] = useState();
+  const o_bor_description = () =>{
+    console.log();
+    Axios.put(`http://localhost:3307/o_bor_description`,{  
+      des : BorDescription,
+      id :  bor_id
+    }).then(res => {
+      if (res.status === 200) {
+        Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
+        showDetailPLBorClose();
+        console.log(res); 
+      }
+    }).catch(e => {
+      console.log(e);
+    })
+  } 
+ useEffect(() => {
+    console.log(BorDescription);
+      },[BorDescription])
 
   useEffect(() => {
     pickList();
@@ -400,10 +421,15 @@ export default function Dashboard() {
             <div className='col-6' style={{ textAlign: 'center' }} >
               <div className="input-group">
                 <span className="input-group-text">หมายเหตุ</span>
-                <textarea className="form-control" aria-label="With textarea" defaultValue={""}
-                
-               />
+                <textarea className="form-control"  aria-label="With textarea" defaultValue={detailPLBor[0]?.o_bor_description}
+                onChange={(e) => {
+                  setBorDescription(e.target.value)
+                }}
+                />  
               </div>
+              <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() => {o_bor_description()}} >
+                  <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน 
+                </button>
             </div>
           </div>
         </Modal.Body>

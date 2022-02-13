@@ -65,31 +65,31 @@ module.exports = function (app) {
         //     month = date_returned.getDay() + 7 
         //     console.log(month);
 
-       db.query('INSERT INTO order_bor (std_id,prof_id,o_bor_item_amount,o_bor_descrip,o_bor_status) VALUES (?,?,?,?,?)',
-       [user.std_id, prof_id, item_amount, descrip, o_bor_status],(err,result) => {
-           if(err){
-               console.log(err);
-           }
-           db.query('SELECT MAX(o_bor_id) AS o_bor_id FROM order_bor WHERE std_id=?',user.std_id ,(err2,result2) => {
-               if(err2){
-                   console.log(err2);
-               }
-               max_o_bor_id = result2[0].o_bor_id 
-               const data = req.body.item; 
-               console.log(data);
-               const values = data.map(item => [max_o_bor_id,item.tool_id,item.amount])
-               console.log(values);
-               db.query('INSERT INTO o_borrow (o_bor_id,tool_id,o_tool_amount) VALUES ?',[values],(err3,result3) => {
-                   if(err3){
-                       console.log(err3);
-                       return res.status(500).json(err3)
-                   } else {
-                       return res.status(200).json(result)
-                   }
-               })
-           })
-       }
-       )
+    //    db.query('INSERT INTO order_bor (std_id,prof_id,o_bor_item_amount,o_bor_descrip,o_bor_status) VALUES (?,?,?,?,?)',
+    //    [user.std_id, prof_id, item_amount, descrip, o_bor_status],(err,result) => {
+    //        if(err){
+    //            console.log(err);
+    //        }
+    //        db.query('SELECT MAX(o_bor_id) AS o_bor_id FROM order_bor WHERE std_id=?',user.std_id ,(err2,result2) => {
+    //            if(err2){
+    //                console.log(err2);
+    //            }
+    //            max_o_bor_id = result2[0].o_bor_id 
+    //            const data = req.body.item; 
+    //            console.log(data);
+    //            const values = data.map(item => [max_o_bor_id,item.tool_id,item.amount])
+    //            console.log(values);
+    //            db.query('INSERT INTO o_borrow (o_bor_id,tool_id,o_tool_amount) VALUES ?',[values],(err3,result3) => {
+    //                if(err3){
+    //                    console.log(err3);
+    //                    return res.status(500).json(err3)
+    //                } else {
+    //                    return res.status(200).json(result)
+    //                }
+    //            })
+    //        })
+    //    }
+    //    )
     })
 
 

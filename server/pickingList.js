@@ -68,11 +68,12 @@ module.exports = function(app){
         const id = req.body.id;
         const des = req.body.des;
         console.log(id);
+        console.log(des);
         db.query("UPDATE order_bor SET o_bor_description = ? WHERE o_bor_id =? ",[des,id],(err,result) => {
             if(err){
                 console.log(err);
             }else{
-                res.send(result); 
+                res.send(result);  
                 
             }
         })
