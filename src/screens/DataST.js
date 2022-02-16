@@ -25,14 +25,14 @@ export default function DataST() {
     const editShowDataStd = (id) => {
         setshowEditDataStd(true);
         //console.log(id)
-        Axios.get(`http://localhost:3307/readStudent/` + id).then((Response) => {
+        Axios.get(`http://203.158.109.144/bio-rmutt/readStudent/` + id).then((Response) => {
             setreaduser(Response.data);
         });
     }
 
     const updateEditstd = (id) => {
         console.log(readuser);
-        Axios.put("http://localhost:3307/updateEditStudent/", {
+        Axios.put("http://203.158.109.144/bio-rmutt/updateEditStudent/", {
             std_id: readuser[0].std_id,
             std_name: readuser[0].std_name,
             std_level: readuser[0].std_level,
@@ -67,7 +67,7 @@ export default function DataST() {
             cancelButtonColor: '#d33',
         }).then((result) => {
             if (result.isConfirmed) {
-                Axios.delete(`http://localhost:3307/deleteDataStudent/` + id)
+                Axios.delete(`http://203.158.109.144/bio-rmutt/deleteDataStudent/` + id)
                     .then(function (response) {
                         console.log(response);
                         Swal.fire(
@@ -105,7 +105,7 @@ export default function DataST() {
     const EditDataShowAj = (id) => {
         setshowEditAj(true);
         console.log(id)
-        Axios.get(`http://localhost:3307/readProfesser/` + id).then((Response) => {
+        Axios.get(`http://203.158.109.144/bio-rmutt/readProfesser/` + id).then((Response) => {
             setreadprof(Response.data);
             console.log(readprof)
 
@@ -114,7 +114,7 @@ export default function DataST() {
 
     const updateEditdataProfesser = (id) => {
         console.log(readprof);
-        Axios.put("http://localhost:3307/updateEditProfesser/", {
+        Axios.put("http://203.158.109.144/bio-rmutt/updateEditProfesser/", {
             prof_id: readprof[0].prof_id,
             prof_name: readprof[0].prof_name,
             prof_password: readprof[0].prof_password,
@@ -147,7 +147,7 @@ export default function DataST() {
             cancelButtonColor: '#d33',
         }).then((result) => {
             if (result.isConfirmed) {
-                Axios.delete(`http://localhost:3307/deleteDataProfesser/` + id)
+                Axios.delete(`http://203.158.109.144/bio-rmutt/deleteDataProfesser/` + id)
                     .then(function (response) {
                         console.log(response);
                         Swal.fire(
@@ -179,7 +179,7 @@ export default function DataST() {
     
 
     const addStudent = () => {
-        Axios.post('http://localhost:3307/dataStudentcreate', {
+        Axios.post('http://203.158.109.144/bio-rmutt/dataStudentcreate', {
             std_id: std_id,
             std_name: std_name,
             std_level: std_level,
@@ -205,7 +205,7 @@ export default function DataST() {
     const [prof_tel, setprof_tel] = useState("");
 
     const addProfesser = () => {
-        Axios.post('http://localhost:3307/dataProfessercreate', {
+        Axios.post('http://203.158.109.144/bio-rmutt/dataProfessercreate', {
             prof_id: prof_id,
             prof_name: prof_name,
             prof_password: prof_password,
@@ -227,7 +227,7 @@ export default function DataST() {
 
     const [studentList, setStudentList] = useState([]);
     const getStudent = () => {
-        Axios.get('http://localhost:3307/dataStudent').then((Response) => {
+        Axios.get('http://203.158.109.144/bio-rmutt/dataStudent').then((Response) => {
             setStudentList(Response.data);
         });
     }
@@ -235,7 +235,7 @@ export default function DataST() {
     const [professerList, setProfesserList] = useState([]);
 
     const getProfesser = () => {
-        Axios.get('http://localhost:3307/dataProfesser').then((Response) => {
+        Axios.get('http://203.158.109.144/bio-rmutt/dataProfesser').then((Response) => {
             setProfesserList(Response.data);
         });
     }

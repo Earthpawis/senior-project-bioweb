@@ -11,7 +11,7 @@ const StPickingListTool = () => {
 
   const dissubmit = (id) => {
     axios
-      .put(`http://localhost:3307/AJ_disSubmitPLChemical/` + id)
+      .put(`http://203.158.109.144/bio-rmutt/AJ_disSubmitPLChemical/` + id)
       .then(function (response) {
         console.log(response);
         Swal.fire("ยกเลิกอนุมัติรายการสำเร็จ", "", "success");
@@ -25,7 +25,7 @@ const StPickingListTool = () => {
 
   const submit = (id) => {
     axios
-      .put(`http://localhost:3307/AJ_submitPLChemical/` + id)
+      .put(`http://203.158.109.144/bio-rmutt/AJ_submitPLChemical/` + id)
       .then(function (response) {
         console.log(response);
         Swal.fire("อนุมัติรายการสำเร็จ", "", "success");
@@ -42,7 +42,7 @@ const StPickingListTool = () => {
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLChemical = (id) => {
     axios
-      .get(`http://localhost:3307/AJ_detailPLChemical/` + id)
+      .get(`http://203.158.109.144/bio-rmutt/AJ_detailPLChemical/` + id)
       .then((response) => {
         setDetailPL(response.data);
       });
@@ -54,7 +54,7 @@ const StPickingListTool = () => {
   const [pickingList, setPickingList] = useState([]);
   const getPickingListChemical = (id) => {
     axios
-      .get("http://localhost:3307/AJ_pickingListChemical/" + id)
+      .get("http://203.158.109.144/bio-rmutt/AJ_pickingListChemical/" + id)
       .then((response) => {
         setPickingList(response.data);
       });

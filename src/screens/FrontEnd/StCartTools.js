@@ -19,7 +19,7 @@ const StCartTools = () => {
 
   // ------------------------ ButtonSubmit -----------------------------------------------------------------------------------------------------//
   const submit = () => {
-    axios.post('http://localhost:3307/submitBor', { item: cartData, user: i, descrip: bor_descrip, prof: prof_id }).then(
+    axios.post('http://203.158.109.144/bio-rmutt/submitBor', { item: cartData, user: i, descrip: bor_descrip, prof: prof_id }).then(
       res => {
         if (res.status === 200) {
           Swal.fire("ทำรายการยืมอุปกรณ์สำเร็จ", "", "success")
@@ -42,7 +42,7 @@ const StCartTools = () => {
 
   // ------------------------ Dropdrowอาจารย์--------------------------------------------------------------------------------------------------//
   const getProfesser = () => {
-    axios.get('http://localhost:3307/dataProfesser').then((Response) => {
+    axios.get('http://203.158.109.144/bio-rmutt/dataProfesser').then((Response) => {
       setProfesserList(Response.data);
     });
   }

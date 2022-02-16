@@ -19,7 +19,7 @@ const StBorrow = () => {
 
   //-------------------------------------------------------button_submit----------------------------------------------------------------- //
   const submit = () => {
-    axios.post('http://localhost:3307/submitDis', { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
+    axios.post('http://203.158.109.144/bio-rmutt/submitDis', { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
       res => {
         if (res.status === 200) {
           Swal.fire("ทำรายการเบิกสำเร็จ", "", "success")
@@ -41,7 +41,7 @@ const StBorrow = () => {
   }
   //-------------------------------------------------------professer--------------------------------------------------------------------- //
   const getProfesser = () => {
-    axios.get('http://localhost:3307/dataProfesser').then((Response) => {
+    axios.get('http://203.158.109.144/bio-rmutt/dataProfesser').then((Response) => {
       setProfesserList(Response.data);
     });
   }
