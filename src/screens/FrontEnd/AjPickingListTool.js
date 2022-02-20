@@ -13,7 +13,7 @@ const StPickingListTool = () => {
 
   const disSubmit = (id) => {
     axios
-      .put(`http://203.158.109.144/bio-rmutt/AJ_disSubmitPLTool/` + id)
+      .put(`http://localhost:3307/AJ_disSubmitPLTool/` + id)
       .then(function (response) {
         console.log(response);
         Swal.fire("ยกเลิกอนุมัติรายการสำเร็จ", "", "success");
@@ -27,7 +27,7 @@ const StPickingListTool = () => {
 
   const submit = (id) => {
     axios
-      .put(`http://203.158.109.144/bio-rmutt/AJ_submitPLTool/` + id)
+      .put(`http://localhost:3307/AJ_submitPLTool/` + id)
       .then(function (response) {
         console.log(response);
         Swal.fire("อนุมัติรายการสำเร็จ", "", "success");
@@ -43,7 +43,7 @@ const StPickingListTool = () => {
   const [showDetail, setShowDetail] = useState(false);
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLTool = (id) => {
-    axios.get(`http://203.158.109.144/bio-rmutt/AJ_detailPLTool/` + id).then((response) => {
+    axios.get(`http://localhost:3307/AJ_detailPLTool/` + id).then((response) => {
       setDetailPL(response.data);
     })
     setShowDetail(true)
@@ -52,7 +52,7 @@ const StPickingListTool = () => {
   const [pickingList, setPickingList] = useState([]);
   const getPickingListTool = (id) => {
     axios
-      .get("http://203.158.109.144/bio-rmutt/AJ_pickingListTool/" + id)
+      .get("http://localhost:3307/AJ_pickingListTool/" + id)
       .then((response) => {
         setPickingList(response.data);
       });

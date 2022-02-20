@@ -8,7 +8,7 @@ export default function Importfile() {
   const submit = async () => {
     const formdata = new FormData();
     formdata.append('fileCSV', fileCSV);
-    axios.post("http://203.158.109.144/bio-rmutt/uploadFileCSV", formdata,
+    axios.post("http://localhost:3307/uploadFileCSV", formdata,
       {
         headers: { "Content-Type": "multipart/form-data" }
       }).then(res => {

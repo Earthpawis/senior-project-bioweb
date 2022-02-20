@@ -13,7 +13,7 @@ const StPickingListTool = () => {
   const [showDetail, setShowDetail] = useState(false);
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLTool = (id) => {
-    axios.get(`http://203.158.109.144/bio-rmutt/detailPLTool/` + id).then((response) => {
+    axios.get(`http://localhost:3307/detailPLTool/` + id).then((response) => {
       setDetailPL(response.data);
     })
     setShowDetail(true)
@@ -22,7 +22,7 @@ const StPickingListTool = () => {
   //--------------------------------------------------------------------------------------------------------------//
   const [pickingList, setPickingList] = useState([]);
   const getPickingListTool = (id) => {
-    axios.get("http://203.158.109.144/bio-rmutt/pickingListTool/" + id).then((response) => {
+    axios.get("http://localhost:3307/pickingListTool/" + id).then((response) => {
       setPickingList(response.data);
     })
   }

@@ -18,7 +18,7 @@ export default function MIE() {
   //------------------------------------------------------  GET  -----------------------------------------------//
   const [chemicalList, setChemicalList] = useState([]);
   const getChemical = () => {
-    Axios.get('http://203.158.109.144/bio-rmutt/chemicalList').then((response) => {
+    Axios.get('http://localhost:3307/chemicalList').then((response) => {
       setChemicalList(response.data);
     });
   }
@@ -27,7 +27,7 @@ export default function MIE() {
   const [showDetail, setShowDetail] = useState(false);
   const detailClose = () => setShowDetail(false);
   const detailShow = (id) => {
-    Axios.get(`http://203.158.109.144/bio-rmutt/readChe/` + id).then((Response) => {
+    Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
       setreadChe(Response.data);
       console.log(Response.data)
       setShowDetail(true)
@@ -57,7 +57,7 @@ export default function MIE() {
   const editClose = () => setShowEdit(false);
   const editShow = (id) => {
     console.log(id)
-    Axios.get(`http://203.158.109.144/bio-rmutt/readChe/` + id).then((Response) => {
+    Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
       setreadChe(Response.data);
       console.log(Response.data)
       setShowEdit(true)
@@ -91,7 +91,7 @@ export default function MIE() {
     formdata.append('CheStorage', CheStorage)
     formdata.append('CheExp', CheExp)
 
-    axios.post("http://203.158.109.144/bio-rmutt/addChemical", formdata, {
+    axios.post("http://localhost:3307/addChemical", formdata, {
       headers: { "Content-Type": "multipart/form-data" }
     }).then(res => {
       console.log(res)
@@ -114,7 +114,7 @@ export default function MIE() {
   //---------------------------------------------------------- Update Che ---------------------------------------//
   const updateChe = (id) => {
     console.log(readChe)
-    Axios.put("http://203.158.109.144/bio-rmutt/updateChe/", {
+    Axios.put("http://localhost:3307/updateChe/", {
       ch_id: readChe[0].ch_id,
       ch_cas_no: readChe[0].ch_cas_no,
       ch_formula: readChe[0].ch_formula,
@@ -151,7 +151,7 @@ export default function MIE() {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
-        Axios.delete(`http://203.158.109.144/bio-rmutt/delChe/` + id)
+        Axios.delete(`http://localhost:3307/delChe/` + id)
           .then(function (response) {
             console.log(response);
             Swal.fire(
@@ -194,7 +194,7 @@ export default function MIE() {
   const [showDeatailTools, setshowDeatailTools] = useState(false);
   const DtailToolsClose = () => setshowDeatailTools(false);
   const detailToolsShow = (id) => {
-    Axios.get(`http://203.158.109.144/bio-rmutt/readTool/` + id).then((Response) => {
+    Axios.get(`http://localhost:3307/readTool/` + id).then((Response) => {
       setreadTool(Response.data);
       console.log(Response.data)
       setshowDeatailTools(true)
@@ -205,7 +205,7 @@ export default function MIE() {
   const [showEditToolsShow, setshowEditToolsShow] = useState(false);
   const EditToolsClose = () => setshowEditToolsShow(false);
   const EditToolsShow = (id) => {
-    Axios.get(`http://203.158.109.144/bio-rmutt/readTool/` + id).then((Response) => {
+    Axios.get(`http://localhost:3307/readTool/` + id).then((Response) => {
       setreadTool(Response.data);
       console.log(Response.data)
       setshowEditToolsShow(true)
@@ -233,7 +233,7 @@ export default function MIE() {
     formdata.append('tool_amount', readTool[0].tool_amount);
     console.log(readTool[0].tool_name)
     console.log(formdata.getAll('tool_name'))
-    axios.put("http://203.158.109.144/bio-rmutt/updateTool/", formdata, {
+    axios.put("http://localhost:3307/updateTool/", formdata, {
       headers: { "Content-Type": "multipart/form-data" }
     }).then(res => {
       console.log(res)
@@ -253,7 +253,7 @@ export default function MIE() {
 
 
   // const updateTool = (id) => {
-  //   Axios.put("http://203.158.109.144/bio-rmutt/updateTool/", {
+  //   Axios.put("http://localhost:3307/updateTool/", {
   //     tool_id: readTool[0].tool_id,
   //     tool_name: readTool[0].tool_name,
   //     tool_storage: readTool[0].tool_storage,
@@ -282,7 +282,7 @@ export default function MIE() {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
-        Axios.delete(`http://203.158.109.144/bio-rmutt/delTool/` + id)
+        Axios.delete(`http://localhost:3307/delTool/` + id)
           .then(function (response) {
             console.log(response);
             Swal.fire(
@@ -309,7 +309,7 @@ export default function MIE() {
 
   const [equipmentList, setEquipmentList] = useState([]);
   const getEquipment = () => {
-    Axios.get('http://203.158.109.144/bio-rmutt/toolsList').then((response) => {
+    Axios.get('http://localhost:3307/toolsList').then((response) => {
       setEquipmentList(response.data);
     });
   }
@@ -333,7 +333,7 @@ export default function MIE() {
     formdataTool.append('ToolSize', ToolSize)
     formdataTool.append('ToolStorage', ToolStorage)
     formdataTool.append('ToolName', ToolName)
-    axios.post("http://203.158.109.144/bio-rmutt/addTool", formdataTool, {
+    axios.post("http://localhost:3307/addTool", formdataTool, {
       headers: { "Content-Type": "multipart/form-data" }
     }).then(res => {
       if (res.status === 200) {
@@ -762,7 +762,7 @@ export default function MIE() {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src={"http://203.158.109.144/bio-rmutt/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>
@@ -951,7 +951,7 @@ export default function MIE() {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src={"http://203.158.109.144/bio-rmutt/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                       <input className="form-control mt-4" type="file" name="upload_file" />
                     </div>
                   </div>
@@ -1132,7 +1132,7 @@ export default function MIE() {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src={"http://203.158.109.144/bio-rmutt/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>
@@ -1233,7 +1233,7 @@ export default function MIE() {
                 <div className="col-xl-3">
                   <div className="form-group mb-3">
                     <div className="image-upload">
-                      <img src={"http://203.158.109.144/bio-rmutt/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgTools/" + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                       <input className="form-control mt-4" type="file" name="upload_file" />
                     </div>
                   </div>

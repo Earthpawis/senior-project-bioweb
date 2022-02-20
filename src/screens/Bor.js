@@ -29,7 +29,7 @@ export default function Bor() {
         if (result.isConfirmed) {
           pickListBor[key].o_bor_returned = 1;
           setPickListBor([...pickListBor])
-          Axios.put(`http://203.158.109.144/bio-rmutt/PLBor_returned/${obj.o_bor_id}`, obj)
+          Axios.put(`http://localhost:3307/PLBor_returned/${obj.o_bor_id}`, obj)
             .then(function (response) {
               Swal.fire(
                 "ยืนยันการคืนอุปกรณ์เเล้ว",
@@ -66,7 +66,7 @@ export default function Bor() {
         if (result.isConfirmed) {
           pickListBor[key].o_bor_returned = 0;
           setPickListBor([...pickListBor])
-          Axios.put(`http://203.158.109.144/bio-rmutt/PLBor_returned/${obj.o_bor_id}`, obj)
+          Axios.put(`http://localhost:3307/PLBor_returned/${obj.o_bor_id}`, obj)
             .then(function (response) {
 
               Swal.fire(
@@ -94,7 +94,7 @@ export default function Bor() {
 
   const [pickListBor, setPickListBor] = useState([]);
   const pickList_bor = () => {
-    Axios.get('http://203.158.109.144/bio-rmutt/pickingListBor_admin').then((Response) => {
+    Axios.get('http://localhost:3307/pickingListBor_admin').then((Response) => {
       setPickListBor(Response.data);
     });
   }
@@ -103,7 +103,7 @@ export default function Bor() {
   const [showDetailPLBor, setShowDetailPLBor] = useState(false);
   const showDetailPLBorClose = () => setShowDetailPLBor(false);
   const showDetailPLBorShow = (id) => {
-    Axios.get('http://203.158.109.144/bio-rmutt/detailPLBor_admin/' + id).then((response) => {
+    Axios.get('http://localhost:3307/detailPLBor_admin/' + id).then((response) => {
       setDetailPLBor(response.data);
       console.log(response.data);
 
@@ -115,7 +115,7 @@ export default function Bor() {
   const [BorDescription, setBorDescription] = useState();
   const o_bor_description = () => {
     console.log();
-    Axios.put(`http://203.158.109.144/bio-rmutt/o_bor_description`, {
+    Axios.put(`http://localhost:3307/o_bor_description`, {
       des: BorDescription,
       id: bor_id
     }).then(res => {
@@ -136,7 +136,7 @@ export default function Bor() {
   const showDetailPLDisClose = () => setShowDetailPLDis(false);
   const [detailPLDis, setDetailPLDis] = useState([]);
   const showDetailPLDisShow = (id) => {
-    Axios.get('http://203.158.109.144/bio-rmutt/detailPLDis_admin/' + id).then((response) => {
+    Axios.get('http://localhost:3307/detailPLDis_admin/' + id).then((response) => {
       setDetailPLDis(response.data);
     })
     setShowDetailPLDis(true)
@@ -144,7 +144,7 @@ export default function Bor() {
 
   const [pickListDis, setPickListDis] = useState([]);
   const pickList = () => {
-    Axios.get('http://203.158.109.144/bio-rmutt/pickingListDis_admin').then((Response) => {
+    Axios.get('http://localhost:3307/pickingListDis_admin').then((Response) => {
       setPickListDis(Response.data);
     });
   }

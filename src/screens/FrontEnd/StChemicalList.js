@@ -17,7 +17,7 @@ const StChemicalList = () => {
 
   const [chemicalList, setChemicalList] = useState([]);
   const getChemical = () => {
-    Axios.get('http://203.158.109.144/bio-rmutt/chemicalList').then((response) => {
+    Axios.get('http://localhost:3307/chemicalList').then((response) => {
       setChemicalList(response.data);
     });
   }
@@ -27,7 +27,7 @@ const StChemicalList = () => {
   const [showDetail, setShowDetail] = useState(false);
   const detailClose = () => setShowDetail(false);
   const detailShow = (id) => {
-    Axios.get(`http://203.158.109.144/bio-rmutt/readChe/` + id).then((Response) => {
+    Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
       setreadChe(Response.data);
       console.log(Response.data)
       setShowDetail(true)
@@ -97,13 +97,13 @@ const StChemicalList = () => {
                 return (
                   <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 p-3">
                     <div className="card cardChemical " style={{ width: '22rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
-                      <img src={"http://203.158.109.144/bio-rmutt/imgChemical/" + val.ch_img} className="card-img-top card-img-bottom" alt="..." height={200} style={{ width: '15rem', margin: 'auto' }} />
+                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} className="card-img-top card-img-bottom" alt="..." height={200} style={{ width: '15rem', margin: 'auto' }} />
                       <div className="card-body">
                         <h5 className="card-title mb-2">{val.ch_id}. {val.ch_name}</h5>
                         <div className="row">
                           
                           <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button type="button" className="btn btn-success" disabled={!!i.prof_id} disabled={cart.find(item=>item.ch_id==val.ch_id)} onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
+                          <button type="button" className="btn btn-success" disabled={!!i.prof_id} onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
                         </div>
                           
                           
@@ -233,7 +233,7 @@ const StChemicalList = () => {
                 <div className="col-xl-3">
                   <div className="form-group ">
                     <div className="image-upload">
-                      <img src={"http://203.158.109.144/bio-rmutt/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>

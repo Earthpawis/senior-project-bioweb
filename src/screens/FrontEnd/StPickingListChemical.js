@@ -13,7 +13,7 @@ const PickingListChemical = () => {
   const [showDetail, setShowDetail] = useState(false);
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLChemical = (id) => {
-    axios.get(`http://203.158.109.144/bio-rmutt/detailPLChemical/` + id).then((response) => {
+    axios.get(`http://localhost:3307/detailPLChemical/` + id).then((response) => {
       setDetailPL(response.data);
     }
     )
@@ -23,7 +23,7 @@ const PickingListChemical = () => {
   //--------------------------------------------------------------------------------------------------------------//
   const [pickingList, setPickingList] = useState([]);
   const getPickingListChemical = (id) => {
-    axios.get("http://203.158.109.144/bio-rmutt/pickingListChemical/" + id).then((response) => {
+    axios.get("http://localhost:3307/pickingListChemical/" + id).then((response) => {
       setPickingList(response.data);
     })
   }
