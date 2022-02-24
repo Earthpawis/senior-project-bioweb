@@ -6,17 +6,20 @@ import moment from "moment";
 import { Modal, Button, ModalFooter } from "react-bootstrap";
 import Swal from "sweetalert2";
 import Pagination from '../../Components/Paginations/Pagination';
+import { rAJ_disSubmit,rAJ_submit,rAJ_detail,rAJ_pickingList } from "../../route/FrontRoute";
 
 const StPickingListTool = () => {
 
   const dissubmit = (id) => {
     axios
-      .put(`http://localhost:3307/AJ_disSubmitPLChemical/` + id)
+      .put(`${rAJ_disSubmit}` + id)
       .then(function (response) {
         console.log(response);
-        Swal.fire("ยกเลิกอนุมัติรายการสำเร็จ", "", "success");
+        Swal.fire("ยกเลิกอนุมัติรายการสำเร็จ", "", "error");
         closeShowDetail();
-        getPickingListChemical(user_id);
+        setTimeout(() => {
+          getPickingListChemical(user_id);
+        },500)
       })
       .catch(function (error) {
         console.log(error);
@@ -25,12 +28,16 @@ const StPickingListTool = () => {
 
   const submit = (id) => {
     axios
-      .put(`http://localhost:3307/AJ_submitPLChemical/` + id)
+      .put(`${rAJ_submit}` + id)
       .then(function (response) {
         console.log(response);
         Swal.fire("อนุมัติรายการสำเร็จ", "", "success");
         closeShowDetail();
-        getPickingListChemical(user_id);
+        
+        setTimeout(() => {
+          getPickingListChemical(user_id);
+        }, 500);
+        
       })
       .catch(function (error) {
         console.log(error);
@@ -42,7 +49,7 @@ const StPickingListTool = () => {
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLChemical = (id) => {
     axios
-      .get(`http://localhost:3307/AJ_detailPLChemical/` + id)
+      .get(`${rAJ_detail}` + id)
       .then((response) => {
         setDetailPL(response.data);
       });
@@ -54,7 +61,7 @@ const StPickingListTool = () => {
   const [pickingList, setPickingList] = useState([]);
   const getPickingListChemical = (id) => {
     axios
-      .get("http://localhost:3307/AJ_pickingListChemical/" + id)
+      .get(`${rAJ_pickingList}` + id)
       .then((response) => {
         setPickingList(response.data);
       });
@@ -63,7 +70,9 @@ const StPickingListTool = () => {
   useEffect(() => {
     getPickingListChemical(user_id);
   }, []);
-
+  useEffect(() => {
+    console.log(pickingList);
+  }, [pickingList]);
 
   //------------------------------------search-----------------------------------------------------------------------------//
   const [searchMieAjChemical, setSearchMieAjChemical] = useState("");
@@ -166,7 +175,7 @@ const StPickingListTool = () => {
                         </button>
                       </td>
 
-                      <td>{moment(val.o_dis_date).format("L")}</td>
+                      <td>{moment(val.o_dis_date).format('DD/MM/YYYY')}</td>
                       <td data-title="status">
                         <label className=" mx-2">
                           {val.o_dis_status == 1 ? (
@@ -218,7 +227,11 @@ const StPickingListTool = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : {detailPL[0]?.o_dis_descrip} <br /> <span style={{ 'font-size': '1rem' }}>ผู้เบิก : {detailPL[0]?.std_name} </span>
+          <Modal.Title>ดูรายละเอียด : {detailPL[0]?.o_dis_descrip} <br /> 
+          <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPL[0]?.std_name} </span>
+           <span style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPL[0]?.std_id} </span><br/>
+           <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPL[0]?.std_level} </span>
+           <span style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPL[0]?.std_tel} </span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -267,7 +280,7 @@ const StPickingListTool = () => {
             </div>
             <div className="col-4" style={{ textAlign: "center" }}>
               <label>
-                เวลาเบิก : {moment(detailPL[0]?.o_dis_date).format("L")}
+                เวลาเบิก : {moment(detailPL[0]?.o_dis_date).format('DD/MM/YYYY')}
               </label>
             </div>
           </div>

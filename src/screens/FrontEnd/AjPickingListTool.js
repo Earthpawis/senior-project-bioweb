@@ -6,6 +6,8 @@ import moment from "moment";
 import { Modal, Button, ModalFooter } from "react-bootstrap";
 import Swal from "sweetalert2";
 import Pagination from '../../Components/Paginations/Pagination';
+import { rAJ_disSubmitTool,rAJ_submitTool,rAJ_detailTool,rAJ_pickingListTool } from "../../route/FrontRoute";
+
 
 const StPickingListTool = () => {
   const i = getUserData();
@@ -13,12 +15,14 @@ const StPickingListTool = () => {
 
   const disSubmit = (id) => {
     axios
-      .put(`http://localhost:3307/AJ_disSubmitPLTool/` + id)
+      .put(`${rAJ_disSubmitTool}` + id)
       .then(function (response) {
         console.log(response);
-        Swal.fire("ยกเลิกอนุมัติรายการสำเร็จ", "", "success");
+        Swal.fire("ยกเลิกอนุมัติรายการสำเร็จ", "", "error");
         closeShowDetail();
-        getPickingListTool(user_id);
+        setTimeout(() => {
+          getPickingListTool(user_id);
+        }, 500);
       })
       .catch(function (error) {
         console.log(error);
@@ -27,12 +31,14 @@ const StPickingListTool = () => {
 
   const submit = (id) => {
     axios
-      .put(`http://localhost:3307/AJ_submitPLTool/` + id)
+      .put(`${rAJ_submitTool}` + id)
       .then(function (response) {
         console.log(response);
         Swal.fire("อนุมัติรายการสำเร็จ", "", "success");
         closeShowDetail();
-        getPickingListTool(user_id);
+        setTimeout(() => {
+          getPickingListTool(user_id);
+        }, 500);
       })
       .catch(function (error) {
         console.log(error);
@@ -43,7 +49,7 @@ const StPickingListTool = () => {
   const [showDetail, setShowDetail] = useState(false);
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLTool = (id) => {
-    axios.get(`http://localhost:3307/AJ_detailPLTool/` + id).then((response) => {
+    axios.get(`${rAJ_detailTool}` + id).then((response) => {
       setDetailPL(response.data);
     })
     setShowDetail(true)
@@ -52,7 +58,7 @@ const StPickingListTool = () => {
   const [pickingList, setPickingList] = useState([]);
   const getPickingListTool = (id) => {
     axios
-      .get("http://localhost:3307/AJ_pickingListTool/" + id)
+      .get(`${rAJ_pickingListTool}` + id)
       .then((response) => {
         setPickingList(response.data);
       });
@@ -160,7 +166,7 @@ const StPickingListTool = () => {
                         </button>
                       </td>
                       <td data-title="date">
-                        {moment(val.o_bor_date).format("L")}
+                        {moment(val.o_bor_date).format('DD/MM/YYYY')}
                       </td>
                       <td data-title="status">
                         <label className=" mx-2">
@@ -211,7 +217,11 @@ const StPickingListTool = () => {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title>ดูรายละเอียด : {detailPL[0]?.o_bor_descrip}<br /> <span style={{ 'font-size': '1rem' }}>ผู้เบิก : {detailPL[0]?.std_name} </span>
+        <Modal.Title>ดูรายละเอียด : {detailPL[0]?.o_bor_descrip}<br /> 
+        <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPL[0]?.std_name} </span>
+           <span style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPL[0]?.std_id} </span><br/>
+           <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPL[0]?.std_level} </span>
+           <span style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPL[0]?.std_tel} </span>
          </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -240,11 +250,11 @@ const StPickingListTool = () => {
         </table>
         <div className='row'>
           <div className='col-6 ' style={{ textAlign: 'center' }}>
-            <label>วันที่เบิก : {moment(detailPL[0]?.o_bor_date).format('L')}
+            <label>วันที่เบิก : {moment(detailPL[0]?.o_bor_date).format('DD/MM/YYYY')}
             </label>
           </div>
           <div className='col-6 mb-3' style={{ textAlign: 'center' }}>
-            <label>วันที่คืน : {moment(detailPL[0]?.o_bor_returned_date).format('L')}
+            <label>วันที่คืน : {moment(detailPL[0]?.o_bor_returned_date).format('DD/MM/YYYY')}
             </label>
           </div>
         </div>
@@ -270,7 +280,7 @@ const StPickingListTool = () => {
                   aria-hidden="true"
                   className="fas fa-check mx-1"
                   style={{ fontSize: 20 }}
-                />{" "}
+                />
                 อนุมัติ
               </button>
             </div>
@@ -286,7 +296,7 @@ const StPickingListTool = () => {
                   aria-hidden="true"
                   className="fas fa-times mx-1"
                   style={{ fontSize: 20 }}
-                />{" "}
+                />
                 ไม่อนุมัติ
               </button>
             </div>

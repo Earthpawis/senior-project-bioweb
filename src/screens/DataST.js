@@ -5,6 +5,9 @@ import Axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Pagination from '../Components/Paginations/Pagination';
+import { rDataProfesserCreate, rReadStudent ,rUpdateEditStudent,rDeleteDataStudent,rReadProfesser,rUpdateEditProfesser ,
+    rDeleteDataProfesser ,rDataStudentcreate ,rDataStudent,rDataProfesser} from '../route/BackRoute'
+
 
 let PageSize = 6;
 
@@ -25,14 +28,14 @@ export default function DataST() {
     const editShowDataStd = (id) => {
         setshowEditDataStd(true);
         //console.log(id)
-        Axios.get(`http://localhost:3307/readStudent/` + id).then((Response) => {
+        Axios.get(`${rReadStudent}` + id).then((Response) => {
             setreaduser(Response.data);
         });
     }
 
     const updateEditstd = (id) => {
         console.log(readuser);
-        Axios.put("http://localhost:3307/updateEditStudent/", {
+        Axios.put(`${rUpdateEditStudent}`, {
             std_id: readuser[0].std_id,
             std_name: readuser[0].std_name,
             std_level: readuser[0].std_level,
@@ -67,7 +70,7 @@ export default function DataST() {
             cancelButtonColor: '#d33',
         }).then((result) => {
             if (result.isConfirmed) {
-                Axios.delete(`http://localhost:3307/deleteDataStudent/` + id)
+                Axios.delete(`${rDeleteDataStudent}` + id)
                     .then(function (response) {
                         console.log(response);
                         Swal.fire(
@@ -105,7 +108,7 @@ export default function DataST() {
     const EditDataShowAj = (id) => {
         setshowEditAj(true);
         console.log(id)
-        Axios.get(`http://localhost:3307/readProfesser/` + id).then((Response) => {
+        Axios.get(`${rReadProfesser}` + id).then((Response) => {
             setreadprof(Response.data);
             console.log(readprof)
 
@@ -114,7 +117,7 @@ export default function DataST() {
 
     const updateEditdataProfesser = (id) => {
         console.log(readprof);
-        Axios.put("http://localhost:3307/updateEditProfesser/", {
+        Axios.put(`${rUpdateEditProfesser}`, {
             prof_id: readprof[0].prof_id,
             prof_name: readprof[0].prof_name,
             prof_password: readprof[0].prof_password,
@@ -147,7 +150,7 @@ export default function DataST() {
             cancelButtonColor: '#d33',
         }).then((result) => {
             if (result.isConfirmed) {
-                Axios.delete(`http://localhost:3307/deleteDataProfesser/` + id)
+                Axios.delete(`${rDeleteDataProfesser}` + id)
                     .then(function (response) {
                         console.log(response);
                         Swal.fire(
@@ -179,7 +182,7 @@ export default function DataST() {
     
 
     const addStudent = () => {
-        Axios.post('http://localhost:3307/dataStudentcreate', {
+        Axios.post(`${rDataStudentcreate}`, {
             std_id: std_id,
             std_name: std_name,
             std_level: std_level,
@@ -205,7 +208,7 @@ export default function DataST() {
     const [prof_tel, setprof_tel] = useState("");
 
     const addProfesser = () => {
-        Axios.post('http://localhost:3307/dataProfessercreate', {
+        Axios.post(`${rDataProfesserCreate}`, {
             prof_id: prof_id,
             prof_name: prof_name,
             prof_password: prof_password,
@@ -227,7 +230,7 @@ export default function DataST() {
 
     const [studentList, setStudentList] = useState([]);
     const getStudent = () => {
-        Axios.get('http://localhost:3307/dataStudent').then((Response) => {
+        Axios.get(`${rDataStudent}`).then((Response) => {
             setStudentList(Response.data);
         });
     }
@@ -235,7 +238,7 @@ export default function DataST() {
     const [professerList, setProfesserList] = useState([]);
 
     const getProfesser = () => {
-        Axios.get('http://localhost:3307/dataProfesser').then((Response) => {
+        Axios.get(`${rDataProfesser}`).then((Response) => {
             setProfesserList(Response.data);
         });
     }

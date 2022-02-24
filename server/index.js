@@ -4,6 +4,12 @@ const mysql = require('mysql2');
 const mysql2 = require('mysql2/promise')
 const cors = require('cors');
 const csvParser = require('csv-parser')
+const multer = require('multer');
+const path = require('path');
+const { readFileSync, createReadStream, unlinkSync } = require('fs');
+const { query } = require('express');
+const { log } = require('console');
+
 app.use(express.static('public'));
 app.use(cors());
 app.use(express.json());
@@ -29,7 +35,7 @@ app.use(function (req, res, next) {
 
 require('./chemical')(app)
 require('./cart')(app)
-require('./pickingList')(app)
+require('./st_pickingList')(app)
 require('./dashboard')(app)
 require('./aj_pickingList')(app)  
 
@@ -49,75 +55,8 @@ app.get('/bioo', (req, res) => {
     })
 });
 
-app.get('/toolsList', (req, res) => {
-    db.query("SELECT * FROM tools", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result);
-        }
-    })
-});
 
-app.get('/dataStudent', (req, res) => {
-    db.query("SELECT * FROM student", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result);
-        }
-    })
-});
-
-app.post('/stuRead:std_id', (req, res) => {
-    const id = req.params.std_id;
-    db.query("SELECT * FROM student WHERE std_id = ?", id, (err, result) => {
-        if (err) {
-        } else {
-            res.send(result);
-        }
-    })
-})
-
-
-
-app.get('/dataProfesser', (req, res) => {
-    db.query("SELECT * FROM professer", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result);
-        }
-    })
-});
-
-app.get("/readStudent/:id", (req, res) => {
-    const id = req.params.id;
-    db.query("SELECT * FROM student where std_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-app.get("/readProfesser/:id", (req, res) => {
-    const id = req.params.id;
-    db.query("SELECT * FROM professer where prof_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-
-// --------------- POST -----------------
-const multer = require('multer');
-const path = require('path');
-
+//---------- Login
 app.post("/login", async (req, res) => {
     const useremail = req.body.email;
     const userpassword = req.body.password;
@@ -143,45 +82,269 @@ app.post("/login", async (req, res) => {
     if (_resultProfesser) {
         return res.json(_resultProfesser);   
     }
-    // db.query("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword], (err, resultAdmin) => {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.json(err);
-    //     } else {
-    //         if (resultAdmin.length == 0) {
-    //             db.query("SELECT * FROM student where std_id = ? and std_password = ?", [useremail, userpassword], (err2, resultStudent) => {
-    //                 if (err) {
-    //                     console.log(err2);
-    //                     return res.json(err2);
-    //                 } else {
-    //                     if (resultStudent.length == 0) {
-    //                         db.query("SELECT * FROM professer where prof_username = ? and prof_password = ?", [useremail, userpassword], (err3, resultProfesser) => {
-    //                             if (err3) {
-    //                                 console.log(err3);
-    //                                 return res.json(err3);
-    //                             }
-    //                             console.log(resultProfesser);
-    //                             return res.json(resultProfesser);
-
-    //                         })
-
-    //                     }
-
-    //                     return res.json(resultStudent);
-    //                 }
-    //             })
-    //         } else {
-    //             return res.json(resultAdmin);
-    //         }
-    //     }
-    // });
 });
 
 
 
-const { readFileSync, createReadStream, unlinkSync } = require('fs');
-const { query } = require('express');
-const { log } = require('console');
+//------------------------------------------------------------------------------------ Tool 
+app.get('/toolsList', (req, res) => {
+    db.query("SELECT * FROM tools", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result);
+        }
+    })
+});
+
+//----------- AddTool -------------------------------------------
+const storageTool = multer.diskStorage({
+    destination: path.join(__dirname, 'public/', 'imgTools'),
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
+app.post('/addTool', (req, res) => {
+    try {
+        let uploadTool = multer({ storage: storageTool }).single('IMG');
+
+        uploadTool(req, res, function (err) {
+            if (!req.file) {
+                return res.send('Please select an image to upload');
+            } else if (err instanceof multer.MulterError) {
+                return res.send(err);
+            } else if (err) {
+                return res.send(err);
+            }
+            let ToolAmount = req.body.ToolAmount
+            let ToolSize = req.body.ToolSize
+            let ToolStorage = req.body.ToolStorage
+            let ToolName = req.body.ToolName
+            console.log(req.body.ToolName)
+            db.query("INSERT INTO tools (tool_name , tool_storage , tool_size , tool_amount , tool_img) VALUES(?,?,?,?,?) "
+                , [ToolName, ToolStorage, ToolSize, ToolAmount, req.file.filename],
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.send("Values inserted");
+                    }
+                })
+        })
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
+//----------- readTool --------------------------------
+
+app.get("/readTool/:id", (req, res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM tools where tool_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+//------------- delTool -------------------------------
+app.delete("/delTool/:id", (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    db.query("DELETE FROM tools where tool_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+
+//---------------------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------- Student
+app.get('/dataStudent', (req, res) => {
+    db.query("SELECT * FROM student", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result);
+        }
+    })
+});
+
+app.post('/stuRead:std_id', (req, res) => {
+    const id = req.params.std_id;
+    db.query("SELECT * FROM student WHERE std_id = ?", id, (err, result) => {
+        if (err) {
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+app.get("/readStudent/:id", (req, res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM student where std_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+app.post('/dataStudentcreate', (req, res) => {
+    const std_id = req.body.std_id
+    const std_name = req.body.std_name
+    const std_password = req.body.std_password
+    const std_tel = req.body.std_tel
+    const std_level = req.body.std_level
+
+    db.query("INSERT INTO student (std_id, std_name, std_password, std_level, std_tel) VALUES(?,?,?,?,?)",
+        [std_id, std_name, std_password, std_level, std_tel],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values inserted");
+            }
+        }
+    )
+})
+
+
+//------------------ PUT ------------------------
+app.put('/dataStudentupdate', (req, res) => {
+    const std_id = req.body.std_id;
+    const std_password = req.body.std_password;
+    console.log(std_id, std_password)
+    db.query("UPDATE student set std_password = ? WHERE std_id = ? ", [std_password, std_id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+})
+
+app.put('/updateEditStudent', (req, res) => {
+    console.log(req);
+    const std_id = req.body.std_id;
+    const std_password = req.body.std_password;
+    const std_level = req.body.std_level;
+    const std_name = req.body.std_name;
+    const std_tel = req.body.std_tel;
+    const err = "";
+    db.query("UPDATE student SET std_password =? ,std_level =?, std_name =?, std_tel =? WHERE std_id=? ",
+        [std_password, std_level, std_name, std_tel, std_id],
+        (err,
+            (result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send("values insert complete")
+                }
+            }
+        )
+    )
+})
+
+app.delete("/deleteDataStudent/:id", (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    db.query("DELETE FROM student where std_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+
+//-----------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------- Professer 
+app.get('/dataProfesser', (req, res) => {
+    db.query("SELECT * FROM professer", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result);
+        }
+    })
+});
+
+app.get("/readProfesser/:id", (req, res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM professer where prof_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+app.post('/dataProfessercreate', (req, res) => {
+    const prof_id = req.body.prof_id
+    const prof_name = req.body.prof_name
+    const prof_password = req.body.prof_password
+    const prof_tel = req.body.prof_tel
+    const prof_username = req.body.prof_username
+
+    db.query("INSERT INTO professer (prof_id, prof_name, prof_password, prof_username, prof_tel) VALUES(?,?,?,?,?)",
+        [prof_id, prof_name, prof_password, prof_username, prof_tel],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Values inserted");
+            }
+        }
+    )
+})
+app.put('/updateEditProfesser', (req, res) => {
+    console.log(req);
+    const prof_id = req.body.prof_id;
+    const prof_name = req.body.prof_name;
+    const prof_password = req.body.prof_password;
+    const prof_tel = req.body.prof_tel;
+    const prof_username = req.body.prof_username;
+    const err = "";
+
+    db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =? WHERE prof_id=? ",
+        [prof_name, prof_password, prof_tel, prof_username, prof_id],
+        (err,
+            (result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send("values insert complete")
+                }
+            }
+        )
+    )
+})
+
+app.delete("/deleteDataProfesser/:id", (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    db.query("DELETE FROM professer where prof_id = ?", [id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+})
+//---------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------- UPLOADFILE 
 app.post('/uploadFileCSV', (req, res) => {
     try {
         let upload = multer({
@@ -235,7 +398,7 @@ app.post('/uploadFileCSV', (req, res) => {
     }
 })
 
-
+//-------------------------------------------------------------------------------------------------------------------
 
 const storage = multer.diskStorage({
     destination: path.join(__dirname, 'public/', 'imgChemical'),
@@ -280,202 +443,4 @@ app.post('/addChemical', (req, res) => {
     catch (err) {
         console.log(err)
     }
-})
-
-//----------- AddTool -------------------------------------------
-const storageTool = multer.diskStorage({
-    destination: path.join(__dirname, 'public/', 'imgTools'),
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-})
-app.post('/addTool', (req, res) => {
-    try {
-        let uploadTool = multer({ storage: storageTool }).single('IMG');
-
-        uploadTool(req, res, function (err) {
-            if (!req.file) {
-                return res.send('Please select an image to upload');
-            } else if (err instanceof multer.MulterError) {
-                return res.send(err);
-            } else if (err) {
-                return res.send(err);
-            }
-            let ToolAmount = req.body.ToolAmount
-            let ToolSize = req.body.ToolSize
-            let ToolStorage = req.body.ToolStorage
-            let ToolName = req.body.ToolName
-            console.log(req.body.ToolName)
-            db.query("INSERT INTO tools (tool_name , tool_storage , tool_size , tool_amount , tool_img) VALUES(?,?,?,?,?) "
-                , [ToolName, ToolStorage, ToolSize, ToolAmount, req.file.filename],
-                (err, result) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        res.send("Values inserted");
-                    }
-                })
-        })
-    }
-    catch (err) {
-        console.log(err)
-    }
-})
-
-
-
-//----------- readTool --------------------------------
-
-app.get("/readTool/:id", (req, res) => {
-    const id = req.params.id;
-    db.query("SELECT * FROM tools where tool_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-
-//------------- delTool -------------------------------
-app.delete("/delTool/:id", (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    db.query("DELETE FROM tools where tool_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    })
-})
-
-
-
-//-----------------------------------------------------------------
-
-app.post('/dataStudentcreate', (req, res) => {
-    const std_id = req.body.std_id
-    const std_name = req.body.std_name
-    const std_password = req.body.std_password
-    const std_tel = req.body.std_tel
-    const std_level = req.body.std_level
-
-    db.query("INSERT INTO student (std_id, std_name, std_password, std_level, std_tel) VALUES(?,?,?,?,?)",
-        [std_id, std_name, std_password, std_level, std_tel],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values inserted");
-            }
-        }
-    )
-})
-
-app.post('/dataProfessercreate', (req, res) => {
-    const prof_id = req.body.prof_id
-    const prof_name = req.body.prof_name
-    const prof_password = req.body.prof_password
-    const prof_tel = req.body.prof_tel
-    const prof_username = req.body.prof_username
-
-    db.query("INSERT INTO professer (prof_id, prof_name, prof_password, prof_username, prof_tel) VALUES(?,?,?,?,?)",
-        [prof_id, prof_name, prof_password, prof_username, prof_tel],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Values inserted");
-            }
-        }
-    )
-})
-
-
-//------------------ PUT ------------------------
-app.put('/dataStudentupdate', (req, res) => {
-    const std_id = req.body.std_id;
-    const std_password = req.body.std_password;
-    console.log(std_id, std_password)
-    db.query("UPDATE student set std_password = ? WHERE std_id = ? ", [std_password, std_id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-})
-
-app.put('/updateEditStudent', (req, res) => {
-    console.log(req);
-    const std_id = req.body.std_id;
-    const std_password = req.body.std_password;
-    const std_level = req.body.std_level;
-    const std_name = req.body.std_name;
-    const std_tel = req.body.std_tel;
-    const err = "";
-    db.query("UPDATE student SET std_password =? ,std_level =?, std_name =?, std_tel =? WHERE std_id=? ",
-        [std_password, std_level, std_name, std_tel, std_id],
-        (err,
-            (result) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.send("values insert complete")
-                }
-            }
-        )
-    )
-})
-
-
-
-app.put('/updateEditProfesser', (req, res) => {
-    console.log(req);
-    const prof_id = req.body.prof_id;
-    const prof_name = req.body.prof_name;
-    const prof_password = req.body.prof_password;
-    const prof_tel = req.body.prof_tel;
-    const prof_username = req.body.prof_username;
-    const err = "";
-
-    db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =? WHERE prof_id=? ",
-        [prof_name, prof_password, prof_tel, prof_username, prof_id],
-        (err,
-            (result) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.send("values insert complete")
-                }
-            }
-        )
-    )
-})
-
-//------------------ DELETE ------------------------
-app.delete("/deleteDataStudent/:id", (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    db.query("DELETE FROM student where std_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    })
-})
-
-app.delete("/deleteDataProfesser/:id", (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    db.query("DELETE FROM professer where prof_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    })
 })

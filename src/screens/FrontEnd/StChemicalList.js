@@ -6,6 +6,8 @@ import { Modal, Button, Form, Card, CardImg } from 'react-bootstrap'
 import Pagination from '../../Components/Paginations/Pagination';
 import { getCartItem, setCartItem , getUserData} from '../../functions/cartItem';
 import moment from 'moment'
+import { rChemicalList,rReadChe,rCh_img } from '../../route/FrontRoute';
+
 
 const StChemicalList = () => {
 
@@ -17,7 +19,7 @@ const StChemicalList = () => {
 
   const [chemicalList, setChemicalList] = useState([]);
   const getChemical = () => {
-    Axios.get('http://localhost:3307/chemicalList').then((response) => {
+    Axios.get(`${rChemicalList}`).then((response) => {
       setChemicalList(response.data);
     });
   }
@@ -27,7 +29,7 @@ const StChemicalList = () => {
   const [showDetail, setShowDetail] = useState(false);
   const detailClose = () => setShowDetail(false);
   const detailShow = (id) => {
-    Axios.get(`http://localhost:3307/readChe/` + id).then((Response) => {
+    Axios.get(`${rReadChe}` + id).then((Response) => {
       setreadChe(Response.data);
       console.log(Response.data)
       setShowDetail(true)
@@ -97,13 +99,13 @@ const StChemicalList = () => {
                 return (
                   <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 p-3">
                     <div className="card cardChemical " style={{ width: '22rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
-                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} className="card-img-top card-img-bottom" alt="..." height={200} style={{ width: '15rem', margin: 'auto' }} />
+                      <img src={`${rCh_img}` + val.ch_img} className="card-img-top card-img-bottom" alt="..." height={200} style={{ width: '15rem', margin: 'auto' }} />
                       <div className="card-body">
                         <h5 className="card-title mb-2">{val.ch_id}. {val.ch_name}</h5>
                         <div className="row">
                           
                           <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                          <button type="button" className="btn btn-success" disabled={!!i.prof_id} onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
+                          <button type="button" className="btn btn-success" disabled={cart.find(item=>item.ch_id==val.ch_id ) || !!i.prof_id } onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
                         </div>
                           
                           
@@ -212,14 +214,14 @@ const StChemicalList = () => {
                       :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                      {val.ch_status == 1 ? 'Solids' : 'Liquids'}
+                      {val.ch_status == 1 ? 'Solids' : val.ch_status == 2 ? 'Liquids' : 'Gas'}
                     </div>
                   </div>
                   <div className="row mb-3">
                     <label htmlFor className="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name labal-name-mie">วันหมดอายุ :
                     </label>
                     <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
-                      {moment(val.ch_exp).format('L')}
+                      {moment(val.ch_exp).format('DD/MM/YYYY')}
                     </div>
                   </div>
                   <div className="row mb-3">
@@ -233,7 +235,7 @@ const StChemicalList = () => {
                 <div className="col-xl-3">
                   <div className="form-group ">
                     <div className="image-upload">
-                      <img src={"http://localhost:3307/imgChemical/" + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
+                      <img src={`${rCh_img}` + val.ch_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
                     </div>
                   </div>
                 </div>

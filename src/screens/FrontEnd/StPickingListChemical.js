@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import moment from 'moment'
 import { Modal, Button, ModalFooter } from 'react-bootstrap'
+import { rStDetailPLChemical,rStPickingListChemical } from "../../route/FrontRoute";
+
 
 const PickingListChemical = () => {
 
@@ -13,7 +15,7 @@ const PickingListChemical = () => {
   const [showDetail, setShowDetail] = useState(false);
   const closeShowDetail = () => setShowDetail(false);
   const showDetailPLChemical = (id) => {
-    axios.get(`http://localhost:3307/detailPLChemical/` + id).then((response) => {
+    axios.get(`${rStDetailPLChemical}` + id).then((response) => {
       setDetailPL(response.data);
     }
     )
@@ -23,7 +25,7 @@ const PickingListChemical = () => {
   //--------------------------------------------------------------------------------------------------------------//
   const [pickingList, setPickingList] = useState([]);
   const getPickingListChemical = (id) => {
-    axios.get("http://localhost:3307/pickingListChemical/" + id).then((response) => {
+    axios.get(`${rStPickingListChemical}` + id).then((response) => {
       setPickingList(response.data);
     })
   }
@@ -74,7 +76,7 @@ const PickingListChemical = () => {
                       </button>
                     </td>
                     <td data-title="Aj">{val.prof_name}</td>
-                    <td>{moment(val.o_dis_date).format('L')}</td>
+                    <td>{moment(val.o_dis_date).format('DD/MM/YYYY')}</td>
                     <td data-title="status">
                       <label className=" mx-2">
                         {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className="iconellipsis-name"> รอการอนุมัติ</label> </>
@@ -130,7 +132,7 @@ const PickingListChemical = () => {
                   : <><i class="fas fa-times iconcheck-times mx-2"></i> <label className="iconcheck-times"> ไม่อนุมัติ</label></>} : โดย {detailPL[0]?.prof_name} </label>
             </div>
             <div className='col-4' style={{ textAlign: 'center' }}>
-              <label>เวลาเบิก : {moment(detailPL[0]?.o_dis_date).format('L')}
+              <label>เวลาเบิก : {moment(detailPL[0]?.o_dis_date).format('DD/MM/YYYY')}
               </label>
             </div>
           </div>

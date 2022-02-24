@@ -5,6 +5,10 @@ import axios from 'axios'
 import { getCartItemTool, setCartItemTool, removeCartItemTool } from '../../functions/cartItem'
 import Swal from 'sweetalert2'
 import { useHistory } from 'react-router-dom'
+import { rSubmitBor, rDataProfesser } from '../../route/FrontRoute'
+import moment from 'moment'
+
+
 const StCartTools = () => {
 
   const history = useHistory();
@@ -19,7 +23,8 @@ const StCartTools = () => {
 
   // ------------------------ ButtonSubmit -----------------------------------------------------------------------------------------------------//
   const submit = () => {
-    axios.post('http://localhost:3307/submitBor', { item: cartData, user: i, descrip: bor_descrip, prof: prof_id }).then(
+    let ret_date = moment().add(7, 'days').format('YYYY-MM-DD');
+    axios.post(`${rSubmitBor}`, { item: cartData, user: i, descrip: bor_descrip, prof: prof_id, ret_date: ret_date }).then(
       res => {
         if (res.status === 200) {
           Swal.fire("ทำรายการยืมอุปกรณ์สำเร็จ", "", "success")
@@ -42,7 +47,7 @@ const StCartTools = () => {
 
   // ------------------------ Dropdrowอาจารย์--------------------------------------------------------------------------------------------------//
   const getProfesser = () => {
-    axios.get('http://localhost:3307/dataProfesser').then((Response) => {
+    axios.get(`${rDataProfesser}`).then((Response) => {
       setProfesserList(Response.data);
     });
   }

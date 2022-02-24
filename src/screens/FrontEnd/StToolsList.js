@@ -5,6 +5,7 @@ import Axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { getCartItemTool, setCartItemTool,getUserData } from '../../functions/cartItem';
+import { rToolsList,rReadTool,rImgTools } from '../../route/FrontRoute';
 
 const StToolsList = () => {
 
@@ -16,7 +17,7 @@ const StToolsList = () => {
 
   const [toolsList, setToolsList] = useState([]);
   const getToolsList = () => {
-    Axios.get('http://localhost:3307/toolsList').then((response) => {
+    Axios.get(`${rToolsList}`).then((response) => {
       setToolsList(response.data);
     });
   }
@@ -26,7 +27,7 @@ const StToolsList = () => {
   const [showDeatailTools, setShowDeatailTools] = useState(false);
   const DtailToolsClose = () => setShowDeatailTools(false);
   const detailToolsShow = (id) => {
-    Axios.get(`http://localhost:3307/readTool/` + id).then((Response) => {
+    Axios.get(`${rReadTool}` + id).then((Response) => {
       setreadTool(Response.data);
       console.log(Response.data)
       setShowDeatailTools(true)
@@ -90,12 +91,12 @@ const StToolsList = () => {
                 return (
                   <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 p-3">
                     <div className="card cardChemical" style={{ width: '22rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
-                      <img src={"http://localhost:3307/imgTools/" + val.tool_img} className="card-img-top" alt="..." height={200} style={{ width: '10rem', margin: 'auto' }} />
+                      <img src={`${rImgTools}` + val.tool_img} className="card-img-top" alt="..." height={200} style={{ width: '10rem', margin: 'auto' }} />
                       <div className="card-body">
-                        <h5 className="card-title">{val.tool_id}.  {val.tool_name}</h5>
+                        <h5 className="card-title">{val.tool_id}.  {val.tool_name} {val.tool_size}</h5>
                         <div className="row">
                           <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                            <button type="button" className="btn btn-success" disabled={!!i.prof_id} onClick={() => { addToCart(val) }}><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
+                            <button type="button" className="btn btn-success" disabled={cart.find(item=>item.tool_id==val.tool_id) || !!i.prof_id } onClick={() => { addToCart(val) }}><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
                           </div>
                           <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                             <button type="button" className="btn btn-secondary" onClick={() => { detailToolsShow(val.tool_id) }}><i className="fas fa-search p-1" /><span className="NameCrub">ดูรายละเอียด</span></button>
@@ -179,7 +180,7 @@ const StToolsList = () => {
                 <div className="col-xl-3">
                   <div className="form-group ">
                     <div className="image-upload">
-                      <img src={"http://localhost:3307/imgTools/" + val.tool_img} alt style={{ width: '7rem', }} />
+                      <img src={`${rImgTools}` + val.tool_img} alt style={{ width: '7rem', }} />
                     </div>
                   </div>
                 </div>

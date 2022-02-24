@@ -2,13 +2,15 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2';
 import '../css/importfile.css'
+import { rUploadFileCSV } from '../route/BackRoute';
+
 
 export default function Importfile() {
   const [fileCSV, setFileCSV] = useState(null);
   const submit = async () => {
     const formdata = new FormData();
     formdata.append('fileCSV', fileCSV);
-    axios.post("http://localhost:3307/uploadFileCSV", formdata,
+    axios.post(`${rUploadFileCSV}`, formdata,
       {
         headers: { "Content-Type": "multipart/form-data" }
       }).then(res => {

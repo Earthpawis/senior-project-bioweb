@@ -5,6 +5,8 @@ import axios, { Axios } from 'axios'
 import { getCartItem, setCartItem, getUserData, removeCartItem } from '../../functions/cartItem'
 import Swal from 'sweetalert2'
 import { useHistory } from 'react-router-dom'
+import { rSubmitDis,rDataProfesser } from '../../route/FrontRoute'
+
 
 const StBorrow = () => {
   const history = useHistory();
@@ -15,11 +17,11 @@ const StBorrow = () => {
   const [prof_id, setProf_id] = useState("1");
   const [dis_descrip, setDis_descrip] = useState();
   const [cartData, setCartData] = useState([]);
-  const [professerList, setProfesserList] = useState([]);
+  const [professerList, setProfesserList ] = useState([]);
 
   //-------------------------------------------------------button_submit----------------------------------------------------------------- //
   const submit = () => {
-    axios.post('http://localhost:3307/submitDis', { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
+    axios.post(`${rSubmitDis}`, { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
       res => {
         if (res.status === 200) {
           Swal.fire("ทำรายการเบิกสำเร็จ", "", "success")
@@ -41,7 +43,7 @@ const StBorrow = () => {
   }
   //-------------------------------------------------------professer--------------------------------------------------------------------- //
   const getProfesser = () => {
-    axios.get('http://localhost:3307/dataProfesser').then((Response) => {
+    axios.get(`${rDataProfesser}`).then((Response) => {
       setProfesserList(Response.data);
     });
   }

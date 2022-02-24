@@ -12,7 +12,7 @@ module.exports = function(app){
     app.get('/pickingListChemical/:id', (req, res) => {
         const id = req.params.id;
         
-        db.query("SELECT o_dis_id,o_dis_item_amount,o_dis_descrip,o_dis_status,o_dis_date,prof_name FROM order_dis od JOIN professer prof ON od.prof_id = prof.prof_id JOIN student std ON std.std_id = od.std_id WHERE std.std_id = ?",[id], (err, result) => {
+        db.query("SELECT o_dis_id,o_dis_item_amount,o_dis_descrip,o_dis_status,o_dis_date,prof_name FROM order_dis od JOIN professer prof ON od.prof_id = prof.prof_id JOIN student std ON std.std_id = od.std_id WHERE std.std_id = ? ORDER BY o_dis_date DESC ",[id], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -24,7 +24,7 @@ module.exports = function(app){
 
     app.get('/pickingListTool/:id',(req,res) => {
         const id = req.params.id;
-        db.query("SELECT o_bor_id,o_bor_date,o_bor_returned_date,o_bor_item_amount,o_bor_descrip,o_bor_status,prof_name FROM order_bor ob JOIN professer prof ON ob.prof_id = prof.prof_id JOIN student std ON std.std_id = ob.std_id WHERE ob.std_id = ? ",[id],(err,result)=>{
+        db.query("SELECT o_bor_id,o_bor_date,o_bor_returned_date,o_bor_item_amount,o_bor_descrip,o_bor_status,prof_name FROM order_bor ob JOIN professer prof ON ob.prof_id = prof.prof_id JOIN student std ON std.std_id = ob.std_id WHERE ob.std_id = ? ORDER BY o_bor_date DESC ",[id],(err,result)=>{
             if(err){
                 console.log(err);
             }else{
