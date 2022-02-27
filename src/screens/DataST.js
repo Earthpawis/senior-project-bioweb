@@ -5,8 +5,10 @@ import Axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Pagination from '../Components/Paginations/Pagination';
-import { rDataProfesserCreate, rReadStudent ,rUpdateEditStudent,rDeleteDataStudent,rReadProfesser,rUpdateEditProfesser ,
-    rDeleteDataProfesser ,rDataStudentcreate ,rDataStudent,rDataProfesser} from '../route/BackRoute'
+import {
+    rDataProfesserCreate, rReadStudent, rUpdateEditStudent, rDeleteDataStudent, rReadProfesser, rUpdateEditProfesser,
+    rDeleteDataProfesser, rDataStudentcreate, rDataStudent, rDataProfesser
+} from '../route/BackRoute'
 
 
 let PageSize = 6;
@@ -55,7 +57,7 @@ export default function DataST() {
             });
     }
 
-     //---------------------------- -------------------  Modal deleteStd -------------------------------------//
+    //-----------------------------------------------  Modal deleteStd -------------------------------------//
 
     const deleteStudent = (id) => {
         Swal.fire({
@@ -93,14 +95,11 @@ export default function DataST() {
         })
     }
 
-  //---------------------------- -------------------  Modal AJ-------------------------------------//
+    //---------------------------- -------------------  Modal AJ-------------------------------------//
     const [showAddDataAj, setshowAddDataAj] = useState(false);
     const AddCloseDataAj = () => setshowAddDataAj(false);
     const addShowAj = () => setshowAddDataAj(true);
 
-    const [showEditDataAj, setshowEditDataAj] = useState(false);
-    const editClosePassAj = () => setshowEditDataAj(false);
-    const EditShowAj = () => setshowEditDataAj(true);
 
     const [showEditAj, setshowEditAj] = useState(false);
     const [readprof, setreadprof] = useState([{}])
@@ -146,7 +145,7 @@ export default function DataST() {
             showCancelButton: true,
             confirmButtonText: 'ตกลง',
             confirmButtonColor: '#3085d6',
-            cancelButtonText :'ยกเลิก',
+            cancelButtonText: 'ยกเลิก',
             cancelButtonColor: '#d33',
         }).then((result) => {
             if (result.isConfirmed) {
@@ -172,14 +171,14 @@ export default function DataST() {
         })
     }
 
-     //---------------------------- -------------------  Modal AddStd -------------------------------------//
+    //------------------------------------------------------------------ Modal AddStd -------------------------------------//
 
     const [std_id, setstd_id] = useState("");
     const [std_name, setstd_name] = useState("");
     const [std_password, setstd_password] = useState("");
     const [std_level, setstd_level] = useState("");
     const [std_tel, setstd_tel] = useState("");
-    
+
 
     const addStudent = () => {
         Axios.post(`${rDataStudentcreate}`, {
@@ -243,7 +242,7 @@ export default function DataST() {
         });
     }
 
-     //---------------------------- ------------------- serach -------------------------------------//
+    //---------------------------- ------------------- serach -------------------------------------//
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
@@ -252,13 +251,16 @@ export default function DataST() {
         getProfesser()
     }, []);
 
-
+    //---------------------------- -------------------page-------------------------------------//
+    let PageSizeAj = 8;
+    const [currentPageAj, setCurrentPageAJ] = useState(1);
     const currentProfesserListTableData = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * PageSize;
-        const lastPageIndex = firstPageIndex + PageSize;
+        const firstPageIndex = (currentPageAj - 1) * PageSizeAj;
+        const lastPageIndex = firstPageIndex + PageSizeAj;
         return professerList.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, professerList]);
+    }, [currentPageAj, professerList]);
 
+    let PageSize = 8;
     const currentStudentListTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
@@ -393,10 +395,10 @@ export default function DataST() {
                             </table>
                             <Pagination
                                 className="pagination-bar"
-                                currentPage={currentPage}
+                                currentPage={currentPageAj}
                                 totalCount={professerList.length}
-                                pageSize={PageSize}
-                                onPageChange={page => setCurrentPage(page)}
+                                pageSize={PageSizeAj}
+                                onPageChange={page => setCurrentPageAJ(page)}
                             />
                         </div>
                     </div>

@@ -57,7 +57,7 @@ const Home = () => {
 
  //-----------------------------------PageSize-----------------------------------
  const [currentPage, setCurrentPage] = useState(1);
- let PageSize = 4;
+ let PageSize = 3;
 
  const currentChemicalListTableData = useMemo(() => {
    const firstPageIndex = (currentPage - 1) * PageSize;
@@ -70,7 +70,7 @@ const Home = () => {
 }, []);
   return (
     <>
-      <div className='container mt-3'>
+      <div className=' mt-3'>
         <div className=' sild-home'>
           <div className='slide-page'>
             <Carousel className='' activeIndex={index} onSelect={handleSelect}>

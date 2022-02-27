@@ -6,14 +6,13 @@ import { Modal, Button, ModalFooter } from 'react-bootstrap'
 import moment from 'moment'
 import Pagination from '../Components/Paginations/Pagination';
 import Swal from 'sweetalert2'
-import { rPLBor_returned,rPickingListBor_admin,rPickingListDis_admin,rDetailPLBor_admin,rO_bor_description,rDetailPLDis_admin } from '../route/BackRoute'
+import { rPLBor_returned, rPickingListBor_admin, rPickingListDis_admin, rDetailPLBor_admin, rO_bor_description, rDetailPLDis_admin } from '../route/BackRoute'
 
-
-let PageSize = 7;
 
 
 export default function Bor() {
-  //-------------------- ยืมอุปกรณ์ ------------------------------
+
+  //-------------------- ยืมอุปกรณ์ --------------------------------//
   const Returned = (e, key, obj) => {
     console.log(obj.o_bor_returned);
     if (obj.o_bor_returned === 0) {
@@ -101,6 +100,7 @@ export default function Bor() {
     });
   }
 
+  //----------------------------------------------------------------------------------------------------//
   const [detailPLBor, setDetailPLBor] = useState([]);
   const [showDetailPLBor, setShowDetailPLBor] = useState(false);
   const showDetailPLBorClose = () => setShowDetailPLBor(false);
@@ -113,6 +113,7 @@ export default function Bor() {
     })
   }
 
+  //----------------------------------------------------------------------------------------------------//
   const [bor_id, setBor_id] = useState();
   const [BorDescription, setBorDescription] = useState();
   const o_bor_description = () => {
@@ -132,8 +133,7 @@ export default function Bor() {
   }
 
 
-
-  //-------------------- เบิกสารเคมี ------------------------------
+  //----------------------------------------------------------- เบิกสารเคมี ---------------------------------------------------//
   const [showDetailPLDis, setShowDetailPLDis] = useState(false);
   const showDetailPLDisClose = () => setShowDetailPLDis(false);
   const [detailPLDis, setDetailPLDis] = useState([]);
@@ -144,6 +144,7 @@ export default function Bor() {
     setShowDetailPLDis(true)
   };
 
+  //------------------------------------------------------------------------------------------------------------------------//
   const [pickListDis, setPickListDis] = useState([]);
   const pickList = () => {
     Axios.get(`${rPickingListDis_admin}`).then((Response) => {
@@ -163,15 +164,19 @@ export default function Bor() {
   }, [pickListBor])
 
 
-  // --------- ---------- page ---------- ---------- ---------- ----------
-  const [currentPage, setCurrentPage] = useState(1);
+  // --------- ---------- -------------------- page ---------- ---------- ---------- ----------//
 
+
+  let PageSizeDis = 8;
+  const [currentPageDis, setCurrentPageDis] = useState(1);
   const currentPickListDisTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * PageSize;
-    const lastPageIndex = firstPageIndex + PageSize;
+    const firstPageIndex = (currentPageDis - 1) * PageSizeDis;
+    const lastPageIndex = firstPageIndex + PageSizeDis;
     return pickListDis.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, pickListDis]);
+  }, [currentPageDis, pickListDis]);
 
+  let PageSize = 8;
+  const [currentPage, setCurrentPage] = useState(1);
   const currentPickListBorTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
@@ -204,16 +209,16 @@ export default function Bor() {
             <div className="panel" id="one-panel">
               <table className="table  ">
                 <thead>
-                <tr>
-                        <th className="headname-th" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                        <th className="headname-th" width="10%" style={{ minWidth: 150 , textAlign:'center' }} ><span>วันที่เบิก</span></th>
-                        <th className="headname-th" width="10%" style={{ minWidth: 180 }}><span> ชื่อ-นามสกุล</span></th>
-                        <th className="class-room" width="3%" style={{ minWidth: 90 }}><span>ชั้นปี</span> </th>
-                        <th className="headname-th" width="10%" style={{ minWidth: 200 }}><span >เพื่อ</span></th>
-                        <th className="class-room" width="3%" style={{ minWidth: 70 }}><span>รายการ</span></th>
-                        <th className="headname-th" width="10%" style={{ minWidth: 160 }} />
-                        <th className="headname-th" width="5%" style={{ minWidth: 150 , textAlign:'center'}} ><span>สถานะ</span></th>
-                      </tr>
+                  <tr>
+                    <th className="headname-th" width="3%" style={{ minWidth: 100 }}> <span>ORDER ID</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 150 }} ><span>วันที่เบิก</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 190 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="class-room" width="3%" style={{ minWidth: 90 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 250 }}><span >เพื่อ</span></th>
+                    <th className="class-room" width="3%" style={{ minWidth: 90 }}><span>รายการ</span></th>
+                    <th className="headname-th" width="10%" style={{ minWidth: 160 }} />
+                    <th className="headname-th" width="5%" style={{ minWidth: 150, textAlign: 'center' }} ><span>สถานะ</span></th>
+                  </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
 
@@ -230,13 +235,13 @@ export default function Bor() {
                       return (
                         <tr className="table-name-report">
                           <th className='order-id'>{val.o_dis_id}</th>
-                          <td style={{textAlign:'center'}}>{moment(val.o_dis_date).format('DD/MM/YYYY')}</td>
+                          <td style={{}}>{moment(val.o_dis_date).format('DD/MM/YYYY')}</td>
                           <td>{val.std_name}</td>
                           <td className='class-room'><label className="class-room">{val.std_level}</label> </td>
                           <td><label className="class-room">{val.o_dis_descrip}</label> </td>
                           <td className='class-room'>{val.o_dis_item_amount}</td>
-                         
-                          <td><button type="button" className="btn btn-report " onClick={() => (showDetailPLDisShow(val.o_dis_id))} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
+                          <td><button type="button" className="btn btn-report " onClick={() => (showDetailPLDisShow(val.o_dis_id))} style={{ backgroundColor: '#63B0C0', color: '#fff' }}>
+                            <i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
 
                           <td><label className="mx-2" >
                             {val.o_dis_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'> รอการอนุมัติ</label> </>
@@ -249,28 +254,28 @@ export default function Bor() {
               </table>
               <Pagination
                 className="pagination-bar"
-                currentPage={currentPage}
+                currentPage={currentPageDis}
                 totalCount={pickListDis.length}
-                pageSize={PageSize}
-                onPageChange={page => setCurrentPage(page)} />
+                pageSize={PageSizeDis}
+                onPageChange={page => setCurrentPageDis(page)} />
             </div>
 
             <div className="panel" id="two-panel">
               <table className="table  ">
                 <thead>
-                <tr>
-                        <th className="class-room" scope="col" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                        <th className="headname-th" width="10%" style={{ minWidth: 150 ,textAlign:'center'}} ><span>วันที่เบิก</span></th>
-                        <th className="headname-th" scope="col" width="10%" style={{ minWidth: 160 }}><span> ชื่อ-นามสกุล</span></th>
-                        <th className="class-room" scope="col" width="3%" style={{ minWidth: 90 }}><span>ชั้นปี</span> </th>
-                        <th className="headname-th" scope="col" width="10%" style={{ minWidth: 180 }}><span>เพื่อ</span> </th>
-                        <th className="class-room" scope="col" width="3%" style={{ minWidth: 70 }}><span>รายการ</span></th>
-                        <th className="headname-th" scope="col" width="10%" style={{ minWidth: 165 }} />
-                        <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150, textAlign:'center' }} ><span>สถานะ</span></th>
-                        <th className="headname-th" scope="col" width="5%" style={{ minWidth: 110 }}>
-                          <label className="mx-2">คืนอุปกรณ์</label>
-                        </th>
-                      </tr>
+                  <tr>
+                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
+                    <th className="headname-th" width="3%" style={{ minWidth: 130, }} ><span>วันที่เบิก</span></th>
+                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 175 }}><span> ชื่อ-นามสกุล</span></th>
+                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 90 }}><span>ชั้นปี</span> </th>
+                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 180 }}><span>เพื่อ</span> </th>
+                    <th className="class-room" scope="col" width="3%" style={{ minWidth: 70 }}><span>รายการ</span></th>
+                    <th className="headname-th" scope="col" width="10%" style={{ minWidth: 165 }} />
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150, }} ><span>สถานะ</span></th>
+                    <th className="headname-th" scope="col" width="5%" style={{ minWidth: 110 }}>
+                      <label className="mx-2">คืนอุปกรณ์</label>
+                    </th>
+                  </tr>
                 </thead>
                 <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
                   {currentPickListBorTableData.filter((val) => {
@@ -286,12 +291,13 @@ export default function Bor() {
                       return (
                         <tr className="table-name-report ">
                           <th className='order-id'>{val.o_bor_id}</th>
-                          <td style={{textAlign:'center'}}>{moment(val.o_bor_date).format('DD/MM/YYYY')}</td>
+                          <td style={{}}>{moment(val.o_bor_date).format('DD/MM/YYYY')}</td>
                           <td>{val.std_name}</td>
                           <td className='class-room'><label className="">{val.std_level}</label> </td>
                           <td className=''>{val.o_bor_descrip}</td>
                           <td className='class-room'>{val.o_bor_item_amount}</td>
-                          <td><button type="button" onClick={() => { showDetailPLBorShow(val.o_bor_id) }} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
+                          <td><button type="button" onClick={() => { showDetailPLBorShow(val.o_bor_id) }} className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}>
+                            <i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
                           <td><label className="mx-2" >{val.o_bor_status == 1 ? <><i class="fas fa-ellipsis-h iconellipsis-name mx-2"></i><label className='iconellipsis-name'>รอการอนุมัติ</label>  </>
                             : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
                               : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
@@ -317,6 +323,7 @@ export default function Bor() {
           </div>
         </div>
       </div>
+      
       {/*      //-----------------------------------------------------modalเบิกใช้สารเคมี------------------------------------------------------------------// */}
       <Modal
         show={showDetailPLDis}
@@ -328,10 +335,10 @@ export default function Bor() {
       >
         <Modal.Header closeButton>
           <Modal.Title>ดูรายละเอียด : {detailPLDis[0]?.o_dis_descrip} <br />
-          <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLDis[0]?.std_name} </span>
-           <span style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLDis[0]?.std_id} </span><br/>
-           <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLDis[0]?.std_level} </span>
-           <span style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLDis[0]?.std_tel} </span>
+            <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLDis[0]?.std_name} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLDis[0]?.std_id} </span>
+            <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLDis[0]?.std_level} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLDis[0]?.std_tel} </span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -368,6 +375,7 @@ export default function Bor() {
           </div>
         </Modal.Body>
       </Modal>
+
       {/*      //-----------------------------------------------------modal ยืมอุปกรณ์------------------------------------------------------------------// */}
       <Modal
         show={showDetailPLBor}
@@ -379,10 +387,10 @@ export default function Bor() {
       >
         <Modal.Header closeButton>
           <Modal.Title>ดูรายละเอียด : {detailPLBor[0]?.o_bor_descrip} <br />
-          <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLBor[0]?.std_name} </span>
-           <span style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLBor[0]?.std_id} </span><br/>
-           <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLBor[0]?.std_level} </span>
-           <span style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLBor[0]?.std_tel} </span>
+            <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLBor[0]?.std_name} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLBor[0]?.std_id} </span>
+            <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLBor[0]?.std_level} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLBor[0]?.std_tel} </span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -429,10 +437,12 @@ export default function Bor() {
                   }}
                 />
               </div>
-              <button type="submit" className="btn btn-add-modal mt-2" style={{ color: '#fff' }} onClick={() => { o_bor_description() }} >
-                <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 20 }} />บันทึก
-              </button>
             </div>
+          </div>
+          <div className='row' style={{ justifyContent: 'center' }}>
+            <button type="submit" className="btn btn-add-modal mt-2" style={{ color: '#fff' }} onClick={() => { o_bor_description() }} >
+              <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 20 }} />บันทึก
+            </button>
           </div>
         </Modal.Body>
       </Modal>

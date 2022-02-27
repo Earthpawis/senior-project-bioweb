@@ -3,7 +3,7 @@ import axios from "axios";
 import moment from 'moment'
 import Pagination from '../../Components/Paginations/Pagination';
 import { Modal, Button, ModalFooter } from 'react-bootstrap'
-import { rStDetailPLTool,rStPickingListTool } from "../../route/FrontRoute";
+import { rStDetailPLTool, rStPickingListTool } from "../../route/FrontRoute";
 
 
 const StPickingListTool = () => {
@@ -38,7 +38,14 @@ const StPickingListTool = () => {
     console.log(detailPL);
   }, [detailPL]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  let PageSize = 8;
 
+  const pickingListToolData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return pickingList.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, pickingList]);
 
   return (<div className="container">
     <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
@@ -58,7 +65,7 @@ const StPickingListTool = () => {
               </tr>
             </thead>
             <tbody style={{ verticalAlign: 'middle' }}>
-              {pickingList.map((val, key) => {
+              {pickingListToolData.map((val, key) => {
                 return (
                   <tr key={key}>
                     <td data-title="ID">{val.o_bor_id}</td>
@@ -76,6 +83,12 @@ const StPickingListTool = () => {
               })}
             </tbody>
           </table>
+          <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={pickingList.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)} />
         </div>
       </div>
     </div>

@@ -6,13 +6,13 @@ import Axios from 'axios'
 import moment from 'moment'
 import Pagination from '../Components/Paginations/Pagination';
 import Swal from 'sweetalert2'
-import { rPickingListBor_admin,rO_bor_description ,rDetailPLBor_admin,rPLBor_returned ,rDetailPLDis_admin ,rPickingListDis_admin} from '../route/BackRoute'
+import { rPickingListBor_admin, rO_bor_description, rDetailPLBor_admin, rPLBor_returned, rDetailPLDis_admin, rPickingListDis_admin } from '../route/BackRoute'
 
 
 
 
 export default function Dashboard() {
- 
+
   //-------------------------------------------------- ยืมอุปกรณ์ ------------------------------------------------------------//
   const [pickListBor, setPickListBor] = useState([]);
   const pickList_bor = () => {
@@ -155,7 +155,7 @@ export default function Dashboard() {
       console.log(e);
     })
   }
-  
+
   useEffect(() => {
     console.log(BorDescription);
   }, [BorDescription])
@@ -208,13 +208,13 @@ export default function Dashboard() {
                     <thead>
                       <tr>
                         <th className="headname-th" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                        <th className="headname-th" width="10%" style={{ minWidth: 150 , textAlign:'center' }} ><span>วันที่เบิก</span></th>
+                        <th className="headname-th" width="10%" style={{ minWidth: 150, textAlign: 'center' }} ><span>วันที่เบิก</span></th>
                         <th className="headname-th" width="10%" style={{ minWidth: 180 }}><span> ชื่อ-นามสกุล</span></th>
                         <th className="class-room" width="3%" style={{ minWidth: 90 }}><span>ชั้นปี</span> </th>
                         <th className="headname-th" width="10%" style={{ minWidth: 200 }}><span >เพื่อ</span></th>
                         <th className="class-room" width="3%" style={{ minWidth: 70 }}><span>รายการ</span></th>
                         <th className="headname-th" width="10%" style={{ minWidth: 160 }} />
-                        <th className="headname-th" width="5%" style={{ minWidth: 150 , textAlign:'center'}} ><span>สถานะ</span></th>
+                        <th className="headname-th" width="5%" style={{ minWidth: 150, textAlign: 'center' }} ><span>สถานะ</span></th>
                       </tr>
                     </thead>
                     <tbody style={{ height: '12rem', verticalAlign: 'middle' }}>
@@ -231,12 +231,12 @@ export default function Dashboard() {
                           return (
                             <tr className="table-name-report">
                               <th className='order-id'>{val.o_dis_id}</th>
-                              <td style={{textAlign:'center'}}>{moment(val.o_dis_date).format('DD/MM/YYYY')}</td>
+                              <td style={{ textAlign: 'center' }}>{moment(val.o_dis_date).format('DD/MM/YYYY')}</td>
                               <td>{val.std_name}</td>
                               <td className='class-room'><label className="class-room">{val.std_level}</label> </td>
                               <td><label className="class-room">{val.o_dis_descrip}</label> </td>
                               <td className='class-room'>{val.o_dis_item_amount}</td>
-                              
+
                               <td><button type="button" className="btn btn-report " onClick={() => (showDetailPLDisShow(val.o_dis_id))} style={{ backgroundColor: '#63B0C0', color: '#fff' }}><i aria-hidden="true" className="fas fa-search-plus" style={{ fontSize: 15 }} /><label className="mx-2">ดูรายละเอียด</label> </button></td>
 
                               <td><label className="mx-2" >
@@ -272,13 +272,13 @@ export default function Dashboard() {
                     <thead>
                       <tr>
                         <th className="class-room" scope="col" width="3%" style={{ minWidth: 95 }}> <span>ORDER ID</span> </th>
-                        <th className="headname-th" width="10%" style={{ minWidth: 150 ,textAlign:'center'}} ><span>วันที่เบิก</span></th>
+                        <th className="headname-th" width="10%" style={{ minWidth: 150, textAlign: 'center' }} ><span>วันที่เบิก</span></th>
                         <th className="headname-th" scope="col" width="10%" style={{ minWidth: 160 }}><span> ชื่อ-นามสกุล</span></th>
                         <th className="class-room" scope="col" width="3%" style={{ minWidth: 90 }}><span>ชั้นปี</span> </th>
                         <th className="headname-th" scope="col" width="10%" style={{ minWidth: 180 }}><span>เพื่อ</span> </th>
                         <th className="class-room" scope="col" width="3%" style={{ minWidth: 70 }}><span>รายการ</span></th>
                         <th className="headname-th" scope="col" width="10%" style={{ minWidth: 165 }} />
-                        <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150, textAlign:'center' }} ><span>สถานะ</span></th>
+                        <th className="headname-th" scope="col" width="5%" style={{ minWidth: 150, textAlign: 'center' }} ><span>สถานะ</span></th>
                         <th className="headname-th" scope="col" width="5%" style={{ minWidth: 110 }}>
                           <label className="mx-2">คืนอุปกรณ์</label>
                         </th>
@@ -297,7 +297,7 @@ export default function Dashboard() {
                         return (
                           <tr className="table-name-report ">
                             <th className='order-id'>{val.o_bor_id}</th>
-                            <td style={{textAlign:'center'}}>{moment(val.o_bor_date).format('DD/MM/YYYY')}</td>
+                            <td style={{ textAlign: 'center' }}>{moment(val.o_bor_date).format('DD/MM/YYYY')}</td>
                             <td>{val.std_name}</td>
                             <td className='class-room'><label className="">{val.std_level}</label> </td>
                             <td className=''>{val.o_bor_descrip}</td>
@@ -342,10 +342,10 @@ export default function Dashboard() {
       >
         <Modal.Header closeButton>
           <Modal.Title>ดูรายละเอียด : {detailPLDis[0]?.o_dis_descrip} <br />
-           <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLDis[0]?.std_name} </span>
-           <span style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLDis[0]?.std_id} </span><br/>
-           <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLDis[0]?.std_level} </span>
-           <span style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLDis[0]?.std_tel} </span>
+            <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLDis[0]?.std_name} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLDis[0]?.std_id} </span>
+            <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLDis[0]?.std_level} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLDis[0]?.std_tel} </span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -394,10 +394,12 @@ export default function Dashboard() {
       >
         <Modal.Header closeButton>
           <Modal.Title>ดูรายละเอียด : {detailPLBor[0]?.o_bor_descrip} <br />
-          <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLBor[0]?.std_name} </span>
-           <span style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLBor[0]?.std_id} </span><br/>
-           <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLBor[0]?.std_level} </span>
-           <span style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLBor[0]?.std_tel} </span>
+            <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLBor[0]?.std_name} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLBor[0]?.std_id} </span>
+            <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLBor[0]?.std_level} </span>
+            <span className='mx-3' style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLBor[0]?.std_tel} </span>
+            {/*  <div className='col-4'> <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLBor[0]?.std_level} </span></div> */}
+
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -444,13 +446,12 @@ export default function Dashboard() {
                   }}
                 />
               </div>
-              <button type="submit" className="btn btn-add-modal mt-2 " style={{ color: '#fff' }} onClick={() => { o_bor_description() }} >
-                <i aria-hidden="true" className="fas fa-check mx-2 " style={{ fontSize: 20 }} />บันทึก
-              </button>
             </div>
           </div>
           <div className='row' style={{ justifyContent: 'center' }}>
-
+            <button type="submit" className="btn btn-add-modal mt-2 " style={{ color: '#fff' }} onClick={() => { o_bor_description() }} >
+              <i aria-hidden="true" className="fas fa-check mx-2 " style={{ fontSize: 20 }} />บันทึก
+            </button>
           </div>
         </Modal.Body>
       </Modal>

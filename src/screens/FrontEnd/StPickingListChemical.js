@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import moment from 'moment'
 import { Modal, Button, ModalFooter } from 'react-bootstrap'
-import { rStDetailPLChemical,rStPickingListChemical } from "../../route/FrontRoute";
+import Pagination from '../../Components/Paginations/Pagination';
+import { rStDetailPLChemical, rStPickingListChemical } from "../../route/FrontRoute";
 
 
 const PickingListChemical = () => {
@@ -29,6 +30,17 @@ const PickingListChemical = () => {
       setPickingList(response.data);
     })
   }
+  //--------------------------------------------------------------------------------------------------------------//
+  const [currentPage, setCurrentPage] = useState(1); 
+  let PageSize = 8;
+
+    const pickingListCheData  = useMemo(() => {
+      const firstPageIndex = (currentPage - 1) * PageSize;
+      const lastPageIndex = firstPageIndex + PageSize;
+      return pickingList.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, pickingList]);
+
+  //--------------------------------------------------------------------------------------------------------------//
   useEffect(() => {
     getPickingListChemical(user_id);
   }, []);
@@ -36,6 +48,7 @@ const PickingListChemical = () => {
   useEffect(() => {
     console.log(detailPL);
   }, [detailPL]);
+
 
   return (
     <div className="container">
@@ -63,7 +76,7 @@ const PickingListChemical = () => {
                 </tr>
               </thead>
               <tbody style={{ verticalAlign: "middle" }}>
-                {pickingList.map((val, key) => {
+                {pickingListCheData.map((val, key) => {
                   return (<tr key={key}>
                     <td data-title="ID">{val.o_dis_id}</td>
                     <td data-title>{val.o_dis_descrip}</td>
@@ -88,11 +101,17 @@ const PickingListChemical = () => {
                 })}
               </tbody>
             </table>
+             <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={pickingList.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)} />
           </div>
         </div>
       </div>
 
-     {/*  //--------------------------------------------------------------------Modal ดูรายละเอียด------------------------------------------------------------------------------// */}
+      {/*  //--------------------------------------------------------------------Modal ดูรายละเอียด------------------------------------------------------------------------------// */}
       <Modal
         show={showDetail}
         onHide={closeShowDetail}
@@ -136,7 +155,7 @@ const PickingListChemical = () => {
               </label>
             </div>
           </div>
-          
+
         </Modal.Body>
 
       </Modal>
