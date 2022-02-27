@@ -334,11 +334,14 @@ export default function Bor() {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : {detailPLDis[0]?.o_dis_descrip} <br />
-            <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLDis[0]?.std_name} </span>
-            <span className='mx-3' style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLDis[0]?.std_id} </span>
-            <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLDis[0]?.std_level} </span>
-            <span className='mx-3' style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLDis[0]?.std_tel} </span>
+          <Modal.Title>
+            ดูรายละเอียด : {detailPLDis[0]?.o_dis_descrip} <br />
+            <span  style={{ 'font-size': '1rem' , fontWeight: 'bold' }}> ผู้เบิก : </span><span style={{ 'font-size': '1rem'  }}>  {detailPLDis[0]?.std_name} </span>
+            <span  style={{ 'font-size': '1rem', fontWeight: 'bold',marginLeft:'10px' }}> รหัสนักศึกษา :  </span> <span style={{ 'font-size': '1rem' }}>  {detailPLDis[0]?.std_id} </span>
+            <span  style={{ 'font-size': '1rem', fontWeight: 'bold',marginLeft:'10px'  }}> ชั้นปี : </span><span style={{ 'font-size': '1rem' }}>{detailPLDis[0]?.std_level} </span> <br/>
+            <span className='' style={{ 'font-size': '1rem', fontWeight: 'bold' }}> เบอร์โทรศัพท์ : </span><span  style={{ 'font-size': '1rem' }}>  {detailPLDis[0]?.std_tel} </span>
+            
+            
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -386,11 +389,12 @@ export default function Bor() {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : {detailPLBor[0]?.o_bor_descrip} <br />
-            <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPLBor[0]?.std_name} </span>
-            <span className='mx-3' style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPLBor[0]?.std_id} </span>
-            <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPLBor[0]?.std_level} </span>
-            <span className='mx-3' style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPLBor[0]?.std_tel} </span>
+          <Modal.Title>
+          ดูรายละเอียด : {detailPLBor[0]?.o_bor_descrip} <br />
+            <span  style={{ 'font-size': '1rem' , fontWeight: 'bold' }}> ผู้เบิก : </span><span style={{ 'font-size': '1rem'  }}>  {detailPLBor[0]?.std_name} </span>
+            <span  style={{ 'font-size': '1rem', fontWeight: 'bold',marginLeft:'10px' }}> รหัสนักศึกษา :  </span> <span style={{ 'font-size': '1rem' }}>  {detailPLBor[0]?.std_id} </span>
+            <span  style={{ 'font-size': '1rem', fontWeight: 'bold',marginLeft:'10px'  }}> ชั้นปี : </span><span style={{ 'font-size': '1rem' }}>{detailPLBor[0]?.std_level} </span> <br/>
+            <span className='' style={{ 'font-size': '1rem', fontWeight: 'bold' }}> เบอร์โทรศัพท์ : </span><span  style={{ 'font-size': '1rem' }}>  {detailPLBor[0]?.std_tel} </span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

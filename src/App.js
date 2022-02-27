@@ -110,19 +110,6 @@ function App() {
   } else {
     return <>{_mapRoute()}</>;
   }
-
-  return (
-    <div className="App">
-      <div className="row">
-        <div className="col-3">
-          <SideBar />
-        </div>
-        <div className="col-12">
-          <Login />
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default App;

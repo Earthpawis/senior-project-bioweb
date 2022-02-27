@@ -7,10 +7,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useHistory} from 'react-router-dom'
 import { rLogin } from '../route/BackRoute'
+import {useForm} from 'react-hook-form'
+
 
 
 export default function Login() {
 
+  const {watch , register, formState:{errors},} = useForm({mode:"all"})
+
+ 
   const [useremail, setuseremail] = useState("");
   const [userpassword, setuserpassword] = useState("");
   const history = useHistory();
@@ -18,7 +23,6 @@ export default function Login() {
  
 
   const Login = () => {
-    
     // console.log(useremail,userpassword)
     axios.post(`${rLogin}`, {
       email: useremail,
@@ -76,13 +80,20 @@ export default function Login() {
                 <div className="form-group " style={{ marginBottom: 34 }}>
                   <div className="inputWithIcon">
                     <i className="fas fa-user-circle " aria-hidden="true" />
-                    <input className="form-control adminfont input-height" type="text" placeholder="ชื่อผู้ใช้งาน" name="adminUsername"
+                    <input className="form-control adminfont input-height" type="text" placeholder="ชื่อผู้ใช้งาน"
+                     id='username'
+                     name="username"
+                     {...register('username', { required: true } )}
                       onChange={(event) => { setuseremail(event.target.value); }} style={{ borderRadius: 15 }} />
                   </div>
+                  {errors.username && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอก</p>}
                 </div>
+                
                 <div className="inputWithIcon">
                   <i className="fas fa-lock " />
-                  <input className="form-control adminfont input-height" type="password" placeholder="รหัสผ่าน" name="adminPassword" onChange={(event) => {
+                  <input className="form-control adminfont input-height" type="password" placeholder="รหัสผ่าน" 
+                  name="password"
+                   onChange={(event) => {
                     setuserpassword(event.target.value);
                   }} style={{ borderRadius: 15 }} />
                 </div>

@@ -5,17 +5,22 @@ import Axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Pagination from '../Components/Paginations/Pagination';
-import {
-    rDataProfesserCreate, rReadStudent, rUpdateEditStudent, rDeleteDataStudent, rReadProfesser, rUpdateEditProfesser,
-    rDeleteDataProfesser, rDataStudentcreate, rDataStudent, rDataProfesser
-} from '../route/BackRoute'
+import { rDataProfesserCreate, rReadStudent ,rUpdateEditStudent,rDeleteDataStudent,rReadProfesser,rUpdateEditProfesser ,
+    rDeleteDataProfesser ,rDataStudentcreate ,rDataStudent,rDataProfesser} from '../route/BackRoute'
+import {useForm} from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 
-let PageSize = 6;
 
 export default function DataST() {
 
-    const [currentPage, setCurrentPage] = useState(1);
+    // const schema = yup.object().shape({
+    //   std_name: yup.string().required,
+    //   std_tel: yup.string().required
+
+    // })
+    const {register,handleSubmit,formState: { errors }} = useForm()
 
     // --------------------------------------  Modal Std ------------------------------------------------ //
     const [showAddStd, setshowAddStd] = useState(false);
@@ -23,7 +28,6 @@ export default function DataST() {
     const addShowStd = () => setshowAddStd(true);
 
     //---------------------------- -------------------  Modal editStd -------------------------------------//
-
     const [showEditDataStd, setshowEditDataStd] = useState(false);
     const [readuser, setreaduser] = useState([{}])
     const editCloseDataStd = () => setshowEditDataStd(false);
@@ -181,6 +185,7 @@ export default function DataST() {
 
 
     const addStudent = () => {
+        
         Axios.post(`${rDataStudentcreate}`, {
             std_id: std_id,
             std_name: std_name,
@@ -254,6 +259,10 @@ export default function DataST() {
     //---------------------------- -------------------page-------------------------------------//
     let PageSizeAj = 8;
     const [currentPageAj, setCurrentPageAJ] = useState(1);
+
+    
+    const [currentPage, setCurrentPage] = useState(1);
+
     const currentProfesserListTableData = useMemo(() => {
         const firstPageIndex = (currentPageAj - 1) * PageSizeAj;
         const lastPageIndex = firstPageIndex + PageSizeAj;
@@ -419,14 +428,21 @@ export default function DataST() {
                 <Modal.Body>
                     <div className="row">
                         <div className="form-group row mb-3">
+                            
                             <label htmlFor=""
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='std_name'
+                                {...register("std_name",{required:true,maxLength: 100})}
                                     onChange={(event) => {
                                         setstd_name(event.target.value)
                                     }}
                                 />
+                                {errors.std_name?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
+                                {errors.std_name?.type === 'pattern' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูลให้ถูกต้อง</p> }
+                                {errors.std_name?.type === 'maxLength' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูลให้ถูกต้อง</p> }
+                                
                             </div>
                         </div>
                         <div className="form-group row mb-3">
@@ -434,10 +450,13 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='std_tel'
+                                {...register("std_tel",{required:true})}
                                     onChange={(event) => {
                                         setstd_tel(event.target.value)
                                     }}
                                 />
+                                {errors.std_tel?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="form-group row mb-3">
@@ -445,10 +464,13 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสนักศึกษา :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='std_id'
+                                {...register("std_id",{required:true})}
                                     onChange={(event) => {
                                         setstd_id(event.target.value)
                                     }}
                                 />
+                                {errors.std_id?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="form-group row mb-3">
@@ -456,10 +478,13 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชั้นปี :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                    name='std_level'
+                                    {...register("std_level",{required:true})}
                                     onChange={(event) => {
                                         setstd_level(event.target.value)
                                     }}
                                 />
+                                {errors.std_level?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="form-group row mb-3">
@@ -467,14 +492,17 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                    name='std_password'
+                                    {...register("std_password",{required:true})}
                                     onChange={(event) => {
                                         setstd_password(event.target.value)
                                     }} />
+                                    {errors.std_password?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="row mt-3 ">
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                                <button type="submit" className="btn btn-add-modal " onClick={addStudent} style={{ color: '#fff' }}>
+                                <button type="submit" className="btn btn-add-modal " onClick={handleSubmit(addStudent)} style={{ color: '#fff' }}>
                                     <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                                 </button>
                             </div>
@@ -510,11 +538,13 @@ export default function DataST() {
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ : </label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                         <input type="text" className="input-text form-control " defaultValue={val.std_name}
+                                            name='std_name'
                                             onChange={(event) => {
                                                 setreaduser([{
                                                     ...readuser[0], std_name: event.target.value
                                                 }])
                                             }} />
+                                            
                                     </div>
                                 </div>
                                 <div className="form-group row mb-3">
@@ -604,10 +634,13 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">ชื่อ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='prof_name'
+                                {...register("prof_name",{required:true,maxLength: 100})}
                                     onChange={(event) => {
                                         setprof_name(event.target.value)
                                     }}
                                 />
+                                {errors.prof_name?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>.
                         <div className="form-group row mb-3">
@@ -615,10 +648,13 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">เบอร์โทรศัพท์ฺ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='prof_tel'
+                                {...register("prof_tel",{required:true,maxLength: 100})}
                                     onChange={(event) => {
                                         setprof_tel(event.target.value)
                                     }}
                                 />
+                                {errors.prof_tel?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="form-group row mb-3">
@@ -626,10 +662,13 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสอาจารย์ :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='prof_id'
+                                {...register("prof_id",{required:true,maxLength: 100})}
                                     onChange={(event) => {
                                         setprof_id(event.target.value)
                                     }}
                                 />
+                                {errors.prof_id?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="form-group row mb-3">
@@ -637,10 +676,13 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">Username :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='prof_username'
+                                {...register("prof_username",{required:true,maxLength: 100})}
                                     onChange={(event) => {
                                         setprof_username(event.target.value)
                                     }}
                                 />
+                                {errors.prof_username?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="form-group row mb-3">
@@ -648,15 +690,18 @@ export default function DataST() {
                                 className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสผ่าน :</label>
                             <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                                 <input type="text" className="input-text form-control " id formcontrolname
+                                name='prof_password'
+                                {...register("prof_password",{required:true,maxLength: 100})}
                                     onChange={(event) => {
                                         setprof_password(event.target.value)
                                     }}
                                 />
+                                {errors.prof_password?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
                         <div className="row mt-3 ">
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: "end" }}>
-                                <button type="submit" onClick={addProfesser} className="btn btn-add-modal " style={{ color: '#fff' }}>
+                                <button type="submit" onClick={handleSubmit(addProfesser)} className="btn btn-add-modal " style={{ color: '#fff' }}>
                                     <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                                 </button>
                             </div>

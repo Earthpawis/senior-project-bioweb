@@ -1,6 +1,6 @@
 
 
-//----------- AjPickingListChemical 
+//----------- AjPickingListChemical -- localhost:3307 -- localhost:330 7
 export const rAJ_disSubmit = 'http://localhost:3307/AJ_disSubmitPLChemical/'
 export const rAJ_submit ='http://localhost:3307/AJ_submitPLChemical/'
 export const rAJ_detail ='http://localhost:3307/AJ_detailPLChemical/'

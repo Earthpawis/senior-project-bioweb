@@ -22,6 +22,11 @@ const db = mysql.createConnection({
     database: "bio",
     port: "3306",
     password: "",
+    // host: "localhost",
+    // user: "admin",
+    // database: "bio",
+    // port: "3306",
+    // password: "password",
 })
 
 app.use(function (req, res, next) {
@@ -38,12 +43,17 @@ require('./cart')(app)
 require('./st_pickingList')(app)
 require('./dashboard')(app)
 require('./aj_pickingList')(app)  
+require('./tool')(app)   
 
 app.listen('3307', () => {
     console.log('Server is running on port 3307');
 })
 
 // --------------------- GET ----------------------
+
+app.get('/',(req,res) => {
+ res.send("5555")
+})
 
 app.get('/bioo', (req, res) => {
     db.query("SELECT * FROM admin", (err, result) => {
@@ -85,86 +95,6 @@ app.post("/login", async (req, res) => {
 });
 
 
-
-//------------------------------------------------------------------------------------ Tool 
-app.get('/toolsList', (req, res) => {
-    db.query("SELECT * FROM tools", (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(result);
-        }
-    })
-});
-
-//----------- AddTool -------------------------------------------
-const storageTool = multer.diskStorage({
-    destination: path.join(__dirname, 'public/', 'imgTools'),
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-})
-app.post('/addTool', (req, res) => {
-    try {
-        let uploadTool = multer({ storage: storageTool }).single('IMG');
-
-        uploadTool(req, res, function (err) {
-            if (!req.file) {
-                return res.send('Please select an image to upload');
-            } else if (err instanceof multer.MulterError) {
-                return res.send(err);
-            } else if (err) {
-                return res.send(err);
-            }
-            let ToolAmount = req.body.ToolAmount
-            let ToolSize = req.body.ToolSize
-            let ToolStorage = req.body.ToolStorage
-            let ToolName = req.body.ToolName
-            console.log(req.body.ToolName)
-            db.query("INSERT INTO tools (tool_name , tool_storage , tool_size , tool_amount , tool_img) VALUES(?,?,?,?,?) "
-                , [ToolName, ToolStorage, ToolSize, ToolAmount, req.file.filename],
-                (err, result) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        res.send("Values inserted");
-                    }
-                })
-        })
-    }
-    catch (err) {
-        console.log(err)
-    }
-})
-
-//----------- readTool --------------------------------
-
-app.get("/readTool/:id", (req, res) => {
-    const id = req.params.id;
-    db.query("SELECT * FROM tools where tool_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
-
-//------------- delTool -------------------------------
-app.delete("/delTool/:id", (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    db.query("DELETE FROM tools where tool_id = ?", [id], (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    })
-})
-
-
-//---------------------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------- Student
 app.get('/dataStudent', (req, res) => {
@@ -399,48 +329,3 @@ app.post('/uploadFileCSV', (req, res) => {
 })
 
 //-------------------------------------------------------------------------------------------------------------------
-
-const storage = multer.diskStorage({
-    destination: path.join(__dirname, 'public/', 'imgChemical'),
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-})
-app.post('/addChemical', (req, res) => {
-    try {
-        let upload = multer({ storage: storage }).single('IMG');
-        upload(req, res, function (err) {
-            if (!req.file) {
-                return res.status(400).json({});
-            } else if (err instanceof multer.MulterError) {
-                return res.send(err);
-            } else if (err) {
-                return res.send(err);
-            }
-            let CheName = req.body.CheName
-            let CheCas = req.body.CheCas
-            let CheFormular = req.body.CheFormular
-            let CheCode = req.body.CheCode
-            let CheManu = req.body.CheManu
-            let CheQuan = req.body.CheQuan
-            let CheAmount = req.body.CheAmount
-            let CheStorage = req.body.CheStorage
-            let CheStatus = req.body.CheStatus
-            let CheExp = req.body.CheExp
-
-            console.log(req.body.CheExp)
-            db.query("INSERT INTO chemical (ch_name , ch_cas_no , ch_formula , ch_code , ch_manufacturer , ch_quantity , ch_amount ,ch_status ,ch_storage ,ch_img ,ch_exp) VALUES(?,?,?,?,?,?,?,?,?,?,?) "
-                , [CheName, CheCas, CheFormular, CheCode, CheManu, CheQuan, CheAmount, CheStatus, CheStorage, req.file.filename, CheExp],
-                (err, result) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        res.send("Values inserted");
-                    }
-                })
-        })
-    }
-    catch (err) {
-        console.log(err)
-    }
-})

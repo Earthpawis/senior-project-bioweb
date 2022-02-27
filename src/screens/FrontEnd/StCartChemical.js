@@ -6,9 +6,13 @@ import { getCartItem, setCartItem, getUserData, removeCartItem } from '../../fun
 import Swal from 'sweetalert2'
 import { useHistory } from 'react-router-dom'
 import { rSubmitDis,rDataProfesser } from '../../route/FrontRoute'
+import {useForm} from 'react-hook-form'
 
 
 const StBorrow = () => {
+
+  const {watch , register, formState:{errors},} = useForm({mode:"all"})
+  
   const history = useHistory();
   let item = getCartItem();
   const i = JSON.parse(localStorage.getItem("user"));
@@ -82,12 +86,18 @@ const StBorrow = () => {
                     <td >{key + 1}</td>
                     <th scope="row">{val.ch_id}</th>
                     <td>{val.ch_name}</td>
-                    <td><input className="form-control form-control-sm" type="text" aria-label=".form-control-sm example"
+                    <td>
+                    {errors.quantity && <p style={{color:"red"}}>*กรุณากรอกปริมาณ</p>}
+                      <input className="form-control form-control-sm"  aria-label=".form-control-sm example"
+                    type="text"
+                    id='quantity'
+                    name='quantity'
+                    {...register('quantity', { required: true } )}
                       onChange={(event) => {
                         cartData[key].quantity = parseInt(event.target.value);
                         setCartData([...cartData])
                       }}
-                    /></td>
+                    /> </td>
                     <td><Form.Select aria-label="Default select example" value={cartData[key].unit} onChange={(event) => {
                       cartData[key].unit = event.target.value;
                       setCartData([...cartData])
@@ -124,6 +134,9 @@ const StBorrow = () => {
               <div className="input-group">
                 <span className="input-group-text">เพื่อ</span>
                 <textarea className="form-control" aria-label="With textarea" defaultValue={""}
+                id='des'
+                name='des'
+                ref={register()}
                   onChange={(event) => {
                     setDis_descrip(event.target.value)
                   }} />
@@ -143,6 +156,7 @@ const StBorrow = () => {
                 ยกเลิก
               </button>
             </div>
+            
           </div>
         </div>
       </div>
