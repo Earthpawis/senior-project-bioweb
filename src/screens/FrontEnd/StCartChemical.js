@@ -11,7 +11,7 @@ import {useForm} from 'react-hook-form'
 
 const StBorrow = () => {
 
-  const {watch , register, formState:{errors},} = useForm({mode:"all"})
+  const {handleSubmit , register, formState:{errors},} = useForm({mode:"all"})
   
   const history = useHistory();
   let item = getCartItem();
@@ -72,7 +72,7 @@ const StBorrow = () => {
             <table className=" table table-bordered ">
               <thead className=" ">
                 <tr>
-                  <th width="2%" style={{ minWidth: 20 }} />
+                  <th width="2%" style={{ minWidth: 40 }} />
                   <th width="10%" style={{ minWidth: 100 }}>ID</th>
                   <th width="30%" style={{ minWidth: 170 }}>รายการ</th>
                   <th width="10%" style={{ minWidth: 100 }}>ปริมาณ</th>
@@ -92,12 +92,14 @@ const StBorrow = () => {
                     type="text"
                     id='quantity'
                     name='quantity'
-                    {...register('quantity', { required: true } )}
+                    
                       onChange={(event) => {
                         cartData[key].quantity = parseInt(event.target.value);
                         setCartData([...cartData])
                       }}
-                    /> </td>
+                    /> 
+                    
+                    </td>
                     <td><Form.Select aria-label="Default select example" value={cartData[key].unit} onChange={(event) => {
                       cartData[key].unit = event.target.value;
                       setCartData([...cartData])
@@ -136,7 +138,6 @@ const StBorrow = () => {
                 <textarea className="form-control" aria-label="With textarea" defaultValue={""}
                 id='des'
                 name='des'
-                ref={register()}
                   onChange={(event) => {
                     setDis_descrip(event.target.value)
                   }} />
@@ -146,7 +147,7 @@ const StBorrow = () => {
 
           <div className="row mt-5">
             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
-              <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={submit}  >
+              <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={handleSubmit(submit)}  >
                 <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
               </button>
             </div>

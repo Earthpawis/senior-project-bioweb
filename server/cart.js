@@ -83,10 +83,11 @@ module.exports = function (app) {
                        console.log(err3);
                        return res.status(500).json(err3)
                    } else {
-                       return res.status(200).json(result)
+                       return res.status(200).json(result) 
                    }
                })
            })
+          
        }
        ) 
     })

@@ -128,7 +128,7 @@ const PickingListChemical = () => {
             <thead>
               <tr>
                 <th scope="col">รายการ</th>
-                <th scope="col">จำนวน</th>
+                <th scope="col">ปริมาณ</th>
                 <th scope="col">หน่วย</th>
               </tr>
             </thead>

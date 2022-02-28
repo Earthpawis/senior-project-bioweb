@@ -38,3 +38,7 @@ export const rToolsList = 'http://localhost:3307/toolsList'
 export const rAddTool = 'http://localhost:3307/addTool'
 export const rImgChemical = 'http://localhost:3307/imgChemical/'
 export const rImgTools = 'http://localhost:3307/imgTools/'
+
+//------------- report
+export const rReportDis = 'http://localhost:3307/reportDis'
+export const rReportBor = 'http://localhost:3307/reportBor'

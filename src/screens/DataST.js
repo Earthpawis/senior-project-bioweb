@@ -20,7 +20,7 @@ export default function DataST() {
     //   std_tel: yup.string().required
 
     // })
-    const {register,handleSubmit,formState: { errors }} = useForm()
+    const {register,handleSubmit,formState: { errors }} = useForm({mode:"all"})
 
     // --------------------------------------  Modal Std ------------------------------------------------ //
     const [showAddStd, setshowAddStd] = useState(false);

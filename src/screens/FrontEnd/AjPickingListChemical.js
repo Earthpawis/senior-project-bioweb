@@ -227,19 +227,20 @@ const StPickingListTool = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>ดูรายละเอียด : {detailPL[0]?.o_dis_descrip} <br /> 
-          <span style={{ 'font-size': '1rem' }}> ผู้เบิก : {detailPL[0]?.std_name} </span>
-           <span style={{ 'font-size': '1rem' }}> รหัสนักศึกษา : {detailPL[0]?.std_id} </span><br/>
-           <span style={{ 'font-size': '1rem' }}> ชั้นปี : {detailPL[0]?.std_level} </span>
-           <span style={{ 'font-size': '1rem' }}> เบอร์โทรศัพท์ : {detailPL[0]?.std_tel} </span>
+          <Modal.Title>
+          ดูรายละเอียด : {detailPL[0]?.o_dis_descrip} <br />
+            <span  style={{ 'font-size': '1rem' , fontWeight: 'bold' }}> ผู้เบิก : </span><span style={{ 'font-size': '1rem'  }}>  {detailPL[0]?.std_name} </span>
+            <span  style={{ 'font-size': '1rem', fontWeight: 'bold',marginLeft:'10px' }}> รหัสนักศึกษา :  </span> <span style={{ 'font-size': '1rem' }}>  {detailPL[0]?.std_id} </span>
+            <span  style={{ 'font-size': '1rem', fontWeight: 'bold',marginLeft:'10px'  }}> ชั้นปี : </span><span style={{ 'font-size': '1rem' }}>{detailPL[0]?.std_level} </span> <br/>
+            <span className='' style={{ 'font-size': '1rem', fontWeight: 'bold' }}> เบอร์โทรศัพท์ : </span><span  style={{ 'font-size': '1rem' }}>  {detailPL[0]?.std_tel} </span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th scope="col">รายการ</th>
-                <th scope="col">จำนวน</th>
+                <th scope="col">รายการ</th> 
+                <th scope="col">ปรืมาณ</th>
                 <th scope="col">หน่วย</th>
               </tr>
             </thead>

@@ -11,7 +11,6 @@ module.exports = function(app){
 
     app.get('/pickingListChemical/:id', (req, res) => {
         const id = req.params.id;
-        
         db.query("SELECT o_dis_id,o_dis_item_amount,o_dis_descrip,o_dis_status,o_dis_date,prof_name FROM order_dis od JOIN professer prof ON od.prof_id = prof.prof_id JOIN student std ON std.std_id = od.std_id WHERE std.std_id = ? ORDER BY o_dis_date DESC ",[id], (err, result) => {
             if (err) {
                 console.log(err);

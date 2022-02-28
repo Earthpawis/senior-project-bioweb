@@ -44,6 +44,7 @@ require('./st_pickingList')(app)
 require('./dashboard')(app)
 require('./aj_pickingList')(app)  
 require('./tool')(app)   
+require('./report')(app)  
 
 app.listen('3307', () => {
     console.log('Server is running on port 3307');
@@ -91,7 +92,10 @@ app.post("/login", async (req, res) => {
     console.log('professer', _resultProfesser);
     if (_resultProfesser) {
         return res.json(_resultProfesser);   
-    }
+    } 
+    
+        return res.status(404).json({})
+    
 });
 
 

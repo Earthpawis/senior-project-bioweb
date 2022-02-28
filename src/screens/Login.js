@@ -13,7 +13,7 @@ import {useForm} from 'react-hook-form'
 
 export default function Login() {
 
-  const {watch , register, formState:{errors},} = useForm({mode:"all"})
+  const {handleSubmit , register, formState:{errors},} = useForm({mode:"all"})
 
  
   const [useremail, setuseremail] = useState("");
@@ -44,8 +44,10 @@ export default function Login() {
           } else if (i?.prof_id) {
             history.push('StHome')
             window.location.reload();
-          } 
-         window.location.reload();
+          } else {
+
+          }
+         
         }
       })
       .catch(function (error) {
@@ -86,20 +88,22 @@ export default function Login() {
                      {...register('username', { required: true } )}
                       onChange={(event) => { setuseremail(event.target.value); }} style={{ borderRadius: 15 }} />
                   </div>
-                  {errors.username && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอก</p>}
+                  {errors.username && <p style={{color:"red",marginTop:"2px",marginLeft:"20px"}}>*กรุณากรอก ชื่อผู้ใช้</p>}
                 </div>
                 
                 <div className="inputWithIcon">
                   <i className="fas fa-lock " />
                   <input className="form-control adminfont input-height" type="password" placeholder="รหัสผ่าน" 
                   name="password"
+                     {...register('password', { required: true } )}
                    onChange={(event) => {
                     setuserpassword(event.target.value);
                   }} style={{ borderRadius: 15 }} />
                 </div>
+                {errors.username && <p style={{color:"red",marginTop:"2px",marginLeft:"20px"}}>*กรุณากรอก รหัสผ่าน</p>}
               </div>
               <div className="form-group  " style={{ textAlign: 'center', marginTop: 35 }}>
-                <button type="button" className="btn btn-outline-secondary shadow-sm adminfont" onClick={Login}>เข้าสู่ระบบ</button>
+                <button type="button" className="btn btn-outline-secondary shadow-sm adminfont" onClick={handleSubmit(Login)}>เข้าสู่ระบบ</button>
                 <ToastContainer />
               </div>
             </div>
