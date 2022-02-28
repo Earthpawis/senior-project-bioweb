@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
+    user: "admin",
     database: "bio",
     port: "3306",
-    password: "",
+    password: "password",
 })
 
 module.exports = function(app){
@@ -16,7 +16,7 @@ module.exports = function(app){
                 console.log(err);
             } else {
                 res.json(result);
-                console.log(result); 
+                 
             }
         })
     });
@@ -28,7 +28,7 @@ module.exports = function(app){
                 console.log(err);
             }else{
                 res.json(result);
-                console.log(result);
+                
             }
         })
     }) 
@@ -41,7 +41,7 @@ module.exports = function(app){
                 console.log(err);
             }else{
                 res.json(result);
-                console.log(result);          
+                         
             } 
         })
     }) 
@@ -54,7 +54,7 @@ module.exports = function(app){
                 console.log(err);
             }else{
                 res.json(result);
-                console.log(result);           
+                           
             } 
         }
         )

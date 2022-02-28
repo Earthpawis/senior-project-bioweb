@@ -18,10 +18,10 @@ app.use(express.json());
 
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
+    user: "admin",
     database: "bio",
     port: "3306",
-    password: "",
+    password: "password",
     // host: "localhost",
     // user: "admin",
     // database: "bio",
@@ -45,6 +45,7 @@ require('./dashboard')(app)
 require('./aj_pickingList')(app)  
 require('./tool')(app)   
 require('./report')(app)  
+require('./mail')(app)  
 
 app.listen('3307', () => {
     console.log('Server is running on port 3307');
@@ -56,6 +57,14 @@ app.get('/',(req,res) => {
  res.send("5555")
 })
 
+
+//-----------mail
+
+
+
+
+
+//-----------
 app.get('/bioo', (req, res) => {
     db.query("SELECT * FROM admin", (err, result) => {
         if (err) {
@@ -73,10 +82,10 @@ app.post("/login", async (req, res) => {
     const userpassword = req.body.password;
     const database = await mysql2.createConnection({
         host: "localhost",
-        user: "root",
+        user: "admin",
         database: "bio",
         port: "3306",
-        password: "",
+        password: "password",
     })
     const [_resultAdmin, _fieldAdmin] = await database.execute("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword]);
     console.log('admin', _resultAdmin);
@@ -230,14 +239,15 @@ app.post('/dataProfessercreate', (req, res) => {
     const prof_password = req.body.prof_password
     const prof_tel = req.body.prof_tel
     const prof_username = req.body.prof_username
+    const prof_email = req.body.prof_email
 
-    db.query("INSERT INTO professer (prof_id, prof_name, prof_password, prof_username, prof_tel) VALUES(?,?,?,?,?)",
-        [prof_id, prof_name, prof_password, prof_username, prof_tel],
+    db.query("INSERT INTO professer (prof_id, prof_name, prof_password, prof_username, prof_tel,prof_email) VALUES(?,?,?,?,?,?)",
+        [prof_id, prof_name, prof_password, prof_username, prof_tel,prof_email],
         (err, result) => {
             if (err) {
                 console.log(err);
             } else {
-                res.send("Values inserted");
+                res.send("Values inserted"); 
             }
         }
     )
@@ -249,10 +259,11 @@ app.put('/updateEditProfesser', (req, res) => {
     const prof_password = req.body.prof_password;
     const prof_tel = req.body.prof_tel;
     const prof_username = req.body.prof_username;
+    const prof_email = req.body.prof_email;
     const err = "";
 
-    db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =? WHERE prof_id=? ",
-        [prof_name, prof_password, prof_tel, prof_username, prof_id],
+    db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =?,prof_email =? WHERE prof_id=? ",
+        [prof_name, prof_password, prof_tel, prof_username,prof_email, prof_id],
         (err,
             (result) => {
                 if (err) {
@@ -331,5 +342,7 @@ app.post('/uploadFileCSV', (req, res) => {
         return res.status(500).json({})
     }
 })
+
+
 
 //-------------------------------------------------------------------------------------------------------------------

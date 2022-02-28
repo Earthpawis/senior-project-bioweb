@@ -42,3 +42,7 @@ export const rImgTools = 'http://localhost:3307/imgTools/'
 //------------- report
 export const rReportDis = 'http://localhost:3307/reportDis'
 export const rReportBor = 'http://localhost:3307/reportBor'
+
+
+//----------- email 
+export const rSendMail = 'http://localhost:3307/mail'

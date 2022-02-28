@@ -7,6 +7,10 @@ import Swal from 'sweetalert2'
 import { useHistory } from 'react-router-dom'
 import { rSubmitDis,rDataProfesser } from '../../route/FrontRoute'
 import {useForm} from 'react-hook-form'
+import { rSendMail} from '../../route/BackRoute'
+import moment from 'moment'
+
+
 
 
 const StBorrow = () => {
@@ -17,6 +21,9 @@ const StBorrow = () => {
   let item = getCartItem();
   const i = JSON.parse(localStorage.getItem("user"));
 
+
+  const[sent , setSent] = useState(false)
+  const [text , setText] = useState("")
   //-------------------------------------------------------Cart_detail ----------------------------------------------------------------- //
   const [prof_id, setProf_id] = useState("1");
   const [dis_descrip, setDis_descrip] = useState();
@@ -25,12 +32,28 @@ const StBorrow = () => {
 
   //-------------------------------------------------------button_submit----------------------------------------------------------------- //
   const submit = () => {
+    
     axios.post(`${rSubmitDis}`, { item: cartData, user: i, descrip: dis_descrip, prof: prof_id }).then(
       res => {
         if (res.status === 200) {
           Swal.fire("ทำรายการเบิกสำเร็จ", "", "success")
           removeCartItem();
           history.push('/StPickingListChemical')
+          setSent(true)
+          try {
+
+            let date = moment().format('DD-MM-YYYY');
+            axios.post(`${rSendMail}`, {
+               item: cartData,
+               user: i, 
+               descrip: dis_descrip, 
+               prof: prof_id ,
+               date : date
+            })
+          } catch (error) {
+            console.log(error);
+          }
+
           // window.location='//'
         } else if (res.status === 500) {
           Swal.fire("ทำรายการไม่สำเร็จ", "กรุณากรอกข้อมูลให้ครบถ้วน", "error")
@@ -50,6 +73,17 @@ const StBorrow = () => {
     axios.get(`${rDataProfesser}`).then((Response) => {
       setProfesserList(Response.data);
     });
+  }
+
+  const [disableSubmit , setDisableSubmit] = useState (true)
+
+  const checkValue = (e,) => {
+      if(e === "" || e === undefined || e === 0  ){
+        setDisableSubmit(true)
+      }else {
+        setDisableSubmit(false)
+      }
+      
   }
 
   //----------------------------------------------------------------------------------------------------------------------------------- //
@@ -92,10 +126,10 @@ const StBorrow = () => {
                     type="text"
                     id='quantity'
                     name='quantity'
-                    
                       onChange={(event) => {
                         cartData[key].quantity = parseInt(event.target.value);
                         setCartData([...cartData])
+                        
                       }}
                     /> 
                     
@@ -103,6 +137,7 @@ const StBorrow = () => {
                     <td><Form.Select aria-label="Default select example" value={cartData[key].unit} onChange={(event) => {
                       cartData[key].unit = event.target.value;
                       setCartData([...cartData])
+                      
                     }}>
                       <option value="0">หน่วย</option>
                       <option value="1">g.</option>
@@ -122,7 +157,7 @@ const StBorrow = () => {
           <div className="row mt-3">
             <div className="col-xl-6 col-sm-12 col-md-6 col-lg-6 col-12 mb-2 ">
               <div className="dropdown text-end mt-2">
-                <Form.Select aria-label="Default select example" value={prof_id} onChange={(Event) => { setProf_id(Event.target.value) }}>
+                <Form.Select aria-label="Default select example" value={prof_id} onChange={(Event) => { setProf_id(Event.target.value)}}>
                   {professerList.map((val, key) => {
                     return (<>
                       <option value={val.prof_id}>{val.prof_name}</option>
@@ -140,6 +175,7 @@ const StBorrow = () => {
                 name='des'
                   onChange={(event) => {
                     setDis_descrip(event.target.value)
+                    checkValue(event.target.value)
                   }} />
               </div>
             </div>
@@ -147,7 +183,7 @@ const StBorrow = () => {
 
           <div className="row mt-5">
             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6" style={{ textAlign: "end" }}>
-              <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} onClick={handleSubmit(submit)}  >
+              <button type="submit" className="btn btn-add-modal" style={{ color: '#fff' }} disabled = {disableSubmit}  onClick={handleSubmit(submit)}  >
                 <i aria-hidden="true" className="fas fa-check mx-2" style={{ fontSize: 16 }} />ยืนยัน
               </button>
             </div>

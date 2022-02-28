@@ -125,7 +125,8 @@ export default function DataST() {
             prof_name: readprof[0].prof_name,
             prof_password: readprof[0].prof_password,
             prof_tel: readprof[0].prof_tel,
-            prof_username: readprof[0].prof_username
+            prof_username: readprof[0].prof_username,
+            prof_email: readprof[0].prof_email
         })
             .then(function (response) {
                 console.log(response);
@@ -210,14 +211,17 @@ export default function DataST() {
     const [prof_password, setprof_password] = useState("");
     const [prof_username, setprof_username] = useState("");
     const [prof_tel, setprof_tel] = useState("");
+    const [prof_email,setProf_email] = useState("")
 
     const addProfesser = () => {
+        console.log("5555");
         Axios.post(`${rDataProfesserCreate}`, {
             prof_id: prof_id,
             prof_name: prof_name,
             prof_password: prof_password,
             prof_username: prof_username,
-            prof_tel: prof_tel
+            prof_tel: prof_tel,
+            prof_email : prof_email
         }).then(res => {
             if (res.status === 200) {
                 Swal.fire("เพิ่มข้อมูลสำเร็จ", "เพิ่มข้อมูลแล้ว", "success")
@@ -563,7 +567,7 @@ export default function DataST() {
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสนักศึกษา :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " defaultValue={val.std_id}
+                                        <input type="text" className="input-text form-control " disabled defaultValue={val.std_id}
                                             onChange={(event) => {
                                                 setreaduser([{
                                                     ...readuser[0], std_id: event.target.value
@@ -699,9 +703,23 @@ export default function DataST() {
                                 {errors.prof_password?.type === 'required' && <p style={{color:"red",marginTop:"2px"}}>*กรุณากรอกข้อมูล</p> }
                             </div>
                         </div>
+                        <div className="form-group row mb-3">
+                            <label htmlFor=""
+                                className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">E-mail :</label>
+                            <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
+                                <input type="text" className="input-text form-control " id formcontrolname
+                                name='prof_email'
+                                
+                                    onChange={(event) => {
+                                        setProf_email(event.target.value)
+                                    }}
+                                />
+                               
+                            </div>
+                        </div>
                         <div className="row mt-3 ">
                             <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: "end" }}>
-                                <button type="submit" onClick={handleSubmit(addProfesser)} className="btn btn-add-modal " style={{ color: '#fff' }}>
+                                <button type="submit" onClick={addProfesser} className="btn btn-add-modal " style={{ color: '#fff' }}>
                                     <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                                 </button>
                             </div>
@@ -761,7 +779,7 @@ export default function DataST() {
                                     <label htmlFor=""
                                         className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">รหัสอาจารย์ :</label>
                                     <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                                        <input type="text" className="input-text form-control " id formcontrolname
+                                        <input type="text" className="input-text form-control " disabled id formcontrolname
                                             defaultValue={val.prof_id} onChange={(event) => {
                                                 setreadprof([{
                                                     ...readprof[0], prof_id: event.target.value
@@ -791,6 +809,19 @@ export default function DataST() {
                                             defaultValue={val.prof_password} onChange={(event) => {
                                                 setreadprof([{
                                                     ...readprof[0], prof_password: event.target.value
+                                                }])
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group row mb-3">
+                                    <label htmlFor=""
+                                        className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4 col-form-label form-name name-Aj-std">E-mail :</label>
+                                    <div className="col-xl-8 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 mt-2">
+                                        <input type="text" className="input-text form-control " id formcontrolname
+                                            defaultValue={val.prof_email} onChange={(event) => {
+                                                setreadprof([{
+                                                    ...readprof[0], prof_email: event.target.value
                                                 }])
                                             }}
                                         />

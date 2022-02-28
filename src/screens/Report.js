@@ -1,9 +1,9 @@
 import React from "react";
 import "../css/report.css";
 import ReactExport from "react-data-export";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
-import { rChemicalList, rToolsList ,rPickingListDis_admin,rPickingListBor_admin,rReportDis,rReportBor} from "../route/BackRoute";
+import { rChemicalList, rToolsList ,rReportDis,rReportBor} from "../route/BackRoute";
 import moment from "moment";
 
 export default function Report() {

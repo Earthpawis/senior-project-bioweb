@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
+    user: "admin",
     database: "bio",
     port: "3306",
-    password: "",
+    password: "password",
 })
 
 module.exports = function (app) {
@@ -18,7 +18,6 @@ module.exports = function (app) {
         let order_status = 1;
         let item_aomunt = item.length
         var max_o_dis_id = 0;
-
         //-------------------------------
         // console.log(item_aomunt);
         // console.log(item);
@@ -37,15 +36,15 @@ module.exports = function (app) {
                     }
                     max_o_dis_id = result2[0].o_dis_id;
                     const data = req.body.item;  
-                    console.log(data);
+                    
                     const values = data.map(item => [max_o_dis_id,item.ch_id,item.quantity,item.unit]) 
-                    console.log(values);
+                    
                     db.query("INSERT INTO o_disbursement (o_dis_id,ch_id,dis_quantity,dis_unit) VALUES ?", [values], (err3, result3) => {
                         if (err3) {
                             console.log(err3);
                             return res.status(500).json(err3)
                         } else {
-                            return res.status(200).json(result)
+                            return res.status(200).json(result) 
                         }
                     } )
                     
