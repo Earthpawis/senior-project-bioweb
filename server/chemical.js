@@ -2,10 +2,10 @@ const { log } = require('console');
 const mysql = require('mysql');
 const db = mysql.createConnection({
     host: "localhost",
-    user: "admin",
+    user: "root",
     database: "bio",
     port: "3306",
-    password: "password",
+    password: "",
 })
 module.exports = function(app){
 

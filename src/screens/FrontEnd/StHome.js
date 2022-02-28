@@ -1,11 +1,8 @@
 import React from 'react';
 import { useState, useEffect, useMemo } from 'react'
-import ajj from '../FrontEnd/img/ลักษณะของสามเหลี่ยม และสี่เหลี่ยม.jpg'
-import ajjj from '../FrontEnd/img/www.webdesigner.co.th.png'
-import ajjjj from '../FrontEnd/img/ajjj.jpg'
-import chemical from '../FrontEnd/img/pngegg.png'
-import tool from '../FrontEnd/img/mie.png'
-import cq5dam from '../FrontEnd/img/cq5dam.web.1280.1280.png'
+import BIOLOGY from '../FrontEnd/img/Kawalan Biology Google Classroom Banner.png'
+import BIO1 from '../FrontEnd/img/BIO1.png'
+import Rmutt1 from '../FrontEnd/img/Rmutt bio.png'
 import '../FrontEnd/css/home.css'
 /* import { Modal, Button, Carousel, CarouselItem } from 'react-bootstrap' */
 import { Modal, Button, Form, Card, CarouselItem, CarouselProps, CarouselItemProps, Carousel } from 'react-bootstrap'
@@ -57,7 +54,7 @@ const Home = () => {
 
  //-----------------------------------PageSize-----------------------------------
  const [currentPage, setCurrentPage] = useState(1);
- let PageSize = 3;
+ let PageSize = 4;
 
  const currentChemicalListTableData = useMemo(() => {
    const firstPageIndex = (currentPage - 1) * PageSize;
@@ -70,37 +67,38 @@ const Home = () => {
 }, []);
   return (
     <>
-      <div className=' mt-3'>
+      <div className=' mt-4'>
         <div className=' sild-home'>
           <div className='slide-page'>
             <Carousel className='' activeIndex={index} onSelect={handleSelect}>
               <Carousel.Item>
                 <img
                   className=" d-block w-100"
-                  src={ajjj}
+                  src={Rmutt1}
                   alt="First slide"
                 />
               </Carousel.Item>
               <Carousel.Item>
                 <img
                   className="w-100"
-                  src={ajjj}
+                  src={BIO1}
                   alt="Second slide"
                 />
               </Carousel.Item>
               <Carousel.Item>
                 <img
                   className="d-block w-100"
-                  src={ajjj}
+                  src={BIOLOGY}
                   alt="Third slide"
                 />
               </Carousel.Item>
             </Carousel>
           </div>
         </div>
+  </div>
 
-
-        <div className="card" style={{ marginTop: '5rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
+  <div className=''>
+  <div className="card" style={{ marginTop: '1rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
           <div className="card-body">
             <div className="row">
               <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>สารเคมี  {i.std_id &&  <span className='itemCart'><i class="fas fa-shopping-cart"></i>{itemInCart.length} </span>}</h2></div>
@@ -157,8 +155,67 @@ const Home = () => {
             />
           </div>
         </div>
+  </div>
 
-      </div>
+        {/* <div className="card" style={{ marginTop: '1rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
+          <div className="card-body">
+            <div className="row">
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-8'><h2>สารเคมี  {i.std_id &&  <span className='itemCart'><i class="fas fa-shopping-cart"></i>{itemInCart.length} </span>}</h2></div>
+             
+              <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4'>
+                <input type='text' className='form-control' placeholder='ค้นหาสารเคมี'
+                  onChange={(event) => {
+                    setSearchMie(event.target.value);
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="row ">
+              {currentChemicalListTableData.filter((val) => {
+                if (searchMie == "") {
+                  return val
+                } else if (val.ch_name.toLowerCase().includes(searchMie.toLowerCase())) {
+                  return val
+                } else if (val.ch_code.toLowerCase().includes(searchMie.toLowerCase())) {
+                  return val
+                }
+              }).map((val, key) => {
+                return (
+                  <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 p-3">
+                    <div className="card cardChemical " style={{ width: '22rem', borderRadius: 15, boxShadow: '0 30px 50px rgb(0 0 0 / 20%)' }}>
+                      <img src={`${rCh_img}` + val.ch_img} className="card-img-top card-img-bottom" alt="..." height={200} style={{ width: '15rem', margin: 'auto' }} />
+                      <div className="card-body">
+                        <h5 className="card-title mb-2">{val.ch_id}. {val.ch_name}</h5>
+                        <div className="row">
+                          
+                          <div className="col-6 col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                          <button type="button" className="btn btn-success" disabled={cart.find(item=>item.ch_id==val.ch_id ) || !!i.prof_id } onClick={() => { addToCart(val) }} ><i className="fas fa-plus p-1" /><span className="NameCrub">เพิ่มลงตะกร้า</span> </button>
+                        </div>
+                          
+                          
+                          <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" className="btn btn-secondary" onClick={() => { detailShow(val.ch_id) }}><i className="fas fa-search p-1" /><span className="NameCrub">ดูรายละเอียด</span></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                )
+              })}
+            </div>
+            <Pagination
+              className="pagination-bar"
+              currentPage={currentPage}
+              totalCount={chemicalList.length}
+              pageSize={PageSize}
+              onPageChange={page => setCurrentPage(page)}
+            />
+          </div>
+        </div> */}
+
+    
       
 
 {/*       <div className='container'>

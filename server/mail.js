@@ -16,10 +16,10 @@ app.listen((process.env.PORT || 4000 ,
 const mysql = require('mysql');
 const db = mysql.createConnection({
     host: "localhost",
-    user: "admin",
+    user: "root",
     database: "bio",
     port: "3306",
-    password: "password",
+    password: "",
 })
 
 module.exports = function (app) {

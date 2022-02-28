@@ -149,8 +149,8 @@ export default function Report() {
             val.ch_status == 1
               ? "Solids"
               : val.ch_status == 2
-              ? "Liquids"
-              : "Gas",
+                ? "Liquids"
+                : "Gas",
           style: { font: { sz: "12" } },
         },
         {
@@ -310,7 +310,7 @@ export default function Report() {
         { value: val.o_dis_descrip, style: { font: { sz: "12" } } },
         { value: val.o_dis_item_amount, style: { font: { sz: "12" } } },
         { value: val.prof_name, style: { font: { sz: "12" } } },
-        { value: val.o_dis_status == 1 ? 'รอการอนุมัติ ': val.o_dis_status == 2 ? 'อนุมัติ' : 'ไม่อนุมัติ', style: { font: { sz: "12" } } },
+        { value: val.o_dis_status == 1 ? 'รอการอนุมัติ ' : val.o_dis_status == 2 ? 'อนุมัติ' : 'ไม่อนุมัติ', style: { font: { sz: "12" } } },
       ]),
     },
   ];
@@ -425,9 +425,9 @@ export default function Report() {
         { value: val.o_bor_descrip, style: { font: { sz: "12" } } },
         { value: val.o_bor_item_amount, style: { font: { sz: "12" } } },
         { value: val.prof_name, style: { font: { sz: "12" } } },
-        { value: val.o_bor_status == 1 ? 'รอการอนุมัติ ': val.o_bor_status == 2 ? 'อนุมัติ' : 'ไม่อนุมัติ', style: { font: { sz: "12" } } },
+        { value: val.o_bor_status == 1 ? 'รอการอนุมัติ ' : val.o_bor_status == 2 ? 'อนุมัติ' : 'ไม่อนุมัติ', style: { font: { sz: "12" } } },
         { value: moment(val.o_bor_returned_date).format("DD/MM/YYYY"), style: { font: { sz: "12" } } },
-        { value: val.o_bor_returned == 1 ? 'คืนเเล้ว':'ยังไม่คืน', style: { font: { sz: "12" } } },
+        { value: val.o_bor_returned == 1 ? 'คืนเเล้ว' : 'ยังไม่คืน', style: { font: { sz: "12" } } },
 
       ]),
     },
@@ -465,14 +465,14 @@ export default function Report() {
                       <ExcelFile
                         filename="รายงานรายการสารเคมี"
                         element={
-                          <button type="button" className="btn btn-report">
-                              <i
-                          aria-hidden="true"
-                          className="fas fa-print"
-                          style={{ fontSize: 15 }}
-                        />{" "}
-                        
-                            Export Excel
+                          <button type="button" className="btn btn-report" style={{ backgroundColor: '#63B0C0', color: '#fff' }}>
+                            <i
+                              aria-hidden="true"
+                              className="fas fa-print"
+                              style={{ fontSize: 15 }}
+                            />{" "}
+
+                            <label className="">Export Excel</label>
                           </button>
                         }
                       >
@@ -484,16 +484,16 @@ export default function Report() {
                     <th scope="row">2</th>
                     <td>รายงานเบิกใช้สารเคมี</td>
                     <td>
-                    <ExcelFile
+                      <ExcelFile
                         filename="รายงานการเบิกสารเคมี"
                         element={
-                          <button type="button" className="btn btn-report">
-                              <i
-                          aria-hidden="true"
-                          className="fas fa-print"
-                          style={{ fontSize: 15 }}
-                        />{" "}
-                            Export Excel
+                          <button type="button" className="btn btn-report" style={{ backgroundColor: '#63B0C0', color: '#fff' }}>
+                            <i
+                              aria-hidden="true"
+                              className="fas fa-print"
+                              style={{ fontSize: 15 }}
+                            />{" "}
+                            <label className="">Export Excel</label>
                           </button>
                         }
                       >
@@ -532,17 +532,17 @@ export default function Report() {
                     <td>รายการอุปกรณ์</td>
                     {/* <td></td> */}
                     <td>
-                    <ExcelFile
+                      <ExcelFile
                         filename="รายงานรายการอุปกรณ์"
                         element={
-                          <button type="button" className="btn btn-report">
-                              <i
-                          aria-hidden="true"
-                          className="fas fa-print"
-                          style={{ fontSize: 15 }}
-                        />{" "}
-                        
-                            Export Excel
+                          <button type="button" className="btn btn-report" style={{ backgroundColor: '#63B0C0', color: '#fff' }}>
+                            <i
+                              aria-hidden="true"
+                              className="fas fa-print"
+                              style={{ fontSize: 15 }}
+                            />{" "}
+
+                            <label className="">Export Excel</label>
                           </button>
                         }
                       >
@@ -555,17 +555,17 @@ export default function Report() {
                     <td>รายงานการเบิกใช้อุปกรณ์</td>
                     {/* <td></td> */}
                     <td>
-                    <ExcelFile
+                      <ExcelFile
                         filename="รายงานการเบิกใช้อุปกรณ์ "
                         element={
-                          <button type="button" className="btn btn-report">
-                              <i
-                          aria-hidden="true"
-                          className="fas fa-print"
-                          style={{ fontSize: 15 }}
-                        />{" "}
-                        
-                            Export Excel
+                          <button button type="button" className="btn btn-report " style={{ backgroundColor: '#63B0C0', color: '#fff' }}>
+                            <i
+                              aria-hidden="true"
+                              className="fas fa-print"
+                              style={{ fontSize: 15 }}
+                            />{" "}
+                            <label className="">Export Excel</label>
+
                           </button>
                         }
                       >

@@ -18,10 +18,10 @@ app.use(express.json());
 
 const db = mysql.createConnection({
     host: "localhost",
-    user: "admin",
+    user: "root",
     database: "bio",
     port: "3306",
-    password: "password",
+    password: "",
     // host: "localhost",
     // user: "admin",
     // database: "bio",
@@ -82,10 +82,10 @@ app.post("/login", async (req, res) => {
     const userpassword = req.body.password;
     const database = await mysql2.createConnection({
         host: "localhost",
-        user: "admin",
+        user: "root",
         database: "bio",
         port: "3306",
-        password: "password",
+        password: "",
     })
     const [_resultAdmin, _fieldAdmin] = await database.execute("SELECT * FROM admin where admin_username = ? and admin_password = ? ", [useremail, userpassword]);
     console.log('admin', _resultAdmin);
