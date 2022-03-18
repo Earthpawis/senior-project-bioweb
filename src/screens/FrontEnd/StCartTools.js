@@ -7,6 +7,8 @@ import Swal from 'sweetalert2'
 import { useHistory } from 'react-router-dom'
 import { rSubmitBor, rDataProfesser } from '../../route/FrontRoute'
 import moment from 'moment'
+import { rSendMailTool } from '../../route/BackRoute'
+
 
 
 const StCartTools = () => {
@@ -14,7 +16,7 @@ const StCartTools = () => {
   const history = useHistory();
   let item = getCartItemTool();
   const i = JSON.parse(localStorage.getItem("user"));
-
+  const[sent , setSent] = useState(false)
   //--------------------------Cart_detail--------------------------------------------------------------------------------------------------------//
   const [prof_id, setProf_id] = useState("1");
   const [bor_descrip, setBor_descrip] = useState();
@@ -30,6 +32,21 @@ const StCartTools = () => {
           Swal.fire("ทำรายการยืมอุปกรณ์สำเร็จ", "", "success")
           removeCartItemTool();
           history.push('/StPickingListTool')
+          setSent(true)
+          try {
+
+            let date = moment().format('DD-MM-YYYY');
+            axios.post(`${rSendMailTool}`, {
+               item: cartData,
+               user: i, 
+               descrip: bor_descrip, 
+               prof: prof_id ,
+               date : date
+            })
+          } catch (error) {
+            console.log(error);
+          }
+          
         } else if (res.status === 500) {
           Swal.fire("ทำรายการไม่สำเร็จ", "กรุณากรอกข้อมูลให้ครบถ้วน", "error")
         }

@@ -28,8 +28,7 @@ export const rLogin = 'http://localhost:3307/login'
 //------------ MIE
 export const rChemicalList ='http://localhost:3307/chemicalList'
 export const rReadChe = 'http://localhost:3307/readChe/'
-export const rAddChemical = 'http://localhost:3307/addChemical'
-export const rUpdateChe ='http://localhost:3307/updateChe'
+export const rAddChemical = 'http://localhost:3307/addChemical' 
 export const rDelChe ='http://localhost:3307/delChe/'
 export const rReadTool ='http://localhost:3307/readTool/'
 export const rUpdateTool = 'http://localhost:3307/updateTool'
@@ -38,6 +37,7 @@ export const rToolsList = 'http://localhost:3307/toolsList'
 export const rAddTool = 'http://localhost:3307/addTool'
 export const rImgChemical = 'http://localhost:3307/imgChemical/'
 export const rImgTools = 'http://localhost:3307/imgTools/'
+export const rUpdateChe ='http://localhost:3307/updateChe'
 
 //------------- report
 export const rReportDis = 'http://localhost:3307/reportDis'
@@ -46,3 +46,4 @@ export const rReportBor = 'http://localhost:3307/reportBor'
 
 //----------- email 
 export const rSendMail = 'http://localhost:3307/mail'
+export const rSendMailTool = 'http://localhost:3307/mailTool'

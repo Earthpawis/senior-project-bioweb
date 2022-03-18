@@ -262,7 +262,7 @@ app.put('/updateEditProfesser', (req, res) => {
     const prof_email = req.body.prof_email;
     const err = "";
 
-    db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =?,prof_email =? WHERE prof_id=? ",
+    db.query("UPDATE professer SET prof_name =? ,prof_password =?, prof_tel =?, prof_username =?,prof_email =? WHERE prof_id=? ", 
         [prof_name, prof_password, prof_tel, prof_username,prof_email, prof_id],
         (err,
             (result) => {

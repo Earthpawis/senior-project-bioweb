@@ -8,7 +8,7 @@ const db = mysql.createConnection({
 })
 
 module.exports = function (app) {
-    app.post('/submitDis', (req, res) => {
+    app.post('/submitDis', (req, res) => { 
 //  console.log(req.body);
         //--------- order_head ----------
         let item = req.body.item

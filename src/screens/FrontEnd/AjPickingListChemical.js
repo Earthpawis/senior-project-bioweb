@@ -311,7 +311,7 @@ const StPickingListTool = () => {
                 className="btn  btn-add-cancal"
                 style={{ color: "#fff" }}
                 onClick={() => dissubmit(detailPL[0]?.o_dis_id)}
-                disabled={3 == detailPL[0]?.o_dis_status}
+                disabled={3 == detailPL[0]?.o_dis_status || 2 == detailPL[0]?.o_dis_status }
               >
                 <i
                   aria-hidden="true"

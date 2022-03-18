@@ -477,12 +477,12 @@ export default function MIE() {
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 160 }}><span>สถานที่เก็บ</span> </th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} >
                       <ExcelFile
-                        filename="Chemical List"
+                        filename="รายงานรายการสารเคมี"
                         element={<button type="button" className="btn btn-success" > <i
                           aria-hidden="true"
                           className="fas fa-print"
                           style={{ fontSize: 15 }}
-                        />{" "}Export Data</button>}
+                        />{" "}Export Excel</button>}
                       >
                         <ExcelSheet dataSet={DataChSet} name="Chemical" />
                       </ExcelFile>
@@ -541,12 +541,12 @@ export default function MIE() {
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 160 }}><span>สถานที่เก็บ</span> </th>
                     <th className="headname-th" scope="col" width="5%" style={{ minWidth: 200 }} >
                       <ExcelFile
-                        filename="Tool List"
+                        filename="รายงานรายการอุปกรณ์"
                         element={<button type="button" className="btn btn-success" ><i
                           aria-hidden="true"
                           className="fas fa-print"
                           style={{ fontSize: 15 }}
-                        />{" "} Export Data</button>}
+                        />{" "} Export Excel</button>}
                       >
                         <ExcelSheet dataSet={DataToolSet} name="Chemical" />
                       </ExcelFile>
@@ -616,11 +616,11 @@ export default function MIE() {
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8 ">
                   <input type="text" className="input-text form-control "
                     name='CheName'
-                    {...register("CheName", { required: true, maxLength: 100 })}
+                    
                     onChange={(Event) => {
                       setCheName(Event.target.value)
                     }} />
-                  {errors.CheName?.type === 'required' && <p style={{ color: "red", marginTop: "2px" }}>*กรุณากรอกข้อมูล</p>}
+                  
                 </div>
               </div>
               <div className="row mb-3">
@@ -632,15 +632,15 @@ export default function MIE() {
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">สูตรโมเลกุล
-                <span style={{ color: "red" }}>*</span>
+                
                 </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
                   <input type="text" className="input-text form-control " name='CheCode'
-                    {...register("CheCode", { required: true, maxLength: 100 })}
+              
                     onChange={(Event) => {
                       setCheFormular(Event.target.value)
                     }} />
-                  {errors.CheCode?.type === 'required' && <p style={{ color: "red", marginTop: "2px" }}>*กรุณากรอกข้อมูล</p>}
+                  
                 </div>
               </div>
               <div className="row mb-3">
@@ -656,12 +656,15 @@ export default function MIE() {
               </div>
               <div className="row mb-3">
                 <label htmlFor className="col-xl-5 col-lg-3 col-md-3 col-sm-3 col-xs-4  col-4  col-4 col-form-label form-name labal-name-mie">รหัสสารเคมี
-                </label>
+                <span style={{ color: "red" }}>*</span> </label>
                 <div className="col-xl-7 col-lg-9 col-md-9 col-sm-9 col-xs-8 col-8">
-                  <input type="text" className="input-text form-control " name=''                  
+                  <input type="text" className="input-text form-control "
+                   name='CheCode'     
+                              
                     onChange={(Event) => {
                       setCheCode(Event.target.value)
                     }} />
+                   
                 </div>
               </div>
               <div className="row mb-3">
@@ -749,7 +752,7 @@ export default function MIE() {
 
             <div className="row mt-3 ">
               <div className="col-6 col-lg-6 col-xl-6 col-mb-6 col-xs-6 " style={{ textAlign: '-webkit-right', textAlign: "end" }}>
-                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={handleSubmit(submit)} >
+                <button type="submit" className="btn btn-add-modal " style={{ color: '#fff' }} onClick={() =>{submit()}} >
                   <i aria-hidden="true" className="fas fa-check mx-3" style={{ fontSize: 20 }} />ยืนยัน
                 </button>
               </div>
@@ -1090,7 +1093,7 @@ export default function MIE() {
         onHide={addToolsClose}
         backdrop="static"
         keyboard={false}
-        size="lg"
+        size="xl"
         centered
       >
         <Modal.Header closeButton>
@@ -1161,7 +1164,7 @@ export default function MIE() {
             <div className="col-xl-3">
               <div className="form-group mb-3">
                 <div className="image-upload">
-                  <input className="form-control" type="file" name="upload_file" onChange={handleInputChange2} />
+                  <input className="" type="file" name="upload_file" onChange={handleInputChange2} /> 
                 </div>
               </div>
             </div>
@@ -1346,7 +1349,7 @@ export default function MIE() {
                   <div className="form-group mb-3">
                     <div className="image-upload">
                       <img src={`${rImgTools}` + val.tool_img} alt style={{ width: '7rem', marginTop: '5rem' }} />
-                      <input className="form-control mt-4" type="file" name="upload_file" onChange={handleInputChange3} />
+                      <input className=" mt-4" type="file" name="upload_file" onChange={handleInputChange3} />
                     </div>
                   </div>
                 </div>

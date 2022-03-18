@@ -302,7 +302,7 @@ export default function Bor() {
                             : val.o_bor_status == 2 ? <><i className="fas fa-check iconcheck-name mx-2" /> <label className='iconcheck-name'>อนุมัติ</label></>
                               : <><i class="fas fa-times iconcheck-times mx-2"></i><label className='iconcheck-times'>ไม่อนุมัติ</label> </>}</label> </td>
                           <td className='class-room'>
-                            <input type="checkbox" checked={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
+                            <input type="checkbox" disabled={1 === val.o_bor_status || 3 === val.o_bor_status} checked={val.o_bor_returned == 0 ? false : true} onChange={(e) => {
                               Returned(e, key, val);
                             }} />
                           </td>
